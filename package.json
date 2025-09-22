@@ -1,0 +1,29 @@
+{
+  "name": "asset-backend",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon --watch src --exec node src/index.js",
+    "lint": "eslint 'src/**/*.{js,vue}' || true",
+    "lint:fix": "eslint 'src/**/*.{js,vue}' --fix || true"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.2",
+    "pg": "^8.10.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.32.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "eslint": "^8.50.0",
+    "prettier": "^2.10.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-vue": "^9.14.0",
+    "@babel/eslint-parser": "^7.22.7"
+  }
+}

@@ -7,6 +7,12 @@ const cors = require('cors')
 const corsOptions = require('./config/corsOptions.js')
 const createError = require('http-errors');
 
+const localizationsRouter = require('./routes/localizations.js');
+const vendorsRouter = require('./routes/vendors.js');
+const statusesRouter = require('./routes/statuses.js');
+const usersRouter = require('./routes/users.js');
+const categoriesRouter = require('./routes/categories.js');
+const assetsRouter = require('./routes/assets.js');
 const app = express();
 
 const db = require('./models'); 
@@ -15,8 +21,8 @@ const db = require('./models');
   try {
     await db.sequelize.authenticate();
     console.log('✅ DB connection OK');6
-  } catch (e) {
-    console.error('❌ DB connection FAIL', e);
+  } catch (err) {
+    console.error('❌ DB connection FAIL', err);
     process.exit(1); 
   }
 })();
@@ -29,6 +35,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use('/', localizationsRouter);
+app.use('/', vendorsRouter);
+app.use('/', statusesRouter);
+app.use('/', usersRouter);
+app.use('/', categoriesRouter);
+app.use('/', assetsRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));
