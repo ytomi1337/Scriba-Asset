@@ -3,9 +3,9 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     id:               { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4},
     name:             { type: DataTypes.TEXT, allowNull: false },
-    email:            { type: DataTypes.STRING(254), allowNull: true },
-    email_verified:   { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false},
-    role:             { type: DataTypes.STRING, allowNull: false },
+    email:            { type: DataTypes.STRING(254), allowNull: false },
+    email_verified:   { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false},
+    role:             { type: DataTypes.STRING, allowNull: true },
     provider:         { type: DataTypes.STRING, allowNull: true, defaultValue: 'google' },
     provider_id:      { type: DataTypes.STRING, allowNull: true, unique: true},
     metadata:         { type: DataTypes.JSONB, allowNull: true },

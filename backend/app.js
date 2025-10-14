@@ -1,9 +1,10 @@
 require('dotenv').config();
+require('./config/passport.js');
 const express = require('express');
 
 const session = require('express-session');
 const passport = require('passport')
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
 
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -18,6 +19,7 @@ const statusesRouter = require('./routes/statuses.js');
 const usersRouter = require('./routes/users.js');
 const categoriesRouter = require('./routes/categories.js');
 const assetsRouter = require('./routes/assets.js');
+const authRouter = require('./routes/auth.js')
 const app = express();
 
 const db = require('./models'); 
@@ -43,35 +45,12 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:3000/auth/google/callback"
-}, (accessToken, refreshToken, profile, done) => {
-  return done(null, profile);
-}));
-
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((user, done) => done(null, user));
-
-app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-
-app.get("/auth/google/callback", 
-  passport.authenticate("google", { failureRedirect: "/" }),
-  (req, res) => {
-    console.log("✅ Google auth success:", req.user.displayName);
-    res.redirect("http://localhost:5173/home");
-});
-
-
 app.use(cors(corsOptions));
-app.use(logger('dev'));
 app.use(logger(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 app.use('/', localizationsRouter);
 app.use('/', vendorsRouter);
@@ -79,6 +58,7 @@ app.use('/', statusesRouter);
 app.use('/', usersRouter);
 app.use('/', categoriesRouter);
 app.use('/', assetsRouter);
+app.use('/', authRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));
