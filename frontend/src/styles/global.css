@@ -1,0 +1,94 @@
+:root {
+  --color-primary: rgba(29, 67, 112, 1)
+  --color-secondary: rgba(4, 187, 241, 1);
+  --color-accent: rgba(148 193 46 1);
+  --color-background: #F9FAFB;
+  --color-text-main: #2C2C2C;
+}
+
+/* 🔤 Teksty */
+.text-brand {
+  color: var(--color-primary);
+}
+
+.text-subtle {
+  color: var(--color-secondary);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.corporate-border{
+    position: relative;
+    border: 2px solid transparent;
+    background: 
+        linear-gradient(white, white) padding-box,
+        linear-gradient(90deg,rgba(148, 193, 46, 1) 0%, rgba(4, 187, 241, 1) 50%, rgba(29, 67, 112, 1) 100%);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+}
+.v-btn.corporate-border {
+  position: relative;
+  z-index: 0;
+  border: none;
+  background: white;
+  overflow: hidden;
+}
+
+.v-btn.corporate-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(148, 193, 46, 1) 0%,
+    rgba(4, 187, 241, 1) 50%,
+    rgba(29, 67, 112, 1) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
+}
+
+.corporate-border-right{
+  position: relative;
+  border-right: 0 solid transparent;
+}
+.corporate-border-right::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px; 
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(148, 193, 46, 1) 0%,
+    rgba(4, 187, 241, 1) 50%,
+    rgba(29, 67, 112, 1) 100%
+  );
+}
+.google-btn {
+  background-color: white !important;
+  color: #3c4043 !important;
+  text-transform: none !important;
+  font-weight: 500;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.google-btn:hover {
+  background-color: #f8f9fa !important;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3),
+              0 4px 8px rgba(60, 64, 67, 0.15);
+}
+.font-roboto {
+  font-family: 'Roboto', sans-serif;
+}
