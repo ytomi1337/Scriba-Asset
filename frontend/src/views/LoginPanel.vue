@@ -7,6 +7,9 @@ import logoImage from '@/assets/Holcim_Logo_2021_sRGB.jpg'
 import bgImage from '@/assets/bgImg.png'
 import bgImage2 from'@/assets/bgimg2.png'
 
+const loginGoogle = () => {
+  window.location.href = "http://localhost:3000/auth/google";
+}
 </script>
 
 <template>
@@ -32,11 +35,12 @@ import bgImage2 from'@/assets/bgimg2.png'
                   block
                   class="google-btn mt-8" 
                   elevation="2"
-                >
-                  <template #prepend>
-                    <img src="@/assets/icons/google.svg" alt="Google" width="20" height="20" />
-                  </template>
-                  Sign in with Google
+                  @click="loginGoogle"
+                > 
+                    <template #prepend>
+                      <img src="@/assets/icons/google.svg" alt="Google" width="20" height="20" />
+                    </template>
+                    Sign in with Google
                 </v-btn>
 
                 <p class="mt-10 text-body-2">*Scriba Asset Management - all rights reserved</p>
@@ -46,7 +50,7 @@ import bgImage2 from'@/assets/bgimg2.png'
              
             <v-carousel 
               height="100%" :show-arrows="false" 
-              cycle hide-delimiter-background transition-duration="900" crossfade="">
+              cycle hide-delimiter-background :transition-duration="900" crossfade="">
               <v-carousel-item>
                  <v-img
                   :src="bgImage"

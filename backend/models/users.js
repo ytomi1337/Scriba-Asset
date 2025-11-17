@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
     department:       { type: DataTypes.TEXT, allowNull: true },
     holcim_code:      { type: DataTypes.STRING(8), allowNull: true },
     localization_id:  { type: DataTypes.INTEGER, allowNull: true },
+    status:           { type: DataTypes.ENUM('invited', 'active', 'disabled'), allowNull: false },
+    claim_token:      { type: DataTypes.STRING, allowNull: true },
+    claim_token_expires_at:  { type: DataTypes.DATE, allowNull: true },
+    
   }, { tableName: 'users', timestamps: true });
 
   User.associate = (models) => {
