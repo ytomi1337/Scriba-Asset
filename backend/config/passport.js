@@ -28,13 +28,15 @@ passport.use(
                             status: 'active',
                             claim_token: null,
                             claim_token_expires_at: null,
-                            last_login: new Date()
+                            last_login: new Date(),
+                            avatar: profile.photos[0].value
                         })
                         return done(null, user);
                     }
                 }
 
                 if(googleEmail){
+                    console.log(profile)
                     const user = await User.findOne({ where: {
                         email: googleEmail,
                         status: 'active'

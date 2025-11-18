@@ -19,6 +19,18 @@ const vuetify = createVuetify({
   icons: {
     defaultSet: 'mdi',
   },
+   theme: {
+    defaultTheme: 'light',
+    themes: {
+      light: {
+        colors: {
+          background: '#F4F4F4',
+          surface: '#FFFFFF',
+          primary: '#4CAF50',
+        },
+      },
+    },
+  },
 })
 
 

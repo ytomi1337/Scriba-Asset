@@ -72,7 +72,4 @@ const loginGoogle = () => {
   </v-main>
 </template>
 <style scoped>
-  .fill-height {
-    height: 100vh;
-  }
 </style>
