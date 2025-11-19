@@ -10,7 +10,7 @@ import { ref, onMounted, defineEmits, defineProps} from "vue";
 
 const user =  ref(null);
 const router = useRouter();
-const 
+const asset = ref(null)
 
 onMounted( async () => {
   try {
@@ -31,6 +31,11 @@ const handleLogout = async () => {
         console.log('Error on Logout attempt', err)
     }
 }
+
+const setAssetDetail = async (selectedAsset) => {
+  asset.value = selectedAsset
+}
+
 </script>
 
 <template>
@@ -58,18 +63,18 @@ const handleLogout = async () => {
 
   <v-col cols="9" class="box bg-surface">
     <chipGroup />
-    <itemSlider />
+    <itemSlider @send-asset-detail="setAssetDetail"/>
   </v-col>
 </v-row>
 
   <v-row style="height: 50%;" no-gutters>
     <v-col cols="3" class="box">
-      <div>DÓŁ 25%</div>
+      <h1> documents</h1>
     </v-col>
 
     <v-col cols="9" class="box">
       <assetDetalis 
-      :user="user"/>
+      :asset="asset"/>
     </v-col>
   </v-row>
 

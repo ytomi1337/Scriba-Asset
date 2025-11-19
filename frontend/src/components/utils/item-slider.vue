@@ -1,53 +1,65 @@
 <script setup>
-  import { ref } from 'vue'
+  import { ref, defineEmits } from 'vue'
 
+  const emit = defineEmits(['send-asset-detail'])
   const model = ref(null)
   const assets = ref([
     {
         name: 'HP ProBook 450 G6',
         serialnum: '5CD12312DA1',
-        status: 'In Use',
+        it_num: '000000001',
+        status: 'aktywny',
+        localization: 'Wykroty',
+        userName: 'Bartek laniocha',
         icon: 'mdi-laptop',
-        warranty: 'Active',
+        warranty_date: '10.12.2025',
         recipt_date: '10.12.2025',
+        return_date: '10.12.2025',
+        vendor: 'Lenovo inc.',
+        category: 'Laptop',
+        note: 'Komentarz',
     },
     {
         name: 'HP ProBook 450 G7',
         serialnum: '5CD12312DA1',
-        status: 'In Use',
+        it_num: '000000001',
+        status: 'aktywny',
+        localization: 'Wykroty',
+        userName: 'Bartek laniocha',
         icon: 'mdi-laptop',
         warranty: 'Active',
         recipt_date: '10.12.2025',
+        warranty_date: '10.12.2025',
     },
     {
         name: 'HP ProBook 450 G6',
         serialnum: '5CD12312DA1',
-        status: 'In Use',
+        it_num: '000000001',
+        status: 'aktywny',
+        localization: 'Wykroty',
+        userName: 'Bartek laniocha',
         icon: 'mdi-laptop',
         warranty: 'Active',
         recipt_date: '10.12.2025',
+        warranty_date: '10.12.2025',
     },
     {
         name: 'HP ProBook 450 G6',
         serialnum: '5CD12312DA1',
-        status: 'In Use',
+        it_num: '000000001',
+        status: 'aktywny',
+        localization: 'Wykroty',
+        userName: 'Bartek laniocha',
         icon: 'mdi-laptop',
         warranty: 'Active',
         recipt_date: '10.12.2025',
-    },
-    {
-        name: 'HP ProBook 450 G6',
-        serialnum: '5CD12312DA1',
-        status: 'In Use',
-        icon: 'mdi-laptop',
-        warranty: 'Active',
-        recipt_date: '10.12.2025',
+        warranty_date: '10.12.2025',
     },
   ])
 
-  const assetTest = (i) => {
-
-    console.log(assets.value[i]);
+  const assetDetail = (i) => {
+    const selectedAsset = assets.value[i]
+    emit("send-asset-detail", selectedAsset)
   }
 </script>
 
@@ -75,7 +87,7 @@
           @click="toggle"
         >
           <div class="d-flex flex-column fill-height align-center justify-center"
-          @click="assetTest(i)">
+          @click="assetDetail(i)">
             <v-scale-transition>
 
             </v-scale-transition>
