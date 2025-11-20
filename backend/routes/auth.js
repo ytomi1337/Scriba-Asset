@@ -33,7 +33,7 @@ router.get('/auth/profile', ensureAuthenticated, async (req, res) => {
           }]
         },
         { model: Status, as: 'status', attributes: ['name']},
-        { model: Category, as: 'category', attributes: ['name']},
+        { model: Category, as: 'category', attributes: ['name', 'icon']},
       ]
     })
 

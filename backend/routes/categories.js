@@ -18,10 +18,11 @@ router.get('/categories', async(req, res) => {
 
 router.post('/categories', async(req, res) => {
     try{
-        const { name } = req.body
+        const { name, icon } = req.body
 
         const category = await Category.create({
             name: name,
+            icon: icon,
         })
 
         return res.status(201).json(category)

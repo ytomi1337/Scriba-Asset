@@ -50,7 +50,7 @@
             </v-scale-transition>
              <v-card-title> {{ asset.model.name }}</v-card-title>
              <v-avatar size="75"> 
-                <v-icon :icon="asset.icon" size="x-large"></v-icon>
+                <v-icon :icon="asset.category.icon" size="x-large"></v-icon>
              </v-avatar>
              <v-card-subtitle>
                 <p>SN: {{ asset.serial_num }}</p>

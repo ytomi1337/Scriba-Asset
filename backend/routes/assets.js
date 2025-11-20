@@ -23,7 +23,7 @@ router.get('/assets', async(req, res) => {
                         }
                     ]
                 },
-                { model: Category, as: 'category', attributes: [ 'id', 'name' ]},
+                { model: Category, as: 'category', attributes: [ 'id', 'name', 'icon' ]},
                 { model: Status, as: 'status', attributes: [ 'id', 'name' ]},
             ]
         })
@@ -36,8 +36,6 @@ router.get('/assets', async(req, res) => {
 })
 
 router.post('/assets', async (req, res) => {
-    console.log('creating asset, user_id=', req.body.user_id)
-
     try{
         let {
             it_num,
@@ -70,8 +68,8 @@ router.post('/assets', async (req, res) => {
         return res.status(409).json({ error: `Conflict: ${fields} already exists.` });
         }
 
-        console.error('POST /users error:', err);
-        return res.status(500).json({ error: 'Server error while creating user.' });
+        console.error('POST /asset error:', err);
+        return res.status(500).json({ error: 'Server error while creating asset.' });
     }
 })
 
