@@ -34,7 +34,7 @@
             <v-list>
                 <v-list-item
                 title="Category:"
-                :subtitle="asset.category">
+                :subtitle="asset.category.name">
                 </v-list-item>
                 <v-list-item
                 title="Localization:"
@@ -42,7 +42,7 @@
                 </v-list-item>
                 <v-list-item
                 title="Status:"
-                :subtitle="asset.status">
+                :subtitle="asset.status.name">
                 </v-list-item>
                 <v-list-item
                 title="Vendor"

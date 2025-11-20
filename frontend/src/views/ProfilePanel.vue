@@ -11,13 +11,15 @@ import { ref, onMounted, defineEmits, defineProps} from "vue";
 const user =  ref(null);
 const router = useRouter();
 const asset = ref(null)
+const assets = ref([])
 
 onMounted( async () => {
   try {
     const res = await api.getProfile();
     console.log("✅ Zalogowana pomyslnie");
     user.value = res.data.user
-    console.log(res.data);
+    assets.value = res.data.assets
+    console.log('User Assets:', res.data.assets);
   } catch (err) {
     console.error("❌ Błąd zaczytania danych uytkownika:", err);
   }
@@ -33,6 +35,7 @@ const handleLogout = async () => {
 }
 
 const setAssetDetail = async (selectedAsset) => {
+  console.log(selectedAsset);
   asset.value = selectedAsset
 }
 
@@ -63,7 +66,10 @@ const setAssetDetail = async (selectedAsset) => {
 
   <v-col cols="9" class="box bg-surface">
     <chipGroup />
-    <itemSlider @send-asset-detail="setAssetDetail"/>
+    <itemSlider 
+      :assets="assets"
+      @send-asset-detail="setAssetDetail"
+      />
   </v-col>
 </v-row>
 

@@ -1,65 +1,21 @@
 <script setup>
-  import { ref, defineEmits } from 'vue'
+  import { ref, defineEmits, defineProps } from 'vue'
 
   const emit = defineEmits(['send-asset-detail'])
+  const props = defineProps({
+    assets: Array
+  })
   const model = ref(null)
-  const assets = ref([
-    {
-        name: 'HP ProBook 450 G6',
-        serialnum: '5CD12312DA1',
-        it_num: '000000001',
-        status: 'aktywny',
-        localization: 'Wykroty',
-        userName: 'Bartek laniocha',
-        icon: 'mdi-laptop',
-        warranty_date: '10.12.2025',
-        recipt_date: '10.12.2025',
-        return_date: '10.12.2025',
-        vendor: 'Lenovo inc.',
-        category: 'Laptop',
-        note: 'Komentarz',
-    },
-    {
-        name: 'HP ProBook 450 G7',
-        serialnum: '5CD12312DA1',
-        it_num: '000000001',
-        status: 'aktywny',
-        localization: 'Wykroty',
-        userName: 'Bartek laniocha',
-        icon: 'mdi-laptop',
-        warranty: 'Active',
-        recipt_date: '10.12.2025',
-        warranty_date: '10.12.2025',
-    },
-    {
-        name: 'HP ProBook 450 G6',
-        serialnum: '5CD12312DA1',
-        it_num: '000000001',
-        status: 'aktywny',
-        localization: 'Wykroty',
-        userName: 'Bartek laniocha',
-        icon: 'mdi-laptop',
-        warranty: 'Active',
-        recipt_date: '10.12.2025',
-        warranty_date: '10.12.2025',
-    },
-    {
-        name: 'HP ProBook 450 G6',
-        serialnum: '5CD12312DA1',
-        it_num: '000000001',
-        status: 'aktywny',
-        localization: 'Wykroty',
-        userName: 'Bartek laniocha',
-        icon: 'mdi-laptop',
-        warranty: 'Active',
-        recipt_date: '10.12.2025',
-        warranty_date: '10.12.2025',
-    },
-  ])
-
+  const assets = ref([])
+  
   const assetDetail = (i) => {
-    const selectedAsset = assets.value[i]
+    const selectedAsset = props.assets[i]
+    console.log(selectedAsset);
     emit("send-asset-detail", selectedAsset)
+  }
+
+  const testfun = () => {
+    console.log(props.assets);
   }
 </script>
 
@@ -68,6 +24,7 @@
     class="mx-auto"
     height="100%"
   >
+  <button @click="testfun">he</button>
     <v-slide-group
       v-model="model"
       class="p"
@@ -75,7 +32,7 @@
       show-arrows
     >
       <v-slide-group-item
-        v-for="(asset, i) in assets"
+        v-for="(asset, i) in props.assets"
         :key="i"
         v-slot="{toggle, selectedClass }"
       >
@@ -91,12 +48,12 @@
             <v-scale-transition>
 
             </v-scale-transition>
-             <v-card-title> {{ asset.name }}</v-card-title>
+             <v-card-title> {{ asset.model.name }}</v-card-title>
              <v-avatar size="75"> 
                 <v-icon :icon="asset.icon" size="x-large"></v-icon>
              </v-avatar>
              <v-card-subtitle>
-                <p>SN: {{ asset.serialnum }}</p>
+                <p>SN: {{ asset.serial_num }}</p>
             </v-card-subtitle>
              <v-card-text>
                 <p>Status: {{ asset.status }}</p>
