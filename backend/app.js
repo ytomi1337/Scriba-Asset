@@ -14,12 +14,15 @@ const corsOptions = require('./config/corsOptions.js')
 const createError = require('http-errors');
 
 const localizationsRouter = require('./routes/localizations.js');
+const modelRouter = require('./routes/models.js')
 const vendorsRouter = require('./routes/vendors.js');
 const statusesRouter = require('./routes/statuses.js');
 const usersRouter = require('./routes/users.js');
 const categoriesRouter = require('./routes/categories.js');
 const assetsRouter = require('./routes/assets.js');
 const authRouter = require('./routes/auth.js')
+
+
 const app = express();
 
 const db = require('./models'); 
@@ -58,7 +61,9 @@ app.use('/', statusesRouter);
 app.use('/', usersRouter);
 app.use('/', categoriesRouter);
 app.use('/', assetsRouter);
+app.use('/', modelRouter);
 app.use('/', authRouter);
+
 
 app.use(function(req, res, next) {
   next(createError(404));

@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router()
 
-const { Asset, User, Vendor, Category, Status } = require('../models');
+const { Asset, User, Model, Category, Status, Vendor } = require('../models');
 const { Sequelize, where, ValidationError } = require('sequelize')
 
 router.get('/assets', async(req, res) => {
@@ -11,7 +11,18 @@ router.get('/assets', async(req, res) => {
         const assets = await Asset.findAll({
             include:[
                 { model: User, as: 'user', attributes: [ 'id', 'name', 'position' ]},
-                { model: Vendor, as: 'vendor', attributes: [ 'id', 'name' ]},
+                { 
+                    model: Model, 
+                    as: 'model', 
+                    attributes: [ 'id', 'name', 'vendor_id' ],
+                    include: [
+                        {
+                            model: Vendor,
+                            as: 'vendor',
+                            attributes: ['id', 'name']
+                        }
+                    ]
+                },
                 { model: Category, as: 'category', attributes: [ 'id', 'name' ]},
                 { model: Status, as: 'status', attributes: [ 'id', 'name' ]},
             ]
@@ -25,9 +36,10 @@ router.get('/assets', async(req, res) => {
 })
 
 router.post('/assets', async (req, res) => {
+    console.log('creating asset, user_id=', req.body.user_id)
+
     try{
         let {
-            name,
             it_num,
             serial_num,
             note,
@@ -36,40 +48,11 @@ router.post('/assets', async (req, res) => {
             license_id,
             status_id,
             user_id,
-            vendor_id
+            model_id,
         } = req.body
 
 
-        const checkFk = async (model, id, label) =>{
-            if (id != null){
-                const object = await model.findByPk(id)
-
-                if(!object){
-                    return res.status(400).json({ error: `${label} with id: ${id} dose not exist`})
-                }
-            }
-        }
-
-        name = name.trim();
-        it_num = it_num.trim();
-        serial_num = it_num.trim();
-        note = note ?? null;
-        warranty_date = warranty_date ? new Date(warranty_date) : null
-
-        await checkFk(Category, category_id, 'Category')
-        await checkFk(Status, status_id, 'Status')
-        await checkFk(User, user_id, 'User')
-        await checkFk(Vendor, vendor_id, 'Vendor')
-
-        category_id = category_id ?? null
-        status_id = status_id ?? null
-        user_id = user_id ?? null
-        vendor_id = vendor_id ?? null
-        license_id = license_id ?? null
-
-
         const newAsset = await Asset.create({
-            name,
             it_num,
             serial_num,
             note,
@@ -78,9 +61,8 @@ router.post('/assets', async (req, res) => {
             license_id,
             status_id,
             user_id,
-            vendor_id,
+            model_id,
         })
-
         return res.status(201).json(newAsset);
     }catch (err) {
         if (err instanceof Sequelize.UniqueConstraintError) {
