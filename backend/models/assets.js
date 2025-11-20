@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     Asset.belongsTo(models.License,       { foreignKey: 'license_id',   as: 'license' });
     Asset.belongsTo(models.Status,        { foreignKey: 'status_id',    as: 'status' });
     Asset.belongsTo(models.User,          { foreignKey: 'user_id',      as: 'user' });
-    Asset.belongsTo(models.Model,        { foreignKey: 'model_id',    as: 'model' });
+    Asset.belongsTo(models.Model,         { foreignKey: 'model_id',    as: 'model' });
+    Asset.hasMany(models.TaskAsset,       { foreignKey: 'asset_id', as: 'taskLinks' });
   };
 
   return Asset;

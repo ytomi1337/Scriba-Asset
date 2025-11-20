@@ -14,6 +14,7 @@ const corsOptions = require('./config/corsOptions.js')
 const createError = require('http-errors');
 
 const localizationsRouter = require('./routes/localizations.js');
+const tasksRouter = require('./routes/tasks.js')
 const modelRouter = require('./routes/models.js')
 const vendorsRouter = require('./routes/vendors.js');
 const statusesRouter = require('./routes/statuses.js');
@@ -56,6 +57,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', localizationsRouter);
+app.use('/', tasksRouter);
 app.use('/', vendorsRouter);
 app.use('/', statusesRouter);
 app.use('/', usersRouter);
