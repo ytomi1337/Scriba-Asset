@@ -6,15 +6,27 @@ const router = express.Router()
 const { Task, TaskAsset, Asset } = require('../models');
 const { Sequelize, where } = require('sequelize')
 
-router.get('/tasks', async(req, res) => {
+
+router.get('/tasks' , async(req, res) => {
     try{
+        const { assigned_to, status } = req.query;
+        const userId = req.user.id
+        const assignedTo = assigned_to === 'me' ? userId : assigned_to;
+
         const task = await Task.findAll({
+            where: {
+                assigned_to: assignedTo,
+            },
             include:[
                 {
                     model: TaskAsset,
                     as: 'items',
                     include: [
-                        {   model: Asset, as: 'asset'}
+                        {   
+                            model: Asset, 
+                            as: 'asset',
+                            attributes: ['id', 'model', 'serial_num']
+                        }
                     ]
                 }
             ]

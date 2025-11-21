@@ -6,7 +6,6 @@
     assets: Array
   })
   const model = ref(null)
-  const assets = ref([])
   
   const assetDetail = (i) => {
     const selectedAsset = props.assets[i]
@@ -14,9 +13,7 @@
     emit("send-asset-detail", selectedAsset)
   }
 
-  const testfun = () => {
-    console.log(props.assets);
-  }
+
 </script>
 
 <template>
@@ -24,7 +21,6 @@
     class="mx-auto"
     height="100%"
   >
-  <button @click="testfun">he</button>
     <v-slide-group
       v-model="model"
       class="p"

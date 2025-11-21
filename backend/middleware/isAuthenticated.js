@@ -3,4 +3,6 @@ module.exports = function ensureAuthenticated(req, res, next) {
     return next();
   }
   return res.status(401).json({ message: "Nieautoryzowany" });
+
+  
 };

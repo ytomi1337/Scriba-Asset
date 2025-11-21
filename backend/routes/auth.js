@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const { User, Localization, Asset, Model, Vendor, Status, Category } = require('../models');
+const { User, Localization, Asset, Model, Vendor, Status, Category, TaskAsset, Task } = require('../models');
 const ensureAuthenticated = require('../middleware/isAuthenticated')
 
 router.get("/auth/google", 
@@ -37,7 +37,20 @@ router.get('/auth/profile', ensureAuthenticated, async (req, res) => {
       ]
     })
 
-    res.send({ user, assets })
+    const tasks = await Task.findAll({
+      where: { assigned_to: req.user.id },
+        include: [
+          {
+            model: TaskAsset,
+            as: 'items',
+            include:[
+              { model: Asset, as: 'asset'}
+            ]
+          }
+        ]
+    })
+
+    res.send({ user, assets, tasks })
   }catch (err) {
     console.error("Profile fetch error:", err);
     res.status(500).send({ error: "Internal server error" });

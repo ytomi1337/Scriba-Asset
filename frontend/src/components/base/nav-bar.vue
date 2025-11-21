@@ -1,6 +1,7 @@
 <script setup>
   import api from '@/services/apiAssetClient';
   import { ref, onMounted } from 'vue';
+  import notificationDropdown from '../utils/notification-dropdown.vue';
 
   const user = ref(null)
   onMounted( async () => {
@@ -27,7 +28,7 @@
     <v-btn icon aria-label="notifications">
       <v-icon>mdi-bell-outline</v-icon>
     </v-btn>
-
+    <notificationDropdown />
     <v-menu offset-y>
       <template #activator="{ props }">
         <v-btn v-bind="props" variant="text" class="user-btn" >

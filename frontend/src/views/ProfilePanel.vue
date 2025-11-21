@@ -12,14 +12,14 @@ const user =  ref(null);
 const router = useRouter();
 const asset = ref(null)
 const assets = ref([])
+const tasks = ref([])
 
 onMounted( async () => {
   try {
     const res = await api.getProfile();
-    console.log("✅ Zalogowana pomyslnie");
     user.value = res.data.user
     assets.value = res.data.assets
-    console.log('User Assets:', res.data.assets);
+    tasks.value = res.data.tasks
   } catch (err) {
     console.error("❌ Błąd zaczytania danych uytkownika:", err);
   }
