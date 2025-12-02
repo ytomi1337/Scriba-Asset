@@ -37,20 +37,7 @@ router.get('/auth/profile', ensureAuthenticated, async (req, res) => {
       ]
     })
 
-    const tasks = await Task.findAll({
-      where: { assigned_to: req.user.id },
-        include: [
-          {
-            model: TaskAsset,
-            as: 'items',
-            include:[
-              { model: Asset, as: 'asset'}
-            ]
-          }
-        ]
-    })
-
-    res.send({ user, assets, tasks })
+    res.send({ user, assets })
   }catch (err) {
     console.error("Profile fetch error:", err);
     res.status(500).send({ error: "Internal server error" });

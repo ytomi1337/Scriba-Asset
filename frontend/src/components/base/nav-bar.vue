@@ -2,40 +2,32 @@
   import api from '@/services/apiAssetClient';
   import { ref, onMounted } from 'vue';
   import notificationDropdown from '../utils/notification-dropdown.vue';
+  import { useUserStore } from '@/stores/userStore';
+
+  const userStore = useUserStore()
 
   const user = ref(null)
-  onMounted( async () => {
-    try {
-      const res = await api.getProfile();
-      user.value = res.data.user
-      console.log(user.value);
-    }catch(err) {
-      console.error("❌ Błąd zaczytania danych uytkownika:", err);
-    }
-  })
+
 </script>
 
 <template>
   <v-app-bar   height="64" class="topbar">
 
-      <div class="org-wrap ml-10" v-if="user">
+      <div class="org-wrap ml-10" v-if="userStore.user">
         <div class="org-small">Your Organization</div>
-        <div class="org-name">{{ user.localization.name }}</div>
+        <div class="org-name">{{ userStore.user.localization.name }}</div>
       </div>
 
     <v-spacer />
 
-    <v-btn icon aria-label="notifications">
-      <v-icon>mdi-bell-outline</v-icon>
-    </v-btn>
     <notificationDropdown />
     <v-menu offset-y>
       <template #activator="{ props }">
-        <v-btn v-bind="props" variant="text" class="user-btn" >
-          <v-avatar size="36" class="mr-5"v-if="user">
-            <img :src="user.avatar" alt="avatar" width="100%" />
+        <v-btn v-bind="props" v-if="userStore.user" variant="text" class="user-btn" >
+          <v-avatar size="36" class="mr-5">
+            <img :src="userStore.user.avatar" alt="avatar" width="100%" />
           </v-avatar>
-          <span class="user-name" v-if="user">{{ user.name }}</span>
+          <span class="user-name">{{ userStore.user.name }}</span>
           <v-icon>mdi-chevron-down</v-icon>
         </v-btn>
       </template>

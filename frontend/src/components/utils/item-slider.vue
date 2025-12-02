@@ -45,7 +45,7 @@
 
             </v-scale-transition>
              <v-card-title> {{ asset.model.name }}</v-card-title>
-             <v-avatar size="75"> 
+             <v-avatar size="110" class="test"> 
                 <v-icon :icon="asset.category.icon" size="x-large"></v-icon>
              </v-avatar>
              <v-card-subtitle>
@@ -74,5 +74,8 @@
     background: 
         linear-gradient(white, white) padding-box,
         linear-gradient(90deg,rgba(149, 193, 46, 0.767) 0%, rgba(4, 187, 241, 1) 50%, rgba(29, 67, 112, 1) 100%);
+    }
+    .test{
+      font-size: 2.5rem;
     }
 </style>

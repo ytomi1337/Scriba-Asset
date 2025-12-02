@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Profile from '../views/ProfilePanel.vue';
 import LoginPanel from '@/views/LoginPanel.vue';
 import api from "@/services/apiAssetClient";
+import { useUserStore } from '@/stores/userStore';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,20 +22,25 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  if (to.meta.requiresAuth) {
-    try {
-      await api.checkAuth();
-      next();
-    } catch (err) {
-      if (err.response && err.response.status === 401) {
-        next("/login");
-      } else {
-        next();
-      }
+  const userStore = useUserStore()
+  
+  if(!userStore.user){
+    try{
+      await userStore.fetchUser();
+    }catch(err){
+      console.log('Missing active session');
     }
-  } else {
-    next();
   }
+
+  if (to.meta.requiresAuth && !userStore.isLogged) {
+    return next('/login')
+  }
+
+  if(to.meta.adminOnly && !userStore.isAdmin){
+    return next('/home')
+  }
+
+  next()
 });
 
 export default router

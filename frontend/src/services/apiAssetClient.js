@@ -16,8 +16,15 @@ export default {
     return apiAssetClient.get("/auth/profile");
   },
 
+  getTasks() {
+    return apiAssetClient.get("/tasks");
+  },
+
   logout() {
     return apiAssetClient.get("/auth/logout");
+  },
+  sendTaskDecision(id, decision) {
+    return apiAssetClient.patch(`/task/${id}/${decision}`);
   },
 
   checkAuth() {

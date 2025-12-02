@@ -7,9 +7,10 @@ import chipGroup from "@/components/utils/chip-group.vue";
 import assetDetalis from "@/components/utils/asset-detalis.vue";
 import { useRouter } from "vue-router";
 import { ref, onMounted, defineEmits, defineProps} from "vue";
+import { useUserStore } from "@/stores/userStore";
 
-const user =  ref(null);
-const router = useRouter();
+const userStore = useUserStore()
+
 const asset = ref(null)
 const assets = ref([])
 const tasks = ref([])
@@ -17,7 +18,6 @@ const tasks = ref([])
 onMounted( async () => {
   try {
     const res = await api.getProfile();
-    user.value = res.data.user
     assets.value = res.data.assets
     tasks.value = res.data.tasks
   } catch (err) {
@@ -25,17 +25,8 @@ onMounted( async () => {
   }
 });
 
-const handleLogout = async () => {
-    try {
-        await api.logout();
-        router.push('/login')
-    }catch(err){
-        console.log('Error on Logout attempt', err)
-    }
-}
 
 const setAssetDetail = async (selectedAsset) => {
-  console.log(selectedAsset);
   asset.value = selectedAsset
 }
 
@@ -51,15 +42,15 @@ const setAssetDetail = async (selectedAsset) => {
   <v-row style="height: 50%;" no-gutters>
   <v-col cols="3" class="d-flex align-center justify-center bg-surface box">
 
-    <v-card v-if="user" flat class="d-flex flex-column align-center" style="width: 100%; max-width: 220px;">
+    <v-card v-if="userStore.user" flat class="d-flex flex-column align-center" style="width: 100%; max-width: 220px;">
       <v-avatar
         rounded="50"
         size="150" >
-        <img :src="user.avatar" alt="avatar" width="100%"/>
+        <img :src="userStore.user.avatar" alt="avatar" width="100%"/>
       </v-avatar>
-      <v-card-title>{{ user.name }}</v-card-title>
-      <v-card-subtitle>{{ user.position }}</v-card-subtitle>
-      <v-card-text>{{ user.email }}</v-card-text>
+      <v-card-title>{{ userStore.user.name }}</v-card-title>
+      <v-card-subtitle>{{ userStore.user.position }}</v-card-subtitle>
+      <v-card-text>{{ userStore.user.email }}</v-card-text>
     </v-card>
 
   </v-col>
