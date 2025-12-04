@@ -11,7 +11,6 @@ onMounted( async () => {
     try {
     const res = await api.getTasks();
     tasks.value = res.data
-    console.log(res);
   } catch (err) {
     console.error("❌ Błąd zaczytania Zadan:", err);
   }

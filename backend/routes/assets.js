@@ -35,6 +35,32 @@ router.get('/assets', async(req, res) => {
     }
 })
 
+router.get('/assets/:userId', async (req, res) => {
+    try{
+        const userId = req.params.userId
+        const assets = await Asset.findAll({
+            where: {user_id: userId},
+            include: [
+                { model: Model, 
+                  as: 'model', 
+                  attributes: ['vendor_id', 'name'], 
+                  include: [{
+                    model: Vendor,
+                    as: 'vendor',
+                    attributes: ['name']
+                  }]
+                },
+                {model: Status, as:'status', attributes: ['name']},
+                {model: Category, as:'category', attributes: ['name', 'icon']}
+            ]
+        })
+
+        return res.status(200).json(assets);
+    }catch(err){
+        console.error('GET /assets/user error: ', err);
+        return res.status(500).json({ error: 'Server error while fetching user assets'})
+    }
+})
 router.post('/assets', async (req, res) => {
     try{
         let {

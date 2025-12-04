@@ -13,13 +13,11 @@ const userStore = useUserStore()
 
 const asset = ref(null)
 const assets = ref([])
-const tasks = ref([])
 
 onMounted( async () => {
   try {
-    const res = await api.getProfile();
-    assets.value = res.data.assets
-    tasks.value = res.data.tasks
+    const res = await api.getUserAssets(userStore.user.id);
+    assets.value = res.data
   } catch (err) {
     console.error("❌ Błąd zaczytania danych uytkownika:", err);
   }

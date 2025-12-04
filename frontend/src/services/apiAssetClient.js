@@ -16,6 +16,10 @@ export default {
     return apiAssetClient.get("/auth/profile");
   },
 
+  getUserAssets(user_id){
+    return apiAssetClient.get(`/assets/${user_id}`)
+  },
+
   getTasks() {
     return apiAssetClient.get("/tasks");
   },

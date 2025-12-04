@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Profile from '../views/ProfilePanel.vue';
 import LoginPanel from '@/views/LoginPanel.vue';
+import adminPanel from '@/views/adminPanel.vue';
 import api from "@/services/apiAssetClient";
 import { useUserStore } from '@/stores/userStore';
 
@@ -12,6 +13,12 @@ const router = createRouter({
       name: 'profile',
       component: Profile,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/admin',
+      name: 'admin-panel',
+      component: adminPanel,
+      meta: { requiresAuth: true, adminOnly: true}
     },
     {
       path: '/login',
@@ -37,7 +44,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if(to.meta.adminOnly && !userStore.isAdmin){
-    return next('/home')
+    return next('/profile')
   }
 
   next()

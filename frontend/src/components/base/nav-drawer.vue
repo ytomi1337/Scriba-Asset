@@ -1,15 +1,24 @@
 <script setup>
 import logoImage from '@/assets/Holcim_Logo_2021_sRGB.jpg'
+import { useUserStore } from '@/stores/userStore'
+import { computed } from 'vue'
+
+const userStore = useUserStore()
 
 const navItems = [
-    { title: "Dashboard", icon: "mdi-view-dashboard" },
-    { title: "Documents", icon: "mdi-file-document" },
+    { title: "Admin Panel", icon: "mdi-view-dashboard", reqAdmin: true, to: { name: 'admin-panel'}},
+    { title: "User Panel", icon: "mdi-clipboard-account", reqAdmin: false, to: { name: 'profile'} },
+    { title: "Documents", icon: "mdi-file-document", reqAdmin: false },
 ]
 
 const items = [
     { title: "Settings", icon: "mdi-cog" },
     { title: "Helping Center", icon: "mdi-help-rhombus" },
 ]
+
+const visibleNav = computed(() =>{
+    return navItems.filter(n => !n.reqAdmin || userStore.isAdmin)
+})
 </script>
 <template>
     <nav>
@@ -19,9 +28,11 @@ const items = [
             </v-container>
             <v-list>
                 <v-list-item 
-                v-for="(navItem, i) in navItems"
+                v-for="(navItem, i) in visibleNav"
                 :key="i"
                 :value="navItem"
+                :to="navItem.to"
+                link
                 >
 
                 <template v-slot:prepend>
