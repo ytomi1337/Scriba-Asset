@@ -20,6 +20,10 @@ export default {
     return apiAssetClient.get(`/assets/${user_id}`)
   },
 
+  getAssets(){
+    return apiAssetClient.get(`/assets`)
+  },
+
   getTasks() {
     return apiAssetClient.get("/tasks");
   },

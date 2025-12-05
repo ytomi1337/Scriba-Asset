@@ -44,7 +44,7 @@ router.post('/createUser', async (req, res) => {
             }
         }
         const token = uuidv4();
-        const expires = new Date(Date.now() + 30 * 24 * 3600 * 1000); // 30 dni
+        const expires = new Date(Date.now() + 30 * 24 * 3600 * 1000);
         const [newUser, created] = await User.findOrCreate({
             where: { email: email },
             defaults: {

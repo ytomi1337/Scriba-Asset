@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="mx-3 my-0 pa-0">
+  <v-sheet class="mx-3">
     <v-chip-group
       selected-class="text-primary"
       mandatory
@@ -15,6 +15,7 @@
 <script setup>
   const tags = [
     'Assets',
+    'Phones',
     'Licenses'
   ]
 </script>

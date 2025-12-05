@@ -76,6 +76,39 @@
     rgba(29, 67, 112, 1) 100%
   );
 }
+
+.corporate-border-bottom{
+  position: relative;
+  border: 0 solid transparent;
+}
+.corporate-border-bottom::after {
+  content: "";
+  position: absolute;
+  width: 100%; 
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(148, 193, 46, 1) 0%,
+    rgba(4, 187, 241, 1) 50%,
+    rgba(29, 67, 112, 1) 100%
+  );
+}
+.corporate-border-top{
+  position: relative;
+  border: 0 solid transparent;
+}
+.corporate-border-top::after {
+  content: "";
+  position: absolute;
+  width: 100%; 
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(148, 193, 46, 1) 0%,
+    rgba(4, 187, 241, 1) 50%,
+    rgba(29, 67, 112, 1) 100%
+  );
+}
 .google-btn {
   background-color: white !important;
   color: #3c4043 !important;
@@ -98,3 +131,9 @@
 .fill-height {
   height: 100vh;
 }
+
+.text-xs { font-size: 0.75rem !important;}  
+.text-s { font-size: 0.875rem !important; } 
+.text-md { font-size: 1rem !important;}      
+.text-lg { font-size: 1.125rem !important; }  
+.text-xl { font-size: 1.375rem !important;}  
