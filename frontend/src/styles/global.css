@@ -81,6 +81,9 @@
   position: relative;
   border: 0 solid transparent;
 }
+.no-shadow .v-stepper-header {
+    box-shadow: none !important;
+    }
 .corporate-border-bottom::after {
   content: "";
   position: absolute;

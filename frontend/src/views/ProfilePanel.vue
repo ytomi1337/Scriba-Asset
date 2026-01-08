@@ -5,8 +5,7 @@ import navBar from "@/components/base/nav-bar.vue";
 import itemSlider from "@/components/utils/item-slider.vue";
 import chipGroup from "@/components/utils/chip-group.vue";
 import assetDetalis from "@/components/utils/asset-detalis.vue";
-import { useRouter } from "vue-router";
-import { ref, onMounted, defineEmits, defineProps} from "vue";
+import { ref, onMounted} from "vue";
 import { useUserStore } from "@/stores/userStore";
 
 const userStore = useUserStore()

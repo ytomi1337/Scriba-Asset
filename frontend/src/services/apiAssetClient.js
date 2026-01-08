@@ -24,6 +24,10 @@ export default {
     return apiAssetClient.get(`/assets`)
   },
 
+  getAvailableAssets(user_id){
+    return apiAssetClient.get(`/assets/available/${user_id}`)
+  },
+
   getTasks() {
     return apiAssetClient.get("/tasks");
   },

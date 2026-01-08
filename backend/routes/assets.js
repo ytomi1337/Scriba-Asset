@@ -35,6 +35,43 @@ router.get('/assets', async(req, res) => {
     }
 })
 
+router.get('/assets/available/:userId', async(req, res) => {
+    try{
+        const user = await User.findByPk(req.params.userId, {
+            attributes: ['localization_id']
+        })
+
+
+        const assets = await Asset.findAll({
+            where: [
+                {status_id: 3},
+            ],
+            include:[
+                {
+                    model: User,
+                    as: 'user',
+                    attributes: [],
+                    where: {
+                        localization_id: user.localization_id
+                    }
+                },
+                { 
+                    model: Model, 
+                    as: 'model', 
+                    attributes: [ 'id', 'name', 'vendor_id' ]
+                },
+                { model: Category, as: 'category', attributes: [ 'id', 'name', 'icon' ]},
+                { model: Status, as: 'status', attributes: [ 'id', 'name' ]},
+            ]
+        })
+
+        return res.status(200).json(assets);
+    }catch(err){
+        console.error('GET /assets error: ', err);
+        return res.status(500).json({ error: 'Server error while fetching assets'})
+    }
+})
+
 router.get('/assets/:userId', async (req, res) => {
     try{
         const userId = req.params.userId

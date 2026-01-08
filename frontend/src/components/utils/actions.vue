@@ -91,10 +91,8 @@
         </v-list-group>
     </v-list>
 
-    <v-dialog v-model="dialog" max-width="600">
+    <v-dialog v-model="dialog" max-width="900">
         <v-card>
-            <v-card-title>{{selectedForm}}</v-card-title>
-
             <v-card-text>
                 <component :is="getFormComponent(selectedForm)" />
             </v-card-text>
