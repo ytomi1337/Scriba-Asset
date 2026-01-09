@@ -1,17 +1,23 @@
 <script setup>
-  import api from '@/services/apiAssetClient';
   import { ref, onMounted } from 'vue';
   import notificationDropdown from '../utils/notification-dropdown.vue';
   import { useUserStore } from '@/stores/userStore';
 
   const userStore = useUserStore()
 
-  const user = ref(null)
+  const handleLogout = async () => {
+    try{
+      window.location.href = '/login'
+      await userStore.logout()
+    }catch(err){
+      console.error('Logout error:', err)
+    }
+  }
 
 </script>
 
 <template>
-  <v-app-bar   height="64" class="topbar">
+  <v-app-bar height="64" class="topbar">
 
       <div class="org-wrap ml-10" v-if="userStore.user">
         <div class="org-small">Your Organization</div>
@@ -33,8 +39,8 @@
       </template>
 
       <v-list>
-        <v-list-item >Profile</v-list-item>
-        <v-list-item >Logout</v-list-item>
+        <!-- <v-list-item >Profile</v-list-item> -->
+        <v-list-item @click="handleLogout" prepend-icon="mdi-logout">Logout</v-list-item>
       </v-list>
     </v-menu>
   </v-app-bar>

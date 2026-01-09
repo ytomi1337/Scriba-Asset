@@ -40,9 +40,12 @@ router.get("/auth/google/callback",
 
 router.get('/auth/logout', (req, res) => {
   req.logout(() => {
-    res.redirect('/auth/login');
-  });
-});
+    req.session.destroy(() => {
+      res.clearCookie('connect.sid')
+      res.status(200).json({ message: 'Logged out' })
+    })
+  })
+})
 
 
 module.exports = router;
