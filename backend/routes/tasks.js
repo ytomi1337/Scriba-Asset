@@ -70,7 +70,7 @@ router.post('/tasks', async(req, res) => {
     }
 })
 
-router.patch('/task/:id/:decision',ensureAuthenticated ,async (req, res) =>{
+router.patch('/task/:id/:decision', ensureAuthenticated ,async (req, res) =>{
     const taskId = req.params.id
     const decision = req.params.decision
 
@@ -86,7 +86,7 @@ router.patch('/task/:id/:decision',ensureAuthenticated ,async (req, res) =>{
             const assetsIds = taskItems.map(i => i.asset_id)
 
             await Asset.update(
-                {   user: task.assigned_to, status_id: 1},
+                {   user_id: task.assigned_to, status_id: 1},
                 {   where: { id: assetsIds } }
             )
             await task.update({

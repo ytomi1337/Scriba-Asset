@@ -41,5 +41,10 @@ export default {
 
   checkAuth() {
     return apiAssetClient.get("/auth/profile");
+  },
+
+  createUser(payload){
+    console.log(payload);
+    return apiAssetClient.post('/createUser', payload)
   }
 }

@@ -13,10 +13,10 @@ const headers = [
   { title: 'Category', key: 'category.name', sortable: false, } 
 ]
 const assets = ref([])
-const selectedAssets= ref([])
-const userPlaceholder = ref({name: "", email: "", localization:""})
-
+const placeHolder = ref({ selectedAssets: [], user: {}  })
 const step = ref(1)
+
+const errorMsg = ref(null)
 
 
 onMounted( async () => {
@@ -24,12 +24,29 @@ onMounted( async () => {
     const res = await apiAssetClient.getAvailableAssets(userStore.user.id);
     assets.value = res.data
 
-    console.log(assets.value);
   }catch (err) {
     console.error("❌ Error during loading availbe assets:", err);
   }
 })
 
+const submitForm = async() => {
+  try {
+    const payload = {
+      user: placeHolder.value.user,
+      assets: placeHolder.value.selectedAssets.map(a => a.id)
+    }
+    await apiAssetClient.createUser(payload)
+
+    errorMsg.value = 'udalo sie juhu'
+  }catch (err) {
+    if(err.response?.status === 409){
+      errorMsg.value = err.response.data.error.message
+    }else {
+      errorMsg.value = 'Unexpected server error, check console for more details'
+      console.log(err);
+    }
+  }
+}
 </script>
 
 <template>
@@ -44,17 +61,25 @@ onMounted( async () => {
   :items="['Create Placeholder','Assign Device', 'Finish']"
   v-model="step"
   class="no-shadow">
+  <v-alert
+    v-if="errorMsg"
+    type="error"
+    variant="tonal"
+    class="mb-4"
+    >
+    {{ errorMsg }}
+  </v-alert>
 
   <template v-slot:item.1>
     <v-card max-width="500">
         <form @submit.prevent="submitForm">
             <v-form ref="form">
                 <v-text-field label="Name" :rules="[v => !!v || 'Required']" 
-                v-model="userPlaceholder.name"/>
+                v-model="placeHolder.user.name"/>
                 <v-text-field  label="Email" :rules="[v => !!v || 'Required']" 
-                v-model="userPlaceholder.email" />
+                v-model="placeHolder.user.email" />
                 <v-text-field label="Localization" :rules="[v => !!v || 'Required']"
-                v-model="userPlaceholder.localization"/>
+                v-model="placeHolder.user.localization_id"/>
 
             </v-form>
         </form>
@@ -75,10 +100,10 @@ onMounted( async () => {
     <v-data-table
       :headers="headers"
       :items="assets"
-      v-model="selectedAssets"
+      v-model="placeHolder.selectedAssets"
       return-object
       show-select
-      item-key="id"
+      item-value="id"
       :search="search"
       hide-default-footer
     />
@@ -88,15 +113,16 @@ onMounted( async () => {
     <v-row no-gutters>
       <v-col cols="6"><p>Placeholder data:</p>
         <v-list>
-          <v-list-item title="Name" :subtitle="userPlaceholder.name"></v-list-item>
-          <v-list-item title="Email" :subtitle="userPlaceholder.email"></v-list-item>
-          <v-list-item title="Localization" :subtitle="userPlaceholder.localization"></v-list-item>
+          <v-list-item title="Name" :subtitle="placeHolder.user.name"></v-list-item>
+          <v-list-item title="Email" :subtitle="placeHolder.user.email"></v-list-item>
+          <v-list-item title="Localization" :subtitle="placeHolder.user.localization_id"></v-list-item>
         </v-list>
       </v-col>
       <v-col cols="6">
         <p>Slected Assets:</p>
         <v-list>
-          <v-list-item v-for="item in selectedAssets"
+          <v-list-item v-for="item in placeHolder.selectedAssets"
+          :key="item.id"
           :title="item.model.name">
             <v-list-item-subtitle> {{ item.it_num }} </v-list-item-subtitle>
           </v-list-item>
@@ -104,13 +130,14 @@ onMounted( async () => {
         </v-list>
       </v-col>
     </v-row>
+
   </template>
 
   <template #actions>
     <v-row no-gutters class="d-flex justify-end ma-1" style="gap: 10px;">
       <v-btn v-if="step > 1" @click="step--">Back</v-btn>
       <v-btn v-if="step < 3" @click="step++">Next</v-btn>
-      <v-btn v-if="step == 3" @click="finish">Finish</v-btn> 
+      <v-btn v-if="step == 3" @click="submitForm">Finish</v-btn> 
     </v-row>
   </template>
 </v-stepper>
