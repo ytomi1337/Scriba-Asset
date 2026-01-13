@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import apiAssetClient from "@/services/apiAssetClient";
-import { useRouter } from "vue-router";
 
 export const useUserStore = defineStore('user',{
     state: () => ({
@@ -20,8 +19,7 @@ export const useUserStore = defineStore('user',{
 
         logout(){
             this.user = null
-            apiAssetClient.logout()
-            router.push('/login')
+            return apiAssetClient.logout()
         }
     },
 
