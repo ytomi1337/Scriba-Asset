@@ -2,8 +2,10 @@
 import { ref, onMounted } from 'vue'
 import apiAssetClient from '@/services/apiAssetClient';
 import { useUserStore } from '@/stores/userStore';
+import { useDircetoryStore } from '@/stores/directoryStore';
 
 const userStore = useUserStore()
+const directoryStore = useDircetoryStore()
 const search = ref('')
 
 const headers = [
@@ -20,6 +22,7 @@ const errorMsg = ref(null)
 
 
 onMounted( async () => {
+  directoryStore.fetch('localizations');
   try{
     const res = await apiAssetClient.getAvailableAssets(userStore.user.id);
     assets.value = res.data
@@ -78,9 +81,12 @@ const submitForm = async() => {
                 v-model="placeHolder.user.name"/>
                 <v-text-field  label="Email" :rules="[v => !!v || 'Required']" 
                 v-model="placeHolder.user.email" />
-                <v-text-field label="Localization" :rules="[v => !!v || 'Required']"
-                v-model="placeHolder.user.localization_id"/>
-
+                <v-select
+                  label="Localizations"
+                  :items="directoryStore.localizations"
+                  v-model="placeHolder.user.localization_id"
+                  item-title="name"
+                  item-value="id"></v-select>
             </v-form>
         </form>
     </v-card>

@@ -32,6 +32,19 @@ export default {
     return apiAssetClient.get("/tasks");
   },
 
+  getLocalizations(){
+    return apiAssetClient.get('/localizations')
+  },
+  getStatuses(){
+    return apiAssetClient.get('/statuses')
+  },
+  getCategories(){
+    return apiAssetClient.get('/categories')
+  },
+  getVendors(){
+    return apiAssetClient.get('/vendors')
+  },
+
   logout() {
     return apiAssetClient.get("/auth/logout");
   },
