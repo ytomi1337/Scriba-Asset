@@ -7,11 +7,13 @@ module.exports = (sequelize, DataTypes) => {
     recipt_date:   { type: DataTypes.DATE, allowNull: true },
     return_date:   { type: DataTypes.DATE, allowNull: true },
     warranty_date: { type: DataTypes.DATE, allowNull: true },
+    sequence:      { type: DataTypes.INTEGER, allowNull: false },
     category_id:    { type: DataTypes.INTEGER, allowNull: true },
     license_id:     { type: DataTypes.INTEGER, allowNull: true },
     status_id:      { type: DataTypes.INTEGER, allowNull: true },
     user_id:        { type: DataTypes.INTEGER, allowNull: true },
     model_id:      { type: DataTypes.INTEGER, allowNull: true },
+    localization_id:      { type: DataTypes.INTEGER, allowNull: false },
   }, { tableName: 'assets', timestamps: true });
 
   Asset.associate = (models) => {
@@ -20,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     Asset.belongsTo(models.Status,        { foreignKey: 'status_id',    as: 'status' });
     Asset.belongsTo(models.User,          { foreignKey: 'user_id',      as: 'user' });
     Asset.belongsTo(models.Model,         { foreignKey: 'model_id',    as: 'model' });
+    Asset.belongsTo(models.Localization,  { foreignKey: 'localization_id',    as: 'localization' });
     Asset.hasMany(models.TaskAsset,       { foreignKey: 'asset_id', as: 'taskLinks' });
   };
 

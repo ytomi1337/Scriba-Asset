@@ -1,54 +1,82 @@
 <script setup>
-import { ref } from 'vue'
+  import { ref, onMounted } from 'vue';
+  import { useDircetoryStore } from '@/stores/directoryStore';
 
-const name = ref('')
-const serial = ref('')
-const type = ref('')
-const valid = ref(false)
+  const directoryStore = useDircetoryStore()
+  const assets = ref(null)
 
-const emit = defineEmits(['submit'])
-
-function submitForm() {
-  if (!valid.value) return
-  emit('submit', {
-    name: name.value,
-    serial: serial.value,
-    type: type.value,
+  onMounted( async () => {
+    directoryStore.fetch('assetModels')
+    directoryStore.fetch('categories')
+    directoryStore.fetch('statuses')
   })
-}
 </script>
-
 <template>
-  <v-form v-model="valid" @submit.prevent="submitForm">
-    <v-text-field
-      v-model="name"
-      label="Asset Name"
-      :rules="[v => !!v || 'Required']"
-      required
-    />
+  <v-form>
+    <v-list>
+      <v-list-item-title>Create new device in database</v-list-item-title>
+      <v-list-item-subtitle>A new device has been created in DB with status: in stock</v-list-item-subtitle>
+    </v-list>
+    
+    <v-row class="ga-2 mt-7">
+      <v-text-field
+      label="IT number"
+      hide-details
+      ></v-text-field>
+      
+      <v-text-field
+      label="Serial number"
+      hide-details
+      ></v-text-field>
+    </v-row>
+    <v-row class="ga-2 mt-7">
+      <v-autocomplete
+      :items="directoryStore.assetModels"
+      item-title="name"
+      item-value="id"
+      label="Asset Model"
+      clearable
+      no-data-text="No Models found"
+      hide-details
+      chips>
+      </v-autocomplete>
 
-    <v-text-field
-      v-model="serial"
-      label="Serial Number"
-      :rules="[v => !!v || 'Required']"
-      required
-    />
+      <v-autocomplete
+      :items="directoryStore.categories"
+      item-title="name"
+      item-value="id"
+      label="Category"
+      clearable
+      no-data-text="No Categories found"
+      hide-details
+      chips>
+      </v-autocomplete>
 
-    <v-select
-      v-model="type"
-      label="Asset Type"
-      :items="['Laptop', 'Monitor', 'Phone', 'Accessory']"
-      :rules="[v => !!v || 'Required']"
-      required
-    />
+      <v-autocomplete
+      :items="directoryStore.statuses"
+      item-title="name"
+      item-value="id"
+      label="Status"
+      clearable
+      no-data-text="No Statuses found"
+      hide-details
+      chips>
+      </v-autocomplete>
 
-    <v-btn
-      type="submit"
-      color="primary"
-      class="mt-3"
-      block
-    >
-      Add Asset
-    </v-btn>
+      <v-date-input
+      label="Warranty date"
+      prepend-icon=""
+      clearable
+      hide-details
+      />
+
+    </v-row>
+
+    <v-row class="justify-center mt-9">
+      <v-btn width="100%">Add another</v-btn>
+    </v-row>
+    <v-row class="justify-center mt-9">
+      <v-btn>submit</v-btn>
+    </v-row>
   </v-form>
 </template>

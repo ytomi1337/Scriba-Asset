@@ -3,8 +3,10 @@
 const express = require('express');
 const router = express.Router()
 
-const { Asset, User, Model, Category, Status, Vendor } = require('../models');
+const { Asset, User, Model, Category, Status, Vendor, Localization } = require('../models');
 const { Sequelize, where, ValidationError } = require('sequelize')
+const ensureAuthenticated = require('../middleware/isAuthenticated')
+
 
 router.get('/assets', async(req, res) => {
     try{
@@ -24,6 +26,7 @@ router.get('/assets', async(req, res) => {
                     ]
                 },
                 { model: Category, as: 'category', attributes: [ 'id', 'name', 'icon' ]},
+                { model: Localization, as: 'localization', attributes: [ 'id', 'name', 'prefix' ]},
                 { model: Status, as: 'status', attributes: [ 'id', 'name' ]},
             ]
         })
@@ -32,6 +35,28 @@ router.get('/assets', async(req, res) => {
     }catch(err){
         console.error('GET /assets error: ', err);
         return res.status(500).json({ error: 'Server error while fetching assets'})
+    }
+})
+router.get('/assets/info/nextseq', ensureAuthenticated, async (req, res) => {
+    try{
+        const user = await User.findOne({
+            where: { id: req.user.id },
+            include: [
+                 { model: Localization, as: 'localization', attributes: ['id', 'name', 'prefix']}
+            ]
+        })
+
+        const lastLocalNum = await Asset.max('sequence', {
+            where: {localization_id: user.localization.id}
+        })
+
+        return res.status(201).json({
+            prefix: user.localization.prefix,
+            lastLocalNum: lastLocalNum
+            });
+    }catch(err){
+        console.error('GET /assets/nextSeq error: ', err);
+        return res.status(500).json({ error: 'Server error while fetching last Local num'})
     }
 })
 
@@ -71,7 +96,6 @@ router.get('/assets/available/:userId', async(req, res) => {
         return res.status(500).json({ error: 'Server error while fetching assets'})
     }
 })
-
 router.get('/assets/:userId', async (req, res) => {
     try{
         const userId = req.params.userId
@@ -98,33 +122,41 @@ router.get('/assets/:userId', async (req, res) => {
         return res.status(500).json({ error: 'Server error while fetching user assets'})
     }
 })
-router.post('/assets', async (req, res) => {
+
+
+router.post('/assets', ensureAuthenticated, async (req, res) => {
     try{
-        let {
-            it_num,
-            serial_num,
-            note,
-            warranty_date,
-            category_id,
-            license_id,
-            status_id,
-            user_id,
-            model_id,
-        } = req.body
-
-
-        const newAsset = await Asset.create({
-            it_num,
-            serial_num,
-            note,
-            warranty_date,
-            category_id,
-            license_id,
-            status_id,
-            user_id,
-            model_id,
+        const user = await User.findOne({
+            where: { id: req.user.id },
+            include: [
+                 { model: Localization, as: 'localization', attributes: ['id', 'name', 'prefix']}
+            ]
         })
-        return res.status(201).json(newAsset);
+
+        const lastLocalNum = await Asset.max('sequence', {
+            where: {localization_id: user.localization.id}
+        })
+
+        const nextSeq = lastLocalNum + 1
+
+        const itNumber = `${user.localization.prefix}-${String(nextSeq).padStart(5, '0')}`;
+
+        const { serial_num , model_id, category_id, status_id, warranty_date} = req.body
+
+        const asset = await Asset.create({
+            it_num: itNumber,
+            serial_num: serial_num,
+            model_id: model_id,
+            category_id: category_id,
+            status_id: status_id,
+            warranty_date: warranty_date || null,
+            sequence: nextSeq,
+            localization_id: user.localization.id
+        })
+
+        return res.status(201).json({
+            asset
+            });
     }catch (err) {
         if (err instanceof Sequelize.UniqueConstraintError) {
         const fields = err?.errors?.map(e => e.path).join(', ') || 'unique field';

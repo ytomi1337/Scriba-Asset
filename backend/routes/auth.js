@@ -47,5 +47,42 @@ router.get('/auth/logout', (req, res) => {
   })
 })
 
+router.post('/dev-login/:uuid', async (req, res) => {
+  if (process.env.NODE_ENV === 'production') {
+    return res.status(403).json({ error: 'DEV only endpoint' });
+  }
+
+  try {
+    const { uuid } = req.params;
+
+    const user = await User.findByPk(uuid);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    req.login(user, err => {
+      if (err) {
+        console.error('req.login error:', err);
+        return res.status(500).json({ error: 'Login failed' });
+      }
+
+      return res.json({
+        success: true,
+        message: 'Logged in (DEV)',
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name
+        }
+      });
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 
 module.exports = router;

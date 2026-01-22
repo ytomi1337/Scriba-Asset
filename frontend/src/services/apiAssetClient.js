@@ -44,6 +44,9 @@ export default {
   getVendors(){
     return apiAssetClient.get('/vendors')
   },
+  getModels(){
+    return apiAssetClient.get('/models')
+  },
 
   logout() {
     return apiAssetClient.get("/auth/logout");

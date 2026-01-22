@@ -29,16 +29,16 @@ export const useDircetoryStore = defineStore('directory', {
                     res = await apiAssetClient.getLocalizations()
                     break
                 case 'statuses':
-                    res = await apiAssetClient.getS()
+                    res = await apiAssetClient.getStatuses()
                     break
                 case 'categories':
-                    res = await apiAssetClient.getLocalizations()
+                    res = await apiAssetClient.getCategories()
                     break
                 case 'vendors':
-                    res = await apiAssetClient.getLocalizations()
+                    res = await apiAssetClient.getVendors()
                     break
                 case 'assetModels':
-                    res = await apiAssetClient.getLocalizations()
+                    res = await apiAssetClient.getModels()
                     break
                 default:
                     throw new Error(`Unknow dictionary type: ${type}`)
