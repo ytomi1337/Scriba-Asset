@@ -27,6 +27,9 @@ export default {
   getAvailableAssets(user_id){
     return apiAssetClient.get(`/assets/available/${user_id}`)
   },
+  getLastSequence(user_id){
+    return apiAssetClient.get(`/assets/info/nextseq`)
+  },
 
   getTasks() {
     return apiAssetClient.get("/tasks");
@@ -60,7 +63,9 @@ export default {
   },
 
   createUser(payload){
-    console.log(payload);
     return apiAssetClient.post('/createUser', payload)
-  }
+  },
+  createAsset(asset){
+    return apiAssetClient.post('/assets', asset)
+  },
 }
