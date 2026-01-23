@@ -4,13 +4,13 @@ const express = require('express');
 const router = express.Router()
 
 const { Task, TaskAsset, Asset, User, Category, Model } = require('../models');
-const { Sequelize, where } = require('sequelize')
+const { Sequelize, where, Op } = require('sequelize')
 const ensureAuthenticated = require('../middleware/isAuthenticated')
 
 
 router.get('/tasks',ensureAuthenticated, async(req, res) => {
     try{
-        const task = await Task.findAll({
+        const pendingTasks = await Task.findAll({
             where: {assigned_to: req.user.id, status: 'Pending'},
             include:[
                 {
@@ -31,7 +31,32 @@ router.get('/tasks',ensureAuthenticated, async(req, res) => {
             ]
         })
 
-        return res.status(201).json(task)
+        const finishedTasks = await Task.findAll({
+            where: {assigned_to: req.user.id, status: 'Accepted'},
+            include:[
+                {
+                    model: TaskAsset,
+                    as: 'items',
+                    include: [
+                        {   
+                            model: Asset, 
+                            as: 'asset',
+                            include:[
+                                { model: Category, as: 'category', attributes: [ 'id', 'name', 'icon' ] },
+                                { model: Model, as: 'model', attributes: [ 'id', 'name',]},
+                            ]
+                        },
+                    ]
+                },
+                {   model: User, as: 'assignedBy', attributes: ['id', 'name', 'avatar'] }
+            ]
+        })
+
+
+        return res.status(200).json({
+            pendingTasks,
+            finishedTasks
+        })
     }catch( err ){
         return res.status(500).json({ error: err, message: 'A server error has occurred.' })
     }

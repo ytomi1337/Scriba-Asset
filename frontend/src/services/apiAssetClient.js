@@ -1,3 +1,4 @@
+import AssignAsset from "@/components/forms/AssignAsset.vue";
 import axios from "axios";
 
 const apiAssetClient = axios.create({
@@ -50,6 +51,9 @@ export default {
   getModels(){
     return apiAssetClient.get('/models')
   },
+  getUsers(){
+    return apiAssetClient.get('/users')
+  },
 
   logout() {
     return apiAssetClient.get("/auth/logout");
@@ -67,5 +71,8 @@ export default {
   },
   createAsset(asset){
     return apiAssetClient.post('/assets', asset)
+  },
+  assignAsset(payload){
+    return apiAssetClient.post('/assets/assign', payload)
   },
 }

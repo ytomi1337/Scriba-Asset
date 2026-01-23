@@ -5,6 +5,7 @@ import navBar from "@/components/base/nav-bar.vue";
 import itemSlider from "@/components/utils/item-slider.vue";
 import chipGroup from "@/components/utils/chip-group.vue";
 import assetDetalis from "@/components/utils/asset-detalis.vue";
+import userTasks from "@/components/utils/userTasks.vue";
 import { ref, onMounted} from "vue";
 import { useUserStore } from "@/stores/userStore";
 
@@ -63,7 +64,7 @@ const setAssetDetail = async (selectedAsset) => {
 
   <v-row style="height: 50%;" no-gutters>
     <v-col cols="3" class="box">
-      <h1> documents</h1>
+      <userTasks />
     </v-col>
 
     <v-col cols="9" class="box">

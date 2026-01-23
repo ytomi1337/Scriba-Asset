@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router()
 
-const { Asset, User, Model, Category, Status, Vendor, Localization } = require('../models');
+const { Asset, User, Model, Category, Status, Vendor, Localization, Task, TaskAsset } = require('../models');
 const { Sequelize, where, ValidationError } = require('sequelize')
 const ensureAuthenticated = require('../middleware/isAuthenticated')
 
@@ -165,6 +165,41 @@ router.post('/assets', ensureAuthenticated, async (req, res) => {
 
         console.error('POST /asset error:', err);
         return res.status(500).json({ error: 'Server error while creating asset.' });
+    }
+})
+
+router.post('/assets/assign', ensureAuthenticated, async (req, res) =>{
+    try{
+        const assigned_by = req.user.id
+        const assigned_to = req.body.user
+        const assets_ids = req.body.assets
+
+        console.log(req.body);
+        const task = await Task.create({
+            assigned_by: assigned_by,
+            assigned_to: assigned_to,
+            type: 'Assign'
+        })
+
+        await Asset.update(
+            {   status_id: 2   },
+            {   where: {id: assets_ids}}
+            )
+        for(const assetId of assets_ids){
+            await TaskAsset.create({
+                task_id: task.id,
+                asset_id: assetId
+            })
+        }
+        return res.status(201).json({
+            message: 'Asset has been sucesfly assigned to a user ',
+            })
+    }catch (err){
+        console.error('Assign asset to user error:', err)
+        return res.status(500).json({
+            error: 'internal_server_error',
+            details: err.message
+        })
     }
 })
 

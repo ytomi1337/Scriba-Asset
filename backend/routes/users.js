@@ -76,7 +76,7 @@ router.post('/createUser', async (req, res) => {
             for(const assetId of assets_ids){
                 await Asset.update(
                 {   status_id: 2   },
-                {   where: {id: assets_ids}}
+                {   where: {id: assetId}}
                 )
                 await TaskAsset.create({
                     task_id: task.id,

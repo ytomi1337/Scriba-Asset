@@ -4,6 +4,7 @@
   import AddLicenseForm from '../forms/AddLicenseForm.vue'
   import AddPhoneForm from '../forms/AddPhoneForm.vue'
   import AddUserForm from '../forms/AddUserForm.vue'
+  import AssignAsset from '../forms/AssignAsset.vue'
 
   const dialog = ref(false)
   const selectedForm = ref(null)
@@ -35,6 +36,8 @@
                 return AddUserForm
             case 'License':
                 return AddLicenseForm
+            case 'Assign Asset':
+                return AssignAsset
             default:
                 return null
         } 
@@ -82,6 +85,7 @@
             v-for="([title, icon], i) in managementItems"
             :key="i"
             :value="title"
+            @click="openForm(title)"
             density="compact">
                  <template #prepend>
                    <v-icon size="18" :icon="icon"></v-icon>

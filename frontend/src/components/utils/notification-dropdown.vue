@@ -10,7 +10,7 @@ const activeTask = ref(null)
 onMounted( async () => {
     try {
     const res = await api.getTasks();
-    tasks.value = res.data
+    tasks.value = res.data.pendingTasks
   } catch (err) {
     console.error("❌ Błąd zaczytania Zadan:", err);
   }
@@ -48,7 +48,7 @@ const taskDecision = async (decision) => {
     location="start">
         <template #activator="{ props }">
             <v-badge
-            content="1"
+            :content="tasks.length"
             v-bind="props"
             >
                 <v-btn
