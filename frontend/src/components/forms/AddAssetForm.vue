@@ -14,8 +14,8 @@
 
     try {
       const res = await apiAssetClient.getLastSequence()
-
-      asset.value.it_num = `${res.data.prefix}-${String(res.data.lastLocalNum).padStart(5,'0')}`
+      const lastNum = res.data.lastLocalNum + 1
+      asset.value.it_num = `${res.data.prefix}-${String(lastNum).padStart(5,'0')}`
     }catch(err){
       console.log('Error fatching last local sequence', err);
     }

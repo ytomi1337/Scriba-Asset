@@ -129,10 +129,11 @@ router.post('/assets', ensureAuthenticated, async (req, res) => {
         const user = await User.findOne({
             where: { id: req.user.id },
             include: [
-                 { model: Localization, as: 'localization', attributes: ['id', 'name', 'prefix']}
+                 { model: Localization, as: 'localization', attributes: ['id', 'name', 'prefix', 'stock_user_id']}
             ]
         })
 
+        const stockUser = user.localization.stock_user_id
         const lastLocalNum = await Asset.max('sequence', {
             where: {localization_id: user.localization.id}
         })
@@ -143,9 +144,11 @@ router.post('/assets', ensureAuthenticated, async (req, res) => {
 
         const { serial_num , model_id, category_id, status_id, warranty_date} = req.body
 
+        console.log(user);
         const asset = await Asset.create({
             it_num: itNumber,
             serial_num: serial_num,
+            user_id: stockUser,
             model_id: model_id,
             category_id: category_id,
             status_id: status_id,
