@@ -24,7 +24,7 @@ const errorMsg = ref(null)
 onMounted( async () => {
   directoryStore.fetch('localizations');
   try{
-    const res = await apiAssetClient.getAvailableAssets(userStore.user.id);
+    const res = await apiAssetClient.getAvailableAssets();
     assets.value = res.data
 
   }catch (err) {

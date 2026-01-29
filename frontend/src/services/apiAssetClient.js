@@ -17,16 +17,16 @@ export default {
     return apiAssetClient.get("/auth/profile");
   },
 
-  getUserAssets(user_id){
-    return apiAssetClient.get(`/assets/${user_id}`)
+  getUserAssets(){
+    return apiAssetClient.get(`/assets/user`)
   },
 
   getAssets(){
     return apiAssetClient.get(`/assets`)
   },
 
-  getAvailableAssets(user_id){
-    return apiAssetClient.get(`/assets/available/${user_id}`)
+  getAvailableAssets(){
+    return apiAssetClient.get(`/assets/stock`)
   },
   getLastSequence(user_id){
     return apiAssetClient.get(`/assets/info/nextseq`)
