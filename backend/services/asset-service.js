@@ -1,4 +1,3 @@
-const { where } = require('sequelize');
 const { Asset, User, Model, Category, Status, Vendor, Localization, Task, TaskAsset } = require('../models');
 
 module.exports = {
