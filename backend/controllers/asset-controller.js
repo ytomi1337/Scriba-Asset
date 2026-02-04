@@ -50,7 +50,7 @@ module.exports = {
     },
     async assign(req, res){
         try{
-            const asset = await assetService.assign(req.user.id, req.body);
+            await assetService.assign(req.user.id, req.body);
             return res.status(201).json({ message: 'assigned' });
         }catch (err) {
             console.error('POST /assets/assign:', err);

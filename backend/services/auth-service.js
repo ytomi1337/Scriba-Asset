@@ -7,28 +7,31 @@ module.exports = {
             include: [{ model: Localization, as:'localization', attributes: ['id', 'name'] }]
         })
     },
-    async devLogin(uuid, req){
-        const user = await User.findByPk(uuid)
-        
+    async devLogin(uuid, req) {
+        const user = await User.findByPk(uuid);
+
         if (!user) {
-          return res.status(404).json({ error: 'User not found' });
+        const err = new Error('User not found');
+        err.status = 404;
+        throw err;
         }
 
+        return new Promise((resolve, reject) => {
         req.login(user, err => {
             if (err) {
-                console.error('req.login error:', err);
-                return res.status(500).json({ error: 'Login failed' });
+            return reject(err);
             }
 
-            return res.json({
-                success: true,
-                message: 'Logged in (DEV)',
-                user: {
+            resolve({
+            success: true,
+            message: 'Logged in (DEV)',
+            user: {
                 id: user.id,
                 email: user.email,
                 name: user.name
-                }
+            }
             });
+        });
         });
     }
     

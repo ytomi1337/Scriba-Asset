@@ -42,11 +42,13 @@ const submitForm = async() => {
 
     errorMsg.value = 'udalo sie juhu'
   }catch (err) {
-    if(err.response?.status === 409){
-      errorMsg.value = err.response.data.error.message
-    }else {
-      errorMsg.value = 'Unexpected server error, check console for more details'
-      console.log(err);
+    const status = err.response?.status;
+
+    if (status === 409) {
+      errorMsg.value = err.response.data.error.message;
+    } else {
+      errorMsg.value = 'Unexpected server error, check console for more details';
+      console.error(err);
     }
   }
 }

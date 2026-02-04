@@ -67,7 +67,7 @@ export default {
   },
 
   createUser(payload){
-    return apiAssetClient.post('/createUser', payload)
+    return apiAssetClient.post('/invite', payload)
   },
   createAsset(asset){
     return apiAssetClient.post('/assets', asset)
