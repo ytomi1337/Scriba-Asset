@@ -3,8 +3,8 @@ const localizationService = require('../services/localization-service');
 module.exports = {
     async getAll(req, res){
         try{
-            const categories = await localizationService.getAll();
-            return res.json(categories);
+            const localization = await localizationService.getAll();
+            return res.json(localization);
         }catch (err) {
             console.error('Get /localization: ', err);
             return res.status(500).json({error: 'internal_server_error'})
