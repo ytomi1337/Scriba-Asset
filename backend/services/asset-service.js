@@ -52,7 +52,10 @@ module.exports = {
     },
     async getUserAssets(userId){
         return await Asset.findAll({
-            where: { user_id: userId},
+            where: { 
+                user_id: userId,
+                status_id: 1
+            },
             include: [
                 { model: Model, as: 'model', attributes: ['vendor_id', 'name'], 
                   include: [{ model: Vendor, as: 'vendor', attributes: ['name'] }]

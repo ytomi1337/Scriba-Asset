@@ -16,10 +16,9 @@ onMounted( async () => {
   }
 })
 
-const openDetail = async (item, index) => {
+const openDetail = async (item) => {
     activeTask.value = item,
     dialog.value = true
-    console.log(activeTask.value);
 }
 const statusColor = function (s) {
   if (!s) return 'grey'
@@ -90,7 +89,7 @@ const taskDecision = async (decision) => {
     <v-dialog
     v-model="dialog"
     persistent
-    max-width="500">
+    max-width="600">
 
         <v-card
         :title="`${activeTask.assignedBy.name}, sends you new devices to receive.`"
