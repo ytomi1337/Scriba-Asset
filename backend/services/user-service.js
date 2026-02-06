@@ -10,6 +10,24 @@ module.exports = {
             ]
         })
     },
+    async usersFromLocalization(userId){
+        const user = await User.findByPk(userId)
+
+        const regularUsers = await User.findAll({
+            where: { 
+                localization_id: user.localization_id,
+                stock_user: false
+            },
+            attributes: ['id', 'name']
+        })
+
+        const stockUsers = await User.findAll({
+            where: { stock_user: true},
+            attributes: ['id', 'name']
+        })
+
+        return { regularUsers, stockUsers}
+    },
     async invite( inviterId, payload){
 
         const { user, assets } = payload;

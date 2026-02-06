@@ -10,6 +10,16 @@ module.exports = {
             return res.status(500).json({error: 'internal_server_error'})
         }
     },
+
+    async usersFromLocalization(req, res) {
+        try{
+            const users = await userService.usersFromLocalization(req.user.id)
+            return res.json(users)
+        }catch (err) {
+            console.error('Get /users/usersFromLocalziation: ', err);
+            return res.status(500).json({error: 'internal_server_error'})
+        }
+    },
     
     async invite (req, res){
         try{

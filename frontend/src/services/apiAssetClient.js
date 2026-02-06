@@ -54,6 +54,9 @@ export default {
   getUsers(){
     return apiAssetClient.get('/users')
   },
+  getUsersFromLocalziation(){
+    return apiAssetClient.get('/users/usersFromLocalization')
+  },
 
   logout() {
     return apiAssetClient.get("/auth/logout");

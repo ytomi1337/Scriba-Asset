@@ -48,6 +48,7 @@ const taskDecision = async (decision) => {
     location="start">
         <template #activator="{ props }">
             <v-badge
+            v-if="tasks.length"
             :content="tasks.length"
             v-bind="props"
             >
@@ -57,6 +58,13 @@ const taskDecision = async (decision) => {
                     <v-icon>mdi-bell-outline</v-icon>
                 </v-btn>
             </v-badge>
+            <v-btn
+            v-else
+            v-bind="props"
+            icon
+            aria-lebel="notifications">
+                <v-icon>mdi-bell-outline</v-icon>
+            </v-btn>
         </template>
 
         <template v-if="tasks.length">
@@ -77,9 +85,6 @@ const taskDecision = async (decision) => {
                     
                 </v-list-item>
             </v-list>
-        </template>
-        <template v-else>
-            <h3>Brak Zadan do wykonania</h3>
         </template>
     </v-menu>
     <v-dialog

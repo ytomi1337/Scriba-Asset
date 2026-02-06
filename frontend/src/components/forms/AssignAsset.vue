@@ -16,9 +16,17 @@
     const selectedAssets = ref([])
     const search = ref('')
     const user = ref(null)
+    const users = ref([])
 
     onMounted( async () => {
         directoryStore.fetch('users');
+        try{
+            const res = await apiAssetClient.getUsersFromLocalziation();
+            users.value = res.data.regularUsers
+
+        }catch (err) {
+            console.error("❌ Error during loading availbe assets:", err);
+        }
         try{
             const res = await apiAssetClient.getAvailableAssets(userStore.user.id);
             assets.value = res.data
@@ -52,7 +60,7 @@
     </v-list>
 
     <v-autocomplete
-      :items="directoryStore.users"
+      :items="users"
       item-title="name"
       item-value="id"
       label="Select User"
