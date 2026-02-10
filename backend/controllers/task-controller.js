@@ -28,5 +28,17 @@ module.exports = {
       console.error('PATCH /tasks/:id/decision:', err);
       return res.status(500).json({ error: 'internal_server_error' });
     }
-  }
+    },
+    async uploadTaskFile(req, res){
+        const { taskId } = req.body
+        const file = req.file
+
+        try{
+            const result = await taskService.uploadTaskFile(taskId, file)
+            return res.json(result);
+        }catch (err) {
+            console.error('Post /tasks/upload', err);
+            return res.status(500).json({ error: 'internal_server_error' });
+        }
+    }
 }

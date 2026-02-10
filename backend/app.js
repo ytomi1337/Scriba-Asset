@@ -65,6 +65,7 @@ app.use('/', categoriesRouter);
 app.use('/', assetsRouter);
 app.use('/', modelRouter);
 app.use('/', authRouter);
+app.use('/uploads', express.static('uploads'))
 
 
 app.use(function(req, res, next) {

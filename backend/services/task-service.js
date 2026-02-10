@@ -1,4 +1,5 @@
 
+
 const { Task, TaskAsset, Asset, Category, Model, User } = require('../models')
 
 module.exports = {
@@ -89,5 +90,27 @@ module.exports = {
                 task
             };
         }
+    },
+
+    async uploadTaskFile (taskId, file){
+
+        if(!file){
+            const err = new Error('No file uploaded');
+            err.status = 400;
+            throw err;
+        }
+
+        await Task.update(
+            { file: file.filename },
+            { where: { id: taskId }}
+        )
+
+        return {
+                success: true,
+                file: file.filename
+            };
+
+        
+
     }
 }

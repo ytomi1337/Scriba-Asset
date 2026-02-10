@@ -78,4 +78,11 @@ export default {
   assignAsset(payload){
     return apiAssetClient.post('/assets/assign', payload)
   },
+  uploadTaskFile(formData){
+    return apiAssetClient.post('/tasks/upload', formData, {
+      headers: {
+      'Content-Type': 'multipart/form-data',
+     },
+    })
+  }
 }
