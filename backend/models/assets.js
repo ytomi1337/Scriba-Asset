@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     category_id:    { type: DataTypes.INTEGER, allowNull: true },
     license_id:     { type: DataTypes.INTEGER, allowNull: true },
     status_id:      { type: DataTypes.INTEGER, allowNull: true },
-    user_id:        { type: DataTypes.INTEGER, allowNull: true },
+    user_id:        { type: DataTypes.UUID, allowNull: true },
     model_id:      { type: DataTypes.INTEGER, allowNull: true },
     localization_id:      { type: DataTypes.INTEGER, allowNull: false },
   }, { tableName: 'assets', timestamps: true });

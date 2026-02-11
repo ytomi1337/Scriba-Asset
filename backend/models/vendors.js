@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
 
   Vendor.associate = (models) => {
     Vendor.hasMany(models.Model, { foreignKey: 'vendor_id', as: 'models' });
-    Vendor.hasMany(models.Phone, { foreignKey: 'vendor_id', as: 'phones' });
   };
 
   return Vendor;

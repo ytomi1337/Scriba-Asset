@@ -15,13 +15,16 @@ const createError = require('http-errors');
 
 const localizationsRouter = require('./routes/localizations.js');
 const tasksRouter = require('./routes/tasks.js')
+const simCardRouter = require('./routes/simCards.js')
 const modelRouter = require('./routes/models.js')
 const vendorsRouter = require('./routes/vendors.js');
 const statusesRouter = require('./routes/statuses.js');
+const phoneRouter = require('./routes/phones.js')
 const usersRouter = require('./routes/users.js');
 const categoriesRouter = require('./routes/categories.js');
 const assetsRouter = require('./routes/assets.js');
 const authRouter = require('./routes/auth.js')
+
 
 
 const app = express();
@@ -59,7 +62,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', localizationsRouter);
 app.use('/', tasksRouter);
 app.use('/', vendorsRouter);
+app.use('/', simCardRouter);
 app.use('/', statusesRouter);
+app.use('/', phoneRouter);
 app.use('/', usersRouter);
 app.use('/', categoriesRouter);
 app.use('/', assetsRouter);
