@@ -1,11 +1,10 @@
 <script setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, computed } from 'vue';
   import { useDircetoryStore } from '@/stores/directoryStore';
   import apiAssetClient from '@/services/apiAssetClient';
 
   const directoryStore = useDircetoryStore()
   const asset = ref({})
-
 
   onMounted( async () => {
     await directoryStore.fetch('assetModels')
@@ -22,6 +21,16 @@
     
   })
 
+  const selectedModel = computed(() => {
+    return directoryStore.assetModels.find(
+      m => m.id === asset.value.model_id
+    )
+  })
+
+  const selectedCategory = computed(() => {
+    return selectedModel.value?.category.name || ''
+  })
+
   const submitAsset = async () => {
     try{
       await apiAssetClient.createAsset(asset.value)
@@ -31,6 +40,8 @@
       console.log('Error', err);
     }
   }
+
+  
 </script>
 <template>
   <v-form>
@@ -65,17 +76,12 @@
       chips>
       </v-autocomplete>
 
-      <v-autocomplete
-      :items="directoryStore.categories"
-      item-title="name"
-      item-value="id"
-      label="Category"
-      v-model="asset.category_id"
-      clearable
-      no-data-text="No Categories found"
-      hide-details
-      chips>
-      </v-autocomplete>
+      <v-text-field
+        label="Category"
+        :model-value="selectedCategory"
+        readonly
+        hide-details
+      />
 
       <v-autocomplete
       :items="directoryStore.statuses"

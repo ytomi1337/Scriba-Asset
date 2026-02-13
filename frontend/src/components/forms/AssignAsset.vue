@@ -10,7 +10,7 @@
         { title: 'ID', key: 'it_num' },
         { title: 'SN', key: 'serial_num', sortable: false,},
         { title: 'Model', key: 'model.name', sortable: false, },      
-        { title: 'Category', key: 'category.name', sortable: false, } 
+        { title: 'Category', key: 'model.category.name', sortable: false, } 
     ]
     const assets = ref([])
     const selectedAssets = ref([])

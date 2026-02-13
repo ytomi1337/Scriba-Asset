@@ -10,7 +10,7 @@
     { title: 'Model', key: 'model.name' },
     { title: 'Status', key: 'status.name' },
     { title: 'User', key: 'user.name' },
-    { title: 'Category', key: 'category.name' },
+    { title: 'Category', key: 'model.category.name' },
     { title: 'Warranty', key: 'warranty_date' },
     { title: 'Recipt Date', key: 'recipt_date' },
     { title: 'Action', },
