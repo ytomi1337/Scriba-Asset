@@ -14,11 +14,11 @@
             <v-list>
                 <v-list-item
                 title="Name:"
-                :subtitle="asset.name">
+                :subtitle="asset.model.name">
                 </v-list-item>
                 <v-list-item
                 title="Serlia Number:"
-                :subtitle="asset.serialnum">
+                :subtitle="asset.serial_num">
                 </v-list-item>
                 <v-list-item
                 title="IT number:"
@@ -34,11 +34,11 @@
             <v-list>
                 <v-list-item
                 title="Category:"
-                :subtitle="asset.category.name">
+                :subtitle="asset.model.category.name">
                 </v-list-item>
                 <v-list-item
                 title="Localization:"
-                :subtitle="asset.localization">
+                :subtitle="asset.localization.name">
                 </v-list-item>
                 <v-list-item
                 title="Status:"
@@ -46,7 +46,7 @@
                 </v-list-item>
                 <v-list-item
                 title="Vendor"
-                :subtitle="asset.vendor">
+                :subtitle="asset.model.vendor.name">
                 </v-list-item>
             </v-list>
         </v-col>

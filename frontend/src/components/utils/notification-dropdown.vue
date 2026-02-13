@@ -124,7 +124,7 @@ const taskDecision = async (decision) => {
                         {{ item.asset.serial_num }}
                     </v-col>
                     <v-col cols="1">
-                        <v-icon :icon="item.asset.category.icon "></v-icon>
+                        <v-icon :icon="item.asset.model.category.icon "></v-icon>
                     </v-col>
                 </v-row>
             </v-list-item>

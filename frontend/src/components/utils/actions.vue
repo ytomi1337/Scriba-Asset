@@ -17,6 +17,7 @@
   ]
   const managementItems = [
     ['Assign Asset', 'mdi-clipboard-check'],
+    ['Assign Phone', 'mdi-cellphone-check'],
     ['User Transfer', 'mdi-account-switch'],
     ['Return', 'mdi-arrow-u-left-top'],
   ]
