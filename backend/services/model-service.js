@@ -1,10 +1,11 @@
-const { Model, Vendor } = require('../models');
+const { Model, Vendor, Category } = require('../models');
 
 module.exports = {
     async getAll(){
         return Model.findAll({
             include: [
-                { model:Vendor, as: 'vendor', attributes:['id', 'name']}
+                { model:Vendor, as: 'vendor', attributes:['id', 'name']},
+                { model:Category, as: 'category', attributes:['id', 'name']}
             ]
         })
     },

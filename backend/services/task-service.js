@@ -1,6 +1,6 @@
 
 
-const { Task, TaskAsset, Asset, Category, Model, User } = require('../models')
+const { Task, TaskAsset, Asset, Category, Model, User, Vendor } = require('../models')
 
 module.exports = {
     async getUserTask (userId){
@@ -13,8 +13,15 @@ module.exports = {
                         model: Asset, 
                         as: 'asset',
                         include:[
-                            { model: Category, as: 'category', attributes: [ 'id', 'name', 'icon' ] },
-                            { model: Model, as: 'model', attributes: [ 'id', 'name',]},
+                            { 
+                                model: Model, 
+                                as: 'model', 
+                                attributes: [ 'id', 'name', 'vendor_id', 'category_id' ],
+                                include: [
+                                    { model: Vendor, as: 'vendor', attributes: ['id', 'name']},
+                                    { model: Category, as: 'category', attributes: ['id', 'name', 'icon']}
+                                ]
+                            },
                         ]
                     },
                 ]

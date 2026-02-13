@@ -8,10 +8,12 @@ module.exports = {
                 { 
                     model: Model, 
                     as: 'model', 
-                    attributes: [ 'id', 'name', 'vendor_id' ],
-                    include: [{ model: Vendor, as: 'vendor', attributes: ['id', 'name']}]
+                    attributes: [ 'id', 'name', 'vendor_id', 'category_id' ],
+                    include: [
+                        { model: Vendor, as: 'vendor', attributes: ['id', 'name']},
+                        { model: Category, as: 'category', attributes: ['id', 'name']}
+                    ]
                 },
-                { model: Category, as: 'category', attributes: [ 'id', 'name', 'icon' ]},
                 { model: Localization, as: 'localization', attributes: [ 'id', 'name', 'prefix' ]},
                 { model: Status, as: 'status', attributes: [ 'id', 'name' ]},
             ]
@@ -29,8 +31,15 @@ module.exports = {
                     attributes: [],
                     where: { localization_id: user.localization_id }
                 },
-                { model: Model, as: 'model', attributes: [ 'id', 'name',] },
-                { model: Category, as: 'category', attributes: [ 'id', 'name', 'icon' ]},
+                { 
+                    model: Model, 
+                    as: 'model', 
+                    attributes: [ 'id', 'name', 'vendor_id', 'category_id' ],
+                    include: [
+                        { model: Vendor, as: 'vendor', attributes: ['id', 'name']},
+                        { model: Category, as: 'category', attributes: ['id', 'name']}
+                    ]
+                },
                 { model: Status, as: 'status', attributes: [ 'id', 'name' ]},
             ]
         });
@@ -57,11 +66,19 @@ module.exports = {
                 status_id: 1
             },
             include: [
-                { model: Model, as: 'model', attributes: ['vendor_id', 'name'], 
-                  include: [{ model: Vendor, as: 'vendor', attributes: ['name'] }]
+                { 
+                    model: Model, 
+                    as: 'model', 
+                    attributes: [ 'id', 'name', 'vendor_id', 'category_id' ],
+                    include: [
+                        { model: Vendor, as: 'vendor', attributes: ['id', 'name']},
+                        { model: Category, as: 'category', attributes: ['id', 'name', 'icon']}
+                    ]
                 },
-                { model: Status, as:'status', attributes: ['name']},
-                { model: Category, as:'category', attributes: ['name', 'icon']}
+                { model: Status, as:'status', attributes: ['id','name']},
+                { model: Localization, as:'localization', attributes: ['id','name']},
+                
+                
             ]
         })
     },
