@@ -17,18 +17,18 @@ export default {
     return apiAssetClient.get("/auth/profile");
   },
 
-  getUserAssets(){
-    return apiAssetClient.get(`/assets/user`)
+  getUserAssets(user_id){
+    return apiAssetClient.get(`/assets/${user_id}`)
   },
 
   getAssets(){
     return apiAssetClient.get(`/assets`)
   },
 
-  getAvailableAssets(){
-    return apiAssetClient.get(`/assets/stock`)
+  getStock(){
+    return apiAssetClient.get(`/assets/stock/`)
   },
-  getLastSequence(user_id){
+  getLastSequence(){
     return apiAssetClient.get(`/assets/info/nextseq`)
   },
 
@@ -54,9 +54,6 @@ export default {
   getUsers(){
     return apiAssetClient.get('/users')
   },
-  getUsersFromLocalziation(){
-    return apiAssetClient.get('/users/usersFromLocalization')
-  },
 
   logout() {
     return apiAssetClient.get("/auth/logout");
@@ -70,19 +67,15 @@ export default {
   },
 
   createUser(payload){
-    return apiAssetClient.post('/invite', payload)
+    return apiAssetClient.post('/createUser', payload)
   },
   createAsset(asset){
     return apiAssetClient.post('/assets', asset)
   },
+  createPhone(payload){
+    return apiAssetClient.post('/phones', payload)
+  },
   assignAsset(payload){
     return apiAssetClient.post('/assets/assign', payload)
   },
-  uploadTaskFile(formData){
-    return apiAssetClient.post('/tasks/upload', formData, {
-      headers: {
-      'Content-Type': 'multipart/form-data',
-     },
-    })
-  }
 }

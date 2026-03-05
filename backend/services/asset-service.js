@@ -1,23 +1,34 @@
-const { Asset, User, Model, Category, Status, Vendor, Localization, Task, TaskAsset } = require('../models');
+const { Op } = require('sequelize');
+const { Asset, User, SimCard, Model, Category, Status, Vendor, Phone, Localization, Task, TaskAsset } = require('../models');
 
 module.exports = {
     async getAll(){
-        return await Asset.findAll({
+
+        const assets = await Asset.findAll({
             include: [
-                { model: User, as: 'user', attributes: [ 'id', 'name' ]},
-                { 
-                    model: Model, 
-                    as: 'model', 
-                    attributes: [ 'id', 'name', 'vendor_id', 'category_id' ],
-                    include: [
-                        { model: Vendor, as: 'vendor', attributes: ['id', 'name']},
-                        { model: Category, as: 'category', attributes: ['id', 'name']}
-                    ]
-                },
-                { model: Localization, as: 'localization', attributes: [ 'id', 'name', 'prefix' ]},
-                { model: Status, as: 'status', attributes: [ 'id', 'name' ]},
+            { model: User, as: 'user', attributes: ['id','name'] },
+            { 
+                model: Model,
+                as: 'model',
+                attributes: ['id','name','vendor_id','category_id'],
+                include: [
+                    { model: Vendor, as: 'vendor', attributes: ['id','name'] },
+                    { model: Category, as: 'category', attributes: ['id','name'] }
+                ]
+            },
+            { model: Localization, as: 'localization', attributes: ['id','name','prefix'] },
+            { model: Status, as: 'status', attributes: ['id','name'] },
+            { model: Phone, as: 'phone', attributes: ['imei','sim_card_id'],
+                include: [
+                    { model: SimCard, as:'sim-card', attributes: ['nr']}
+                ]
+             }
             ]
         })
+
+        return {
+            assets: assets.filter(a => a.model.category_id !== 9),    
+        }
     },
     async getStock(userId){
         const user = await User.findByPk(userId, { attributes: ['localization_id'] })

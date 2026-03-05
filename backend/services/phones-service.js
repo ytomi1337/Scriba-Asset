@@ -30,7 +30,7 @@ module.exports = {
                 serial_num: payload.serial_num,
                 // note: payload.note,
                 // warranty_date: payload.warranty_date,
-                status_id: payload.status_id,
+                status_id: 3,
                 sequence: nextSeq,
                 model_id: payload.model_id,
                 localization_id: user.localization_id,

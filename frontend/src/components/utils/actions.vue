@@ -5,6 +5,7 @@
   import AddPhoneForm from '../forms/AddPhoneForm.vue'
   import AddUserForm from '../forms/AddUserForm.vue'
   import AssignAsset from '../forms/AssignAsset.vue'
+  import AssignPhone from '../forms/AssignPhone.vue'
 
   const dialog = ref(false)
   const selectedForm = ref(null)
@@ -39,6 +40,8 @@
                 return AddLicenseForm
             case 'Assign Asset':
                 return AssignAsset
+            case 'Assign Phone':
+                return AssignPhone
             default:
                 return null
         } 

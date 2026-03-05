@@ -1,12 +1,16 @@
 <script setup>
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, watch, computed } from 'vue';
     import apiAssetClient from '@/services/apiAssetClient';
-    import { useUserStore } from '@/stores/userStore';
     import { useDircetoryStore } from '@/stores/directoryStore';
 
-    const userStore = useUserStore()
     const directoryStore = useDircetoryStore()
     const headers = [
+        { title: 'ID', key: 'it_num' },
+        { title: 'SN', key: 'serial_num', sortable: false,},
+        { title: 'Model', key: 'model.name', sortable: false, },      
+        { title: 'Category', key: 'model.category.name', sortable: false, } 
+    ]
+    const phoneHeaders = [
         { title: 'ID', key: 'it_num' },
         { title: 'SN', key: 'serial_num', sortable: false,},
         { title: 'Model', key: 'model.name', sortable: false, },      
@@ -16,10 +20,11 @@
     const selectedAssets = ref([])
     const search = ref('')
     const user = ref(null)
-    const users = ref([])
+    const selectedCategory = ref(null)
 
     onMounted( async () => {
-        directoryStore.fetch('users');
+        await directoryStore.fetch('users');
+        await directoryStore.fetch('categories')
 
         try{
             const res = await apiAssetClient.getStock();
@@ -52,9 +57,19 @@
         <v-list-item-subtitle>In the database, you will create a placeholder for the user to who you will be able to assign 
             devices after their first successful login. The placeholder will change to a regular user.</v-list-item-subtitle>
     </v-list>
+        <v-autocomplete
+      :items="directoryStore.categories"
+      item-title="name"
+      item-value="id"
+      label="Asset Category:"
+      v-model="selectedCategory"
+      no-data-text="No Categories found"
+      hide-details
+      chips>
+      </v-autocomplete>
 
     <v-autocomplete
-      :items="users"
+      :items="directoryStore.users"
       item-title="name"
       item-value="id"
       label="Select User"
@@ -66,6 +81,7 @@
       </v-autocomplete>
 
     <v-data-table
+      v-if="selectedCategory"
       :headers="headers"
       :items="assets"
       v-model="selectedAssets"
