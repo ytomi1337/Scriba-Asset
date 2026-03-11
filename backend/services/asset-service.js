@@ -2,34 +2,105 @@ const { Op } = require('sequelize');
 const { Asset, User, SimCard, Model, Category, Status, Vendor, Phone, Localization, Task, TaskAsset } = require('../models');
 
 module.exports = {
-    async getAll(){
+    async getAllAssets(query){
 
-        const assets = await Asset.findAll({
+        const page = parseInt(query.page) || 1
+        const limit = parseInt(query.limit) || 25
+        const offset = (page - 1) * limit
+
+        const sortKey = query.sortKey || 'it_num'
+        const sortValue = query.sortValue || 'asc'
+
+        console.log(query);
+
+        //Filters
+        const where = {}
+        const modelWhere = {}
+        
+        if(query.status){
+            where.status_id = query.status
+        }
+        if(query.user){
+            where.user_id = query.user
+        }
+        if(query.warranty){
+            const today = new Date()
+            
+            if(query.warranty === 'active'){
+                where.warranty_date = {
+                    [Op.gt]: today
+                }
+            }
+            
+            if(query.warranty === 'expired'){
+                where.warranty_date = {
+                    [Op.lt]: today
+                }
+            }
+        }
+        if(query.model){
+            modelWhere.name = query.model
+        }
+        
+        if (query.category) {
+         modelWhere.category_id = query.category
+        } else {
+            modelWhere.category_id = {
+            [Op.ne]: 9
+        }
+        }
+        
+
+        //Search
+        if(query.search){
+            where[Op.or] = [
+                {
+                    it_num: {
+                        [Op.iLike]: `%${query.search}%`
+                    },
+                },
+                {
+                    serial_num: {
+                        [Op.iLike]: `%${query.search}%`
+                    },
+                }
+            ]
+        }
+
+        const { count, rows } = await Asset.findAndCountAll({
+            attributes: ['id', 'it_num', 'serial_num', 'warranty_date', 'recipt_date'],
+            where,
+            limit,
+            offset,
+            order: [[sortKey, sortValue]],
+            // distinct: true, 
             include: [
-            { model: User, as: 'user', attributes: ['id','name'] },
-            { 
-                model: Model,
-                as: 'model',
-                attributes: ['id','name','vendor_id','category_id'],
-                include: [
-                    { model: Vendor, as: 'vendor', attributes: ['id','name'] },
-                    { model: Category, as: 'category', attributes: ['id','name'] }
-                ]
-            },
-            { model: Localization, as: 'localization', attributes: ['id','name','prefix'] },
-            { model: Status, as: 'status', attributes: ['id','name'] },
-            { model: Phone, as: 'phone', attributes: ['imei','sim_card_id'],
-                include: [
-                    { model: SimCard, as:'sim-card', attributes: ['nr']}
-                ]
-             }
+                { model: User, as: 'user', attributes: [ 'id', 'name' ] },
+                { model: Status, as: 'status', attributes: [ 'id', 'name' ] },
+                { model: Localization, as: 'localization', attributes: [ 'id', 'name' ] },
+                { 
+                    model: Model, 
+                    as: 'model', 
+                    attributes: [ 'id', 'name', 'category_id'],
+                    where: Object.keys(modelWhere).length?modelWhere:undefined,
+                    include: [
+                        { model: Category, as: 'category', attributes: [ 'id', 'name' ] }
+                    ]
+                },
             ]
         })
 
         return {
-            assets: assets.filter(a => a.model.category_id !== 9),    
+            data: rows,
+            meta: {
+                total: count,
+                page,
+                pages: Math.ceil(count / limit),
+                limit
+            }
         }
     },
+
     async getStock(userId){
         const user = await User.findByPk(userId, { attributes: ['localization_id'] })
 
@@ -136,3 +207,5 @@ module.exports = {
     }
     
 }
+
+//dodac wiecej modeli by mozna bylo sprawdzic jak dziala kategoria dokonczyc wyrzucanie danych do tabli phones

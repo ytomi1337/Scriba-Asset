@@ -1,9 +1,9 @@
 const assetService = require('../services/asset-service');
 
 module.exports = {
-    async getAll(req, res){
+    async getAllAssets(req, res){
         try{
-            const assets = await assetService.getAll();
+            const assets = await assetService.getAllAssets(req.query);
             return res.json(assets);
         }catch (err) {
             console.error('Get /assets: ', err);

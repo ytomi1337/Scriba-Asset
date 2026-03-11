@@ -17,12 +17,14 @@ export default {
     return apiAssetClient.get("/auth/profile");
   },
 
-  getUserAssets(user_id){
-    return apiAssetClient.get(`/assets/${user_id}`)
+  getUserAssets(){
+    return apiAssetClient.get(`/assets/user`)
   },
 
-  getAssets(){
-    return apiAssetClient.get(`/assets`)
+  getAllAssets(querry){
+    
+    return apiAssetClient.get(`/assets/`,{ 
+      params: querry })
   },
 
   getStock(){
