@@ -1,6 +1,16 @@
 const phoneService = require('../services/phones-service');
 
 module.exports = {
+
+    async getAllPhones(req, res){
+            try{
+                const phones = await phoneService.getAllPhones(req.query);
+                return res.json(phones);
+            }catch (err) {
+                console.error('Get /phones: ', err);
+                return res.status(500).json({error: 'internal_server_error'})
+            }
+        },
     async create(req, res){
         try{
             const phone = await phoneService.create(req.user.id, req.body);

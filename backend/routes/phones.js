@@ -8,6 +8,7 @@ const ensureAuthenticated = require('../middleware/isAuthenticated');
 
 // router.get('/vendors', vendorController.getAll)
 
+router.get('/phones', ensureAuthenticated , phonesController.getAllPhones)
 router.post('/phones', ensureAuthenticated , phonesController.create)
 router.post('/phones/assign', ensureAuthenticated, phonesController.assign)
 

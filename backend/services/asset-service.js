@@ -11,8 +11,6 @@ module.exports = {
         const sortKey = query.sortKey || 'it_num'
         const sortValue = query.sortValue || 'asc'
 
-        console.log(query);
-
         //Filters
         const where = {}
         const modelWhere = {}
@@ -49,7 +47,6 @@ module.exports = {
             [Op.ne]: 9
         }
         }
-        
 
         //Search
         if(query.search){

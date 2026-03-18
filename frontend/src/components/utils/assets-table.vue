@@ -30,19 +30,18 @@
     { title: 'User', key: 'user.name' },
     { title: 'Category', key: 'model.category.name' },
     { title: 'Warranty', key: 'warranty_date' },
+    { title: 'Action', },
+    ]
+    const phoneColumns = [
+    { title: 'Serial Number', key: 'serial_num' },
+    { title: 'IMEI', key: 'imei' },
+    { title: 'Model', key: 'model' },
+    { title: 'Status', key: 'status' },
+    { title: 'User', key: 'user' },
+    { title: 'Nr Tel', key: 'nr_tel' },
     { title: 'Recipt Date', key: 'recipt_date' },
     { title: 'Action', },
     ]
-    // const phoneColumns = [
-    // { title: 'Serial Number', key: 'serial_num' },
-    // { title: 'IMEI', key: 'model.name' },
-    // { title: 'Model', key: 'model.imei' },
-    // { title: 'Status', key: 'status.name' },
-    // { title: 'User', key: 'user.name' },
-    // { title: 'Warranty', key: 'warranty_date' },
-    // { title: 'Recipt Date', key: 'recipt_date' },
-    // { title: 'Action', },
-    // ]
 
     async function fetchAssets () {
         try{
@@ -67,22 +66,54 @@
         }
     }
 
-    async function loadItems(options) {
+    async function fetchPhones () {
+        try{
+            loading.value = true
 
+            const res = await apiAssetClient.getAllPhones({
+                page: page.value,
+                limit: itemsPerPage.value,
+                
+                search: filters.value.search,
+                user: filters.value.user,
+                nr_tel: filters.value.nr_tel
+            })
+
+            phones.value = res.data.data
+            console.log(phones.value);
+            totalItems.value = res.data.meta.total
+        }catch(err){
+            console.log(err);
+        }finally{
+            loading.value = false
+        }
+    }
+
+    async function fetchData(){
+        if(activeChip.value === 'Assets'){
+            await fetchAssets()
+        } else {
+            await fetchPhones()
+        }
+    }
+
+    async function loadItems(options){
         page.value = options.page
         itemsPerPage.value = options.itemsPerPage
 
-        await fetchAssets()
+        await fetchData()
     }
 
     onMounted( async () =>{
         await directoryStore.fetch('categories')
         await directoryStore.fetch('users')
+
+        await fetchData()
     })
 
     watch(filters, () => {
         page.value = 1
-        fetchAssets()
+        fetchData()
     }, { deep: true })
 </script>
 
@@ -91,7 +122,7 @@
     <v-sheet>
     </v-sheet>
 
-    <v-row no-gutters>
+    <v-row no-gutters v-if="activeChip == 'Assets'">
         <v-text-field
             v-model="filters.search"
             label="Search"
@@ -118,27 +149,49 @@
         </v-select>
 
     </v-row>
+
+    <v-row no-gutters v-if="activeChip == 'Phones'">
+        <v-text-field
+            v-model="filters.search"
+            label="Search"
+            clearable>
+        </v-text-field>
+
+        <v-text-field
+            v-model="filters.nr_tel"
+            label="Nr Tel"
+            clearable>
+        </v-text-field>
+        <v-select
+            v-model="filters.user"
+            :items="directoryStore.users"
+            item-title="name"
+            item-value="id"
+            label="User"
+            clearable>
+
+        </v-select>
+
+    </v-row>
+
     <v-card>
         <v-data-table
-        v-if="activeChip == 'Assets'"
+        v-if="activeChip === 'Assets'"
         :headers="columns"
         :items="assets"
-        :loading="loading"
         :items-length="totalItems"
-        :items-per-page="itemsPerPage"
-        :page="page"
+        :loading="loading"
         @update:options="loadItems"
-        height="auto"
-        fixed-header>
-        </v-data-table>
+        />
 
-        <!-- <v-data-table
-        v-if="activeChip == 'Phones'"
+        <v-data-table
+        v-if="activeChip === 'Phones'"
         :headers="phoneColumns"
-        fixed-header
         :items="phones"
-        height="auto">
-        </v-data-table> -->
+        :items-length="totalItems"
+        :loading="loading"
+        @update:options="loadItems"
+        />
     </v-card>
 </template>
 
