@@ -30,10 +30,10 @@ module.exports = {
     },
     async getUserAssets(req, res){
         try{
-            const assets = await assetService.getUserAssets(req.user.id);
+            const assets = await assetService.getUserAssets(req.params.userId);
             return res.json(assets);
         }catch (err) {
-            console.error('Get /assets/user:', err);
+            console.error('Get /assets/user/:userId:', err);
             return res.status(500).json({error: 'internal_server_error'})
         }
     },
@@ -50,6 +50,15 @@ module.exports = {
         try{
             await assetService.assign(req.user.id, req.body);
             return res.status(201).json({ message: 'assigned' });
+        }catch (err) {
+            console.error('POST /assets/assign:', err);
+            return res.status(500).json({error: 'internal_server_error'})
+        }
+    },
+    async returnAsset(req, res){
+        try{
+            await assetService.returnAsset(req.user.id, req.body);
+            return res.status(201).json({ message: 'Returned' });
         }catch (err) {
             console.error('POST /assets/assign:', err);
             return res.status(500).json({error: 'internal_server_error'})

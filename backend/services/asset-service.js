@@ -194,15 +194,28 @@ module.exports = {
         })
 
         await Asset.update(
-            { status_id: 2, user_id: user},
-            { where: { id: assets }}
+            {   status_id: 2},
+            {   where: {    id: assets  }}
         )
+        await TaskAsset.bulkCreate(
+            assets.map(id => ({ task_id: task.id, asset_id: id }))
+        );
+    },
+    async returnAsset (assignedBy, payload){
+        const { user, assets } = payload
+
+        const task = await Task.create({
+            assigned_by: assignedBy,
+            assigned_to: user,
+            type: 'Return'
+        })
+
 
         await TaskAsset.bulkCreate(
             assets.map(id => ({ task_id: task.id, asset_id: id }))
         );
+
     }
     
 }
 
-//dodac wiecej modeli by mozna bylo sprawdzic jak dziala kategoria dokonczyc wyrzucanie danych do tabli phones

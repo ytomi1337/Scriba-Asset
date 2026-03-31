@@ -42,7 +42,7 @@ export const useDircetoryStore = defineStore('directory', {
                     res = await apiAssetClient.getModels()
                     break
                 case 'users':
-                    res = await apiAssetClient.getUsers()
+                    res = await apiAssetClient.getUsersFromLocalization()
                     break
                 default:
                     throw new Error(`Unknow dictionary type: ${type}`)

@@ -6,6 +6,7 @@
   import AddUserForm from '../forms/AddUserForm.vue'
   import AssignAsset from '../forms/AssignAsset.vue'
   import AssignPhone from '../forms/AssignPhone.vue'
+  import ReturnAsset from '../forms/ReturnAsset.vue'
 
   const dialog = ref(false)
   const selectedForm = ref(null)
@@ -20,7 +21,7 @@
     ['Assign Asset', 'mdi-clipboard-check'],
     ['Assign Phone', 'mdi-cellphone-check'],
     ['User Transfer', 'mdi-account-switch'],
-    ['Return', 'mdi-arrow-u-left-top'],
+    ['Return Asset', 'mdi-arrow-u-left-top'],
   ]
 
     const openForm = (action) =>{
@@ -42,6 +43,8 @@
                 return AssignAsset
             case 'Assign Phone':
                 return AssignPhone
+            case 'Return Asset':
+                return ReturnAsset
             default:
                 return null
         } 

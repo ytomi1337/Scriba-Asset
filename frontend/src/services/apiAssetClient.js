@@ -17,8 +17,8 @@ export default {
     return apiAssetClient.get("/auth/profile");
   },
 
-  getUserAssets(){
-    return apiAssetClient.get(`/assets/user`)
+  getUserAssets(user){
+    return apiAssetClient.get(`/assets/user/${user}`)
   },
 
   getAllAssets(querry){
@@ -61,6 +61,9 @@ export default {
   getUsers(){
     return apiAssetClient.get('/users')
   },
+  getUsersFromLocalization(){
+    return apiAssetClient.get('/users/usersFromLocalization')
+  },
 
   logout() {
     return apiAssetClient.get("/auth/logout");
@@ -84,5 +87,8 @@ export default {
   },
   assignAsset(payload){
     return apiAssetClient.post('/assets/assign', payload)
+  },
+  returnAsset(payload){
+    return apiAssetClient.post('/assets/return', payload)
   },
 }

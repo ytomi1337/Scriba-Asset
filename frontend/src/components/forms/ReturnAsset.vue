@@ -1,10 +1,8 @@
 <script setup>
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, watch } from 'vue';
     import apiAssetClient from '@/services/apiAssetClient';
-    import { useUserStore } from '@/stores/userStore';
     import { useDircetoryStore } from '@/stores/directoryStore';
 
-    const userStore = useUserStore()
     const directoryStore = useDircetoryStore()
     const headers = [
         { title: 'ID', key: 'it_num' },
@@ -14,19 +12,27 @@
     ]
     const assets = ref([])
     const selectedAssets = ref([])
-    const search = ref('')
     const user = ref(null)
-    const users = ref([])
+    const loading = ref(false)
 
     onMounted( async () => {
         directoryStore.fetch('users');
+    })
 
+    watch(user, async() => {
+        if(user.value == null){
+            assets.value = []
+            return
+        }
         try{
-            const res = await apiAssetClient.getStock();
-            assets.value = res.data
+            loading.value = true
 
-        }catch (err) {
-            console.error("❌ Error during loading availbe assets:", err);
+            const res = await apiAssetClient.getUserAssets(user.value)
+            assets.value = res.data
+        }catch(err){
+            console.log(err);
+        }finally{
+            loading.value = false
         }
     })
 
@@ -36,9 +42,7 @@
                 user: user.value,
                 assets: selectedAssets.value.map(a => a.id)
             }
-
-            console.log(payload);
-            await apiAssetClient.assignAsset(payload)
+            await apiAssetClient.returnAsset(payload)
             console.log('Dodano poprawnie');
         }catch(err){
             console.log(err);
@@ -72,11 +76,10 @@
       return-object
       show-select
       item-value="id"
-      :search="search"
       hide-default-footer
     />
 
     <v-row>
-        <v-btn @click="submitAssign">Assign</v-btn>
+        <v-btn @click="submitAssign">Return</v-btn>
     </v-row>
 </template>

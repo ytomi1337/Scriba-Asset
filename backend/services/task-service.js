@@ -1,6 +1,6 @@
 
 
-const { Task, TaskAsset, Asset, Category, Model, User, Vendor } = require('../models')
+const { Task, TaskAsset, Asset, Category, Model, Localization, User, Vendor } = require('../models')
 
 module.exports = {
     async getUserTask (userId){
@@ -75,6 +75,13 @@ module.exports = {
             throw err;
         }
 
+        const user = await User.findOne({
+            where: { id: userId },
+            include: [
+                 { model: Localization, as: 'localization', attributes: ['id', 'name', 'prefix', 'stock_user_id']}
+            ]
+        })
+
         if (decision === 'confirm'){
             const taskItems = await TaskAsset.findAll({
                 where: { task_id: taskId }
@@ -82,10 +89,19 @@ module.exports = {
 
             const assetsIds = taskItems.map(i => i.asset_id)
 
-            await Asset.update(
-                {   user_id: task.assigned_to, status_id: 1},
-                {   where: { id: assetsIds } }
-            )
+            if(task.type == 'Assign'){
+                await Asset.update(
+                    {   user_id: task.assigned_to, status_id: 1},
+                    {   where: { id: assetsIds } }
+                )
+            }
+
+            if(task.type == 'Return'){
+                await Asset.update(
+                    {   user_id: user.localization.stock_user_id, status_id: 3},
+                    {   where: { id: assetsIds } }
+                )
+            }
 
             await task.update({
                 status: 'Accepted',
@@ -93,7 +109,6 @@ module.exports = {
             })
             return {
                 success: true,
-                status: 'Accepted',
                 task
             };
         }

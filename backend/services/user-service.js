@@ -21,12 +21,14 @@ module.exports = {
             attributes: ['id', 'name']
         })
 
-        const stockUsers = await User.findAll({
-            where: { stock_user: true},
-            attributes: ['id', 'name']
-        })
+        //User stock ponizej
 
-        return { regularUsers, stockUsers}
+        // const stockUsers = await User.findAll({
+        //     where: { stock_user: true},
+        //     attributes: ['id', 'name']
+        // })
+
+        return regularUsers 
     },
     async invite( inviterId, payload){
 
