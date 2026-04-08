@@ -10,29 +10,29 @@
     <navBar />
 
     <v-main>
-        <v-container fluid class="pa-0 ma-8 bg-surface" style="height: calc(100vh - 110px);">
+        <v-container fluid class="d-flex flex-column bg-surface pa-0 ma-8">
 
-            <v-row style="height: 50%;" no-gutters>
-                <v-col cols="9" class="box">
-                    <assetsTable />
-                </v-col>
+  <v-row class="flex-grow-1" no-gutters>
+    <v-col cols="9" class="box">
+      <assetsTable />
+    </v-col>
 
-                <v-col cols="3" class="box">
-                    <actions />
-                </v-col>
-            </v-row>
+    <v-col cols="3" class="box">
+      <actions />
+    </v-col>
+  </v-row>
 
-            <v-row style="height: 50%;" no-gutters>
-                <v-col cols="9" class="box">
-                    <h1> documents</h1>
-                </v-col>
+  <v-row class="flex-grow-1" no-gutters>
+    <v-col cols="9" class="box">
+      <h1>documents</h1>
+    </v-col>
 
-                <v-col cols="3" class="box">
+    <v-col cols="3" class="box"></v-col>
+  </v-row>
 
-                </v-col>
-            </v-row>
+</v-container>
 
-        </v-container>
+
 
     </v-main>
 </template>

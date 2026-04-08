@@ -32,6 +32,7 @@ module.exports = {
     async uploadTaskFile(req, res){
         const { taskId } = req.body
         const file = req.file
+        console.log('im here');
 
         try{
             const result = await taskService.uploadTaskFile(taskId, file)

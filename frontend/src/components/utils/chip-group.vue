@@ -2,7 +2,7 @@
   import { ref, defineEmits } from 'vue';
 
   const emit = defineEmits(
-    ['send-active-chip']
+    ['send-active-chip', 'send-filter-dislpay']
   )
 
   const tags = [
@@ -10,14 +10,17 @@
     'Phones',
     'Licenses'
   ]
-
   const activeChip = (item) => {
     emit('send-active-chip', item)
+  }
+
+  const showFilter = () => {
+    emit('send-filter-dislpay')
   }
 </script>
 
 <template>
-  <v-sheet class="mx-3">
+  <v-row class="mx-3 justify-space-between align-center" no-gutters>
     <v-chip-group
       selected-class="text-primary"
       mandatory
@@ -29,5 +32,14 @@
         @click="activeChip(tag)"
       ></v-chip>
     </v-chip-group>
-  </v-sheet>
+    
+    <v-btn
+    icon
+    aria-label="filer"
+    flat
+    @click="showFilter()">
+      <v-icon>mdi-filter</v-icon>
+    </v-btn>
+    
+  </v-row>
 </template>

@@ -62,7 +62,7 @@
             <template v-slot:activator="{ props }">
                 <v-list-item
                 v-bind="props">
-                    <v-list-item-title class="text-">Add New</v-list-item-title>
+                    <v-list-item-title class="text-s">Add New</v-list-item-title>
                 </v-list-item>
             </template>
 
@@ -75,7 +75,7 @@
                 <template #prepend>
                    <v-icon size="18" :icon="icon"></v-icon>
                 </template>
-                <v-list-item-title class="text-s">{{ title }}</v-list-item-title>
+                <v-list-item-title class="text-xs">{{ title }}</v-list-item-title>
             </v-list-item>
         </v-list-group>
 
@@ -102,7 +102,7 @@
         </v-list-group>
     </v-list>
 
-    <v-dialog v-model="dialog" max-width="900">
+    <v-dialog v-model="dialog">
         <v-card>
             <v-card-text>
                 <component :is="getFormComponent(selectedForm)" />

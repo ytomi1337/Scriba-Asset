@@ -8,11 +8,14 @@
 
     const assets = ref([])
     const phones = ref([])
+
     const activeChip = ref('Assets')
+    const isFilterActive = ref(false)
+
     const loading = ref(false)
 
     const page = ref(1)
-    const itemsPerPage = ref(6)
+    const itemsPerPage = ref(9)
     const totalItems = ref(0)
 
     const filters = ref({
@@ -118,39 +121,46 @@
 </script>
 
 <template>
-    <chipGroup @send-active-chip="activeChip = $event "/>
+    <chipGroup 
+    @send-active-chip="activeChip = $event"
+    @send-filter-dislpay="isFilterActive = !isFilterActive, console.log(isFilterActive);"/>
     <v-sheet>
     </v-sheet>
 
-    <v-row no-gutters v-if="activeChip == 'Assets'">
-        <v-text-field
-            v-model="filters.search"
-            label="Search"
-            clearable>
-        </v-text-field>
+    <v-expand-transition>
+        <v-container v-show="isFilterActive">
+            <v-row 
+            v-if="activeChip == 'Assets'" 
+            >
+                <v-text-field
+                    v-model="filters.search"
+                    label="Search"
+                    clearable
+                    >
+                </v-text-field>
 
-        <v-select
-            v-model="filters.category"
-            :items="directoryStore.categories"
-            item-title="name"
-            item-value="id"
-            label="Category"
-            clearable>
+                <v-select
+                    v-model="filters.category"
+                    :items="directoryStore.categories"
+                    item-title="name"
+                    item-value="id"
+                    label="Category"
+                    clearable>
 
-        </v-select>
-        <v-select
-            v-model="filters.user"
-            :items="directoryStore.users"
-            item-title="name"
-            item-value="id"
-            label="User"
-            clearable>
+                </v-select>
+                <v-select
+                    v-model="filters.user"
+                    :items="directoryStore.users"
+                    item-title="name"
+                    item-value="id"
+                    label="User"
+                    clearable>
 
-        </v-select>
+                </v-select>
 
-    </v-row>
+            </v-row>
 
-    <v-row no-gutters v-if="activeChip == 'Phones'">
+            <v-row v-else>
         <v-text-field
             v-model="filters.search"
             label="Search"
@@ -172,8 +182,11 @@
 
         </v-select>
 
-    </v-row>
+            </v-row>
+        </v-container>
 
+        
+    </v-expand-transition>
     <v-card>
         <v-data-table
         v-if="activeChip === 'Assets'"
@@ -182,7 +195,11 @@
         :items-length="totalItems"
         :loading="loading"
         @update:options="loadItems"
+        density="compact"
+        height="325"
+        hide-default-footer
         />
+        
 
         <v-data-table
         v-if="activeChip === 'Phones'"
@@ -191,6 +208,9 @@
         :items-length="totalItems"
         :loading="loading"
         @update:options="loadItems"
+        density="compact"
+        height="325"
+        hide-default-footer
         />
     </v-card>
 </template>

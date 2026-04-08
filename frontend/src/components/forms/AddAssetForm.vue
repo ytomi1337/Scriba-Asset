@@ -27,10 +27,6 @@
     )
   })
 
-  const selectedCategory = computed(() => {
-    return selectedModel.value?.category.name || ''
-  })
-
   const submitAsset = async () => {
     try{
       await apiAssetClient.createAsset(asset.value)
@@ -68,20 +64,24 @@
       :items="directoryStore.assetModels"
       item-title="name"
       item-value="id"
+      label="Category"
+      v-model="asset.category_id"
+      clearable
+      no-data-text="No Category found"
+      hide-details
+      >
+      </v-autocomplete>
+      <v-autocomplete
+      :items="directoryStore.assetModels"
+      item-title="name"
+      item-value="id"
       label="Asset Model"
       v-model="asset.model_id"
       clearable
       no-data-text="No Models found"
       hide-details
-      chips>
+      >
       </v-autocomplete>
-
-      <v-text-field
-        label="Category"
-        :model-value="selectedCategory"
-        readonly
-        hide-details
-      />
 
       <v-autocomplete
       :items="directoryStore.statuses"
@@ -106,7 +106,7 @@
     </v-row>
 
     <v-row class="justify-center mt-9">
-      <v-btn width="100%">Add another</v-btn>
+      <v-btn width="100%" disabled>Add another</v-btn>
     </v-row>
     <v-row class="justify-center mt-9">
       <v-btn @click="submitAsset">submit</v-btn>

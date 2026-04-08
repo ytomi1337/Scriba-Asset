@@ -91,4 +91,11 @@ export default {
   returnAsset(payload){
     return apiAssetClient.post('/assets/return', payload)
   },
+  uploadTaskFile(formData) {
+    return apiAssetClient.post('/tasks/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+  }
 }

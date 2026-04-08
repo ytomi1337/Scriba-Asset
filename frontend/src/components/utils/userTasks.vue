@@ -8,6 +8,19 @@
     const activeTask = ref(null)
     const selectedFile = ref(null)
 
+    const taskTitle = computed(() => {
+        if (!activeTask.value) return ''
+
+        switch (activeTask.value.type) {
+            case 'Assign':
+            return `${activeTask.value.assignedBy.name} sends you new devices to receive.`
+            case 'Return':
+            return `${activeTask.value.assignedBy.name} requires your devices to return.`
+            default:
+            return `${activeTask.value.assignedBy.name} sent you a task.`
+        }
+        })
+
     onMounted ( async () =>{
         try{
             const res = await apiAssetClient.getTasks()
@@ -89,7 +102,7 @@ const printDocument = () => {
         max-width="600">
 
         <v-card
-        :title="`${activeTask.assignedBy.name}, sends you new devices to receive.`"
+        :title="taskTitle"
         :subtitle="`Date: ${formatDate(activeTask.created_at)}`"
         >
         <template v-slot:prepend>
