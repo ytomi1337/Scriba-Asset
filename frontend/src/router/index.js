@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Profile from '../views/ProfilePanel.vue';
 import LoginPanel from '@/views/LoginPanel.vue';
 import adminPanel from '@/views/adminPanel.vue';
-import api from "@/services/apiAssetClient";
+
 import { useUserStore } from '@/stores/userStore';
+import AssetDetailsView from '@/views/AssetDetailsView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +14,13 @@ const router = createRouter({
       name: 'profile',
       component: Profile,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/asset/:id',
+      name: 'asset-details',
+      component: AssetDetailsView,
+      meta: { requiresAuth: true },
+      props: true,
     },
     {
       path: '/admin',

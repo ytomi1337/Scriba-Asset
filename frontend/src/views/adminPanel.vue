@@ -10,37 +10,31 @@
     <navBar />
 
     <v-main>
-        <v-container fluid class="d-flex flex-column bg-surface pa-0 ma-8">
+        <v-container fluid>
 
-  <v-row class="flex-grow-1" no-gutters>
-    <v-col cols="9" class="box">
-      <assetsTable />
+  <v-row>
+    <v-col cols="9">
+      <v-card>
+        <assetsTable />
+      </v-card>
     </v-col>
 
-    <v-col cols="3" class="box">
-      <actions />
+    <v-col cols="3">
+      <v-card>
+        <actions />
+      </v-card>
     </v-col>
   </v-row>
 
-  <v-row class="flex-grow-1" no-gutters>
-    <v-col cols="9" class="box">
+  <v-row >
+    <v-col cols="9">
       <h1>documents</h1>
     </v-col>
 
-    <v-col cols="3" class="box"></v-col>
+    <v-col cols="3"></v-col>
   </v-row>
 
-</v-container>
-
-
-
+        </v-container>
     </v-main>
 </template>
 
-<style scoped>
-.box{
-  padding: 16px;
-  height: 100%;
-  border: 1px solid #dcd5d523;
-}
-</style>

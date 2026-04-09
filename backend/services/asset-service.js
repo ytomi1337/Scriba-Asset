@@ -97,7 +97,38 @@ module.exports = {
             }
         }
     },
+    async getAssetInfo(assetId){
+        const asset = await Asset.findOne({
+            where: { id: assetId },
+            include:[
+                {   model: Status, as: 'status', attributes: [ 'name' ]},
+                {   model: User,   as: 'user',   attributes: [ 'name', 'email' ]},
+                { 
+                    model: Model, 
+                    as: 'model', 
+                    attributes: ['name'],
+                    include: [
+                        { model: Category, as: 'category', attributes: [ 'name' ] }
+                    ]
+                },
+            ]
+        })
 
+        const taskHistory = await Task.findAll({
+            include:[
+                {
+                    model: TaskAsset,
+                    as: 'items',
+                    where: { asset_id: assetId },
+                }
+            ]
+        })
+
+        return {
+            asset: asset,
+            history: taskHistory
+        }
+    },
     async getStock(userId){
         const user = await User.findByPk(userId, { attributes: ['localization_id'] })
 

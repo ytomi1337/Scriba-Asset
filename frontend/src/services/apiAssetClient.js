@@ -26,6 +26,10 @@ export default {
     return apiAssetClient.get(`/assets/`,{ 
       params: querry })
   },
+  getAssetDetails(assetId){
+    return apiAssetClient.get(`/assets/${assetId}`)
+  },
+
   getAllPhones(querry){
     
     return apiAssetClient.get(`/phones/`,{ 

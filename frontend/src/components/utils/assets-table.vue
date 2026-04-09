@@ -3,6 +3,7 @@
     import apiAssetClient from '@/services/apiAssetClient';
     import { useDircetoryStore } from '@/stores/directoryStore';
     import { ref, watch, onMounted } from 'vue';
+    import assetAction from './asset-action.vue';
 
     const directoryStore = useDircetoryStore()
 
@@ -33,7 +34,7 @@
     { title: 'User', key: 'user.name' },
     { title: 'Category', key: 'model.category.name' },
     { title: 'Warranty', key: 'warranty_date' },
-    { title: 'Action', },
+    { title: 'Action', key: 'action'},
     ]
     const phoneColumns = [
     { title: 'Serial Number', key: 'serial_num' },
@@ -198,7 +199,11 @@
         density="compact"
         height="325"
         hide-default-footer
-        />
+        >
+        <template #item.action="{ item }">
+            <assetAction :asset="item" />
+        </template>
+        </v-data-table>
         
 
         <v-data-table

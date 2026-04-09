@@ -10,6 +10,15 @@ module.exports = {
             return res.status(500).json({error: 'internal_server_error'})
         }
     },
+    async getAssetInfo(req, res){
+        try{
+            const asset = await assetService.getAssetInfo(req.params.assetId);
+            return res.json(asset);
+        }catch (err) {
+            console.error('Get /asset/:id ', err);
+            return res.status(500).json({error: 'internal_server_error'})
+        }
+    },
     async getStock(req, res){
         try{
             const assets = await assetService.getStock(req.user.id);
