@@ -52,6 +52,7 @@
 </script>
 
 <template>
+    <v-card>
     <v-row no-gutters class="ma-4 text-h6">
         Actions
     </v-row>
@@ -101,6 +102,7 @@
             </v-list-item>
         </v-list-group>
     </v-list>
+    </v-card>
 
     <v-dialog v-model="dialog">
         <v-card>

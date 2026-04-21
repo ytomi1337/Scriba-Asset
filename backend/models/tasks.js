@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     assigned_to:      { type: DataTypes.UUID, allowNull: false },
     from_user_id:     { type: DataTypes.UUID, allowNull: true },
     status:           { type: DataTypes.ENUM('Pending','Accepted','Rejected','Cancelled'), allowNull: false, defaultValue: 'Pending' },
-    type:        { type: DataTypes.ENUM('Assign','Return','User Transfer','Other'), allowNull: false, },
+    type:             { type: DataTypes.ENUM('Assign','Return','User Transfer','Other','Created'), allowNull: false, },
     file:             { type: DataTypes.STRING, allowNull: true },
     expires_date:     { type: DataTypes.DATE, allowNull: true },
     confirmed_at:     { type: DataTypes.DATE, allowNull: true }

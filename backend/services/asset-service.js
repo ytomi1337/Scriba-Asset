@@ -1,5 +1,5 @@
-const { Op } = require('sequelize');
-const { Asset, User, SimCard, Model, Category, Status, Vendor, Phone, Localization, Task, TaskAsset } = require('../models');
+const { Op, } = require('sequelize');
+const { sequelize, Asset, User, SimCard, Model, Category, Status, Vendor, Phone, Localization, Task, TaskAsset } = require('../models');
 
 module.exports = {
     async getAllAssets(query){
@@ -120,7 +120,9 @@ module.exports = {
                     model: TaskAsset,
                     as: 'items',
                     where: { asset_id: assetId },
-                }
+                },
+                { model: User, as: 'assignedBy', attributes: [ 'name' ]},
+                { model: User, as: 'assignedTo', attributes: [ 'name' ]}
             ]
         })
 
@@ -204,16 +206,45 @@ module.exports = {
             where: {localization_id: user.localization.id}
         }) 
 
-        const nextSeq = lastNum + 1
+        const nextSeq = (lastNum || 0) + 1
         const itNum = `${user.localization.prefix}-${String(nextSeq).padStart(5, '0')}`;
 
-        return Asset.create({
+        const transaction = await sequelize.transaction();
+
+        try {
+            const task = await Task.create({
+            assigned_by: userId,
+            assigned_to: user.localization.stock_user_id,
+            type: 'Created',
+            status: 'Accepted'
+            },{transaction}
+            )
+
+            const asset = await Asset.create({
             ...payload,
             it_num: itNum,
             sequence: nextSeq,
             localization_id: user.localization.id,
             user_id: user.localization.stock_user_id
-        })
+            },{transaction}
+            )
+
+            await TaskAsset.create({
+            task_id: task.id, 
+            asset_id: asset.id 
+            },{transaction}
+            );
+
+            await transaction.commit()
+            
+            return asset
+
+        }catch (err) {
+            console.log(err);
+            await transaction.rollback()
+            throw err
+        }
+
     },
     async assign(assignedBy, payload){
         const { user, assets } = payload

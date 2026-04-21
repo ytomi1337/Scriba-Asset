@@ -20,9 +20,9 @@
     </v-col>
 
     <v-col cols="3">
-      <v-card>
+     
         <actions />
-      </v-card>
+     
     </v-col>
   </v-row>
 
