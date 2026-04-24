@@ -102,7 +102,7 @@ module.exports = {
             where: { id: assetId },
             include:[
                 {   model: Status, as: 'status', attributes: [ 'name' ]},
-                {   model: User,   as: 'user',   attributes: [ 'name', 'email' ]},
+                {   model: User,   as: 'user',   attributes: [ 'name', 'email', 'avatar' ]},
                 { 
                     model: Model, 
                     as: 'model', 

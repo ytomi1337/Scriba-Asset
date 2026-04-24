@@ -34,10 +34,10 @@ const taskConfig = {
     <navDrawer />
     <navBar />
     
-    <v-main v-if="asset">
-        <v-container fluid >
-            <v-row>
-                <v-col cols="8">
+    <v-main v-if="asset" class="fill-height">
+        <v-container fluid class="fill-height">
+            <v-row class="fill-height" align="stretch">
+                <v-col cols="8" class="d-flex flex-column fill-height">
                     <v-card class="pa-4">
                         <v-row>
                           <v-col cols="8">
@@ -85,8 +85,8 @@ const taskConfig = {
                       </v-card>
                     </v-card>
                 </v-col>
-                <v-col cols="4">
-                    <v-card>
+                <v-col cols="4" class="d-flex flex-column fill-height">
+                    <v-card class="flex-grow-1">
                         <v-timeline density="compact" side="end">
 
                         <v-timeline-item

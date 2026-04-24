@@ -24,6 +24,7 @@
         status: null,
         category: null,
         user: null,
+        nr_tel: null,
     })
 
     const columns = [
@@ -197,7 +198,6 @@
         :loading="loading"
         @update:options="loadItems"
         density="compact"
-        height="325"
         hide-default-footer
         >
         <template #item.action="{ item }">

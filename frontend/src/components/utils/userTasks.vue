@@ -85,7 +85,7 @@ const printDocument = () => {
 </script>
 
 <template>
-    <v-list>
+    <v-list v-if="tasks.length">
         <v-list-item 
             v-for="(task, i) in tasks"
             :key="i"
@@ -97,7 +97,10 @@ const printDocument = () => {
             </template>
         </v-list-item>
     </v-list>
-      <v-dialog
+    <template v-else>
+        <div class="empty-state">No tasks yet</div>
+    </template>
+    <v-dialog
         v-model="dialog"
         max-width="600">
 
@@ -181,3 +184,4 @@ const printDocument = () => {
 
     </v-dialog>
 </template>
+

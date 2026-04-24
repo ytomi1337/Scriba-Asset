@@ -1,5 +1,6 @@
 <script setup>
   import { ref, defineEmits, defineProps } from 'vue'
+  import chipGroup from "@/components/utils/chip-group.vue";
 
   const emit = defineEmits(['send-asset-detail'])
   const props = defineProps({
@@ -21,6 +22,7 @@
     class="mx-auto"
     height="100%"
   >
+  <chipGroup />
     <v-slide-group
       v-model="model"
       class="p"

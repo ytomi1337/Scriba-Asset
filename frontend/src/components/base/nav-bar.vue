@@ -1,7 +1,8 @@
 <script setup>
-  import { ref, onMounted } from 'vue';
+
   import notificationDropdown from '../utils/notification-dropdown.vue';
   import { useUserStore } from '@/stores/userStore';
+import Actions from '../utils/actions.vue';
 
   const userStore = useUserStore()
 
@@ -26,6 +27,8 @@
 
     <v-spacer />
 
+   
+    <Actions />
     <notificationDropdown />
     <v-menu offset-y>
       <template #activator="{ props }">
