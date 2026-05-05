@@ -3,9 +3,13 @@ import { ref, onMounted } from 'vue'
 import apiAssetClient from '@/services/apiAssetClient';
 import { useDircetoryStore } from '@/stores/directoryStore';
 import { useNotificationStore } from '@/stores/notificationStore';
+import { useAssetStore } from '@/stores/assetStore';
+import { useTaskStore } from '@/stores/taskStore';
 
 const directoryStore = useDircetoryStore()
 const notificationStore = useNotificationStore()
+const assetStore = useAssetStore()
+const taskStore = useTaskStore()
 
 const emit = defineEmits(['close'])
 
@@ -48,6 +52,7 @@ const submitForm = async() => {
     }
     await apiAssetClient.createUser(payload)
 
+    taskStore.refreshTasks()
     notificationStore.success(`New User Created Succesfly`)
     emit('close')
   }catch (err) {

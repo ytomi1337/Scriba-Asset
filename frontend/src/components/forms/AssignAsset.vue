@@ -1,13 +1,16 @@
 <script setup>
     import { ref, onMounted } from 'vue';
     import apiAssetClient from '@/services/apiAssetClient';
+
     import { useDircetoryStore } from '@/stores/directoryStore';
     import { useNotificationStore } from '@/stores/notificationStore';
+    import { useTaskStore } from '@/stores/taskStore';
     import { useAssetStore } from '@/stores/assetStore';
 
     const directoryStore = useDircetoryStore()
     const notificationStore = useNotificationStore()
     const assetStore = useAssetStore()
+    const taskStore = useTaskStore()
 
     const emit = defineEmits(['close'])
 
@@ -44,6 +47,7 @@
             await apiAssetClient.assignAsset(payload)
             
             assetStore.refreshAssets()
+
             notificationStore.success(`Asset Assigned correctly`)
             emit('close')
         }catch(err){

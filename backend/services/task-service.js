@@ -168,12 +168,13 @@ module.exports = {
             ]
         })
 
-        if (decision === 'confirm'){
-            const taskItems = await TaskAsset.findAll({
-                where: { task_id: taskId }
-            })
+        const taskItems = await TaskAsset.findAll({
+            where: { task_id: taskId }
+        })
 
-            const assetsIds = taskItems.map(i => i.asset_id)
+        const assetsIds = taskItems.map(i => i.asset_id)
+
+        if (decision === 'confirm'){
 
             if(task.type == 'Assign'){
                 await Asset.update(
@@ -193,11 +194,26 @@ module.exports = {
                 status: 'Accepted',
                 confirmed_at: new Date()
             })
-            return {
-                success: true,
-                task
-            };
         }
+
+        if ( decision === 'reject'){
+            if(task.type == 'Assign'){
+                await Asset.update(
+                    {   status_id: 3},
+                    {   where: { id: assetsIds } }
+                )
+            }
+
+            await task.update({
+                status: 'Rejected',
+                confirmed_at: new Date()
+            }) 
+        }
+
+        return {
+            success: true,
+            task
+        };
     },
 
     async uploadTaskFile (taskId, file){

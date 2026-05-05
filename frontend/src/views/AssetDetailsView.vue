@@ -1,6 +1,7 @@
 <script setup>
 import navDrawer from "@/components/base/nav-drawer.vue";
 import navBar from "@/components/base/nav-bar.vue";
+import { statusColor } from "@/components/utils/functionUtils";
 import { ref, onMounted } from "vue";
 import apiAssetClient from "@/services/apiAssetClient";
 
@@ -45,7 +46,8 @@ const taskConfig = {
                             <span class="text-grey">IT num: {{ asset.it_num }}</span>
                           </v-col>
                           <v-col cols="4" class="text-right">
-                            <v-chip color="green" label>
+                            <v-chip :color="statusColor(asset.status.name)" 
+                            label>
                               {{ asset.status.name }}
                             </v-chip>
                           </v-col>
@@ -113,7 +115,12 @@ const taskConfig = {
                             </span>
 
                             <span class="text-caption text-grey">
-                              Status: {{ task.status }}
+                              <v-chip
+                              :color="statusColor(task.status)"
+                              :text="task.status"
+                              size="x-small">
+
+                              </v-chip>
                             </span>
 
                           </div>

@@ -142,8 +142,7 @@ module.exports = {
                 {
                     model: User,
                     as: 'user',
-                    attributes: [],
-                    where: { localization_id: localizationId }
+                    // where: { localization_id: localizationId }
                 },
                 { 
                     model: Model, 

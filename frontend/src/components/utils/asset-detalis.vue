@@ -1,5 +1,7 @@
 <script setup>
     import { defineProps } from 'vue';
+    import { statusColor } from './functionUtils';
+    
     defineProps({
         asset: Object
     })
