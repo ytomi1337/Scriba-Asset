@@ -1,23 +1,17 @@
 <script setup>
     import chipGroup from './chip-group.vue';
-    import apiAssetClient from '@/services/apiAssetClient';
+
     import { useDircetoryStore } from '@/stores/directoryStore';
+    import { useAssetStore } from '@/stores/assetStore';
+
     import { ref, watch, onMounted } from 'vue';
     import assetAction from './asset-action.vue';
 
     const directoryStore = useDircetoryStore()
-
-    const assets = ref([])
-    const phones = ref([])
+    const assetStore = useAssetStore()
 
     const activeChip = ref('Assets')
     const isFilterActive = ref(false)
-
-    const loading = ref(false)
-
-    const page = ref(1)
-    const itemsPerPage = ref(9)
-    const totalItems = ref(0)
 
     const filters = ref({
         search: '',
@@ -48,77 +42,18 @@
     { title: 'Action', },
     ]
 
-    async function fetchAssets () {
-        try{
-            loading.value = true
-
-            const res = await apiAssetClient.getAllAssets({
-                page: page.value,
-                limit: itemsPerPage.value,
-                
-                search: filters.value.search,
-                user: filters.value.user,
-                category: filters.value.category,
-                status: filters.value.status
-            })
-
-            assets.value = res.data.data
-            totalItems.value = res.data.meta.total
-        }catch(err){
-            console.log(err);
-        }finally{
-            loading.value = false
-        }
-    }
-
-    async function fetchPhones () {
-        try{
-            loading.value = true
-
-            const res = await apiAssetClient.getAllPhones({
-                page: page.value,
-                limit: itemsPerPage.value,
-                
-                search: filters.value.search,
-                user: filters.value.user,
-                nr_tel: filters.value.nr_tel
-            })
-
-            phones.value = res.data.data
-            console.log(phones.value);
-            totalItems.value = res.data.meta.total
-        }catch(err){
-            console.log(err);
-        }finally{
-            loading.value = false
-        }
-    }
-
-    async function fetchData(){
-        if(activeChip.value === 'Assets'){
-            await fetchAssets()
-        } else {
-            await fetchPhones()
-        }
-    }
-
-    async function loadItems(options){
-        page.value = options.page
-        itemsPerPage.value = options.itemsPerPage
-
-        await fetchData()
-    }
-
     onMounted( async () =>{
         await directoryStore.fetch('categories')
         await directoryStore.fetch('users')
-
-        await fetchData()
+        await assetStore.fetchAssets()
+        await assetStore.setParams()
     })
 
     watch(filters, () => {
-        page.value = 1
-        fetchData()
+        assetStore.setParams({
+            ...filters.value,
+            page: 1
+        })
     }, { deep: true })
 </script>
 
@@ -193,12 +128,10 @@
         <v-data-table
         v-if="activeChip === 'Assets'"
         :headers="columns"
-        :items="assets"
-        :items-length="totalItems"
-        :loading="loading"
-        @update:options="loadItems"
+        :items="assetStore.assets"
+        :loading="assetStore.loading"
         density="compact"
-        hide-default-footer
+        
         >
         <template #item.action="{ item }">
             <assetAction :asset="item" />
@@ -206,7 +139,7 @@
         </v-data-table>
         
 
-        <v-data-table
+        <!-- <v-data-table
         v-if="activeChip === 'Phones'"
         :headers="phoneColumns"
         :items="phones"
@@ -216,7 +149,7 @@
         density="compact"
         height="325"
         hide-default-footer
-        />
+        /> -->
     </v-card>
 </template>
 

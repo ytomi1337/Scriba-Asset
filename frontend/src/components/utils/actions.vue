@@ -1,8 +1,7 @@
 <script setup>
-import { ref, computed, defineEmits } from 'vue'
+import { ref, computed, markRaw } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 
-const emit = defineEmits(['created'])
 const userStore = useUserStore()
 
 import AddAssetForm from '../forms/AddAssetForm.vue'
@@ -12,7 +11,6 @@ import AddUserForm from '../forms/AddUserForm.vue'
 import AssignAsset from '../forms/AssignAsset.vue'
 import AssignPhone from '../forms/AssignPhone.vue'
 import ReturnAsset from '../forms/ReturnAsset.vue'
-
 
 const dialog = ref(false)
 const selectedAction = ref(null)
@@ -24,54 +22,41 @@ const menuItems = [
     icon: 'mdi-plus',
     reqAdmin: true,
     children: [
-      { title: 'Asset', icon: 'mdi-plus' },
-      { title: 'Phone', icon: 'mdi-phone-plus' },
-      { title: 'License', icon: 'mdi-note-plus' },
-      { title: 'User', icon: 'mdi-account-plus' },
+      { title: 'Asset', icon: 'mdi-plus', component: markRaw(AddAssetForm) },
+      { title: 'Phone', icon: 'mdi-phone-plus', component: AddPhoneForm },
+      { title: 'License', icon: 'mdi-note-plus', component: AddLicenseForm },
+      { title: 'User', icon: 'mdi-account-plus', component: markRaw(AddUserForm) },
     ],
   },
   {
     title: 'Asset Management',
     icon: 'mdi-cog',
     children: [
-      { title: 'Assign Asset', icon: 'mdi-clipboard-check', reqAdmin: true },
-      { title: 'Assign Phone', icon: 'mdi-cellphone-check', reqAdmin: true },
-      { title: 'Return Asset', icon: 'mdi-arrow-u-left-top' },
+      { title: 'Assign Asset', icon: 'mdi-clipboard-check', component: markRaw(AssignAsset), reqAdmin: true },
+      { title: 'Assign Phone', icon: 'mdi-cellphone-check', component: AssignPhone, reqAdmin: true },
+      { title: 'Return Asset', icon: 'mdi-arrow-u-left-top', component: markRaw(ReturnAsset)},
       { title: 'User Transfer', icon: 'mdi-account-switch' },
     ],
   },
 ]
 
-
-const visibleNav = computed(() => {
-  return menuItems.filter(i => !i.reqAdmin || userStore.isAdmin)
-})
-
-
-const filterByRole = (items = []) => {
-  return items.filter(i => !i.reqAdmin || userStore.isAdmin)
+const filterMenu = (items = []) => {
+  return items
+    .filter(i => !i.reqAdmin || userStore.isAdmin)
+    .map(i => ({
+      ...i,
+      children: i.children ? filterMenu(i.children) : undefined,
+    }))
 }
 
+const visibleNav = computed(() => filterMenu(menuItems))
 
-const openForm = (title) => {
-  selectedAction.value = title
+const openForm = (item) => {
+  if (!item.component) return
+  selectedAction.value = item
   dialog.value = true
 }
 
-
-const formMap = {
-  Asset: AddAssetForm,
-  Phone: AddPhoneForm,
-  User: AddUserForm,
-  License: AddLicenseForm,
-  'Assign Asset': AssignAsset,
-  'Assign Phone': AssignPhone,
-  'Return Asset': ReturnAsset,
-}
-
-const currentForm = computed(() => {
-  return formMap[selectedAction.value] || null
-})
 </script>
 
 <template>
@@ -79,13 +64,13 @@ const currentForm = computed(() => {
     <v-btn>
       Actions
 
-      <v-menu activator="parent"
-       content-class="custom-menu">
+      <v-menu activator="parent" content-class="custom-menu">
         <v-list density="compact">
 
+
           <v-list-item
-            v-for="(i, iIndex) in visibleNav"
-            :key="iIndex"
+            v-for="i in visibleNav"
+            :key="i.title"
           >
             <template #prepend>
               <v-icon :icon="i.icon" size="small" />
@@ -97,20 +82,18 @@ const currentForm = computed(() => {
               <v-icon icon="mdi-menu-right" size="x-small" />
             </template>
 
-            <!-- 🔹 LEVEL 2 -->
             <v-menu
               v-if="i.children"
               activator="parent"
-              open-on-click
               submenu
               content-class="custom-menu"
             >
               <v-list>
 
                 <v-list-item
-                  v-for="(j, jIndex) in filterByRole(i.children)"
-                  :key="jIndex"
-                  @click.stop="openForm(j.title)"
+                  v-for="j in i.children"
+                  :key="j.title"
+                  @click="openForm(j)"
                 >
                   <template #prepend>
                     <v-icon :icon="j.icon" size="small" />
@@ -128,21 +111,11 @@ const currentForm = computed(() => {
       </v-menu>
     </v-btn>
 
-    <!-- 🔥 DIALOG -->
-    <v-dialog v-model="dialog" max-width="900">
-      <v-card>
-        <v-card-title>{{ selectedAction }}</v-card-title>
-
-        <v-card-text>
-          <component :is="getFormComponent()"
-           @close="dialog = false" />
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer />
-          <v-btn @click="dialog = false">Close</v-btn>
-        </v-card-actions>
-      </v-card>
+    <v-dialog v-model="dialog" max-width="600">
+        <component
+        :is="selectedAction?.component"
+        @close="dialog = false"
+        />
     </v-dialog>
   </div>
 </template>

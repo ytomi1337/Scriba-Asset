@@ -3,6 +3,80 @@
 const { Task, TaskAsset, Asset, Category, Model, Localization, User, Vendor } = require('../models')
 
 module.exports = {
+    async getLocalizationTasks(localizationId){
+        const page = parseInt(query.page) || 1
+        const limit = parseInt(query.limit) || 10
+        const offset = (page - 1) * limit
+
+        const sortKey = query.sortKey || 'id'
+        const sortValue = query.sortValue || 'asc'
+
+        //Filters
+        const where = {}
+        const assetWhere = {}
+        
+
+        if(query.assigned_to){
+            where.assigned_to = query.assigned_to
+        }
+        if(query.assigned_by){
+            where.assigned_by = query.assigned_by
+        }
+        if(query.status){
+            where.status = query.status
+        }
+
+        //Search
+        if(query.search){
+            assetWhere[Op.or] = [
+                {
+                    it_num: {
+                        [Op.iLike]: `%${query.search}%`
+                    },
+                },
+                {
+                    serial_num: {
+                        [Op.iLike]: `%${query.search}%`
+                    },
+                }
+            ]
+        }
+
+        assetWhere.localization_id = localizationId
+
+        const tasks = await Task.findAll({
+            where,
+            include: [
+            {
+                model: TaskAsset,
+                as: 'items',
+                attributes: [ 'asset_id'],
+                include: [
+                    {   
+                        model: Asset, 
+                        as: 'asset',
+                        attributes: ['id', 'it_num', 'serial_num'],
+                        assetWhere,
+                        include:[
+                            { 
+                                model: Model, 
+                                as: 'model', 
+                                attributes: [ 'id', 'name'],
+                                include: [
+                                    { model: Category, as: 'category', attributes: ['id', 'name', 'icon']}
+                                ]
+                            },
+                        ]
+                    },
+                ]
+            },
+            {   model: User, as: 'assignedBy', attributes: ['id', 'name', 'avatar'] }
+        ]
+        })
+
+        return tasks
+    },
+
     async getUserTask (userId){
         const include = [
             {

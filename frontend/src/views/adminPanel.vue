@@ -1,7 +1,10 @@
 <script setup>
     import navDrawer from "@/components/base/nav-drawer.vue";
     import navBar from "@/components/base/nav-bar.vue";
+
     import assetsTable from "@/components/utils/assets-table.vue";
+    import tasks from "@/components/utils/tasks.vue";
+
     import { useNotificationStore } from '@/stores/notificationStore'
 
     const notification = useNotificationStore() 
@@ -34,9 +37,7 @@
 
 
           <v-card class="flex-grow-1 d-flex">
-            <div class="empty-state">
-              Documents section (coming soon)
-            </div>
+              <tasks />
           </v-card>
 
         </v-col>

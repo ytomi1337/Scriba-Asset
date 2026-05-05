@@ -10,6 +10,9 @@ const uploadTaskFile = require('../middleware/uploadTaskFile')
 
 
 router.get('/tasks',ensureAuthenticated, taskController.getUserTask)
+router.get('/tasks/localization',ensureAuthenticated, taskController.getLocalizationTasks)
+
+
 router.post('/tasks', ensureAuthenticated, taskController.create)
 router.post('/tasks/upload', ensureAuthenticated, uploadTaskFile.single('file'), taskController.uploadTaskFile)
 router.patch('/task/:id/:decision', ensureAuthenticated, taskController.decide)

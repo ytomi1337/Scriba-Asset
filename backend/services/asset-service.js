@@ -2,10 +2,10 @@ const { Op, } = require('sequelize');
 const { sequelize, Asset, User, SimCard, Model, Category, Status, Vendor, Phone, Localization, Task, TaskAsset } = require('../models');
 
 module.exports = {
-    async getAllAssets(query){
+    async getAllAssets(query, localizationId){
 
         const page = parseInt(query.page) || 1
-        const limit = parseInt(query.limit) || 25
+        const limit = parseInt(query.limit) || 10
         const offset = (page - 1) * limit
 
         const sortKey = query.sortKey || 'it_num'
@@ -47,6 +47,8 @@ module.exports = {
             [Op.ne]: 9
         }
         }
+
+        where.localization_id = localizationId;
 
         //Search
         if(query.search){
@@ -97,6 +99,7 @@ module.exports = {
             }
         }
     },
+    
     async getAssetInfo(assetId){
         const asset = await Asset.findOne({
             where: { id: assetId },
@@ -131,17 +134,16 @@ module.exports = {
             history: taskHistory
         }
     },
-    async getStock(userId){
-        const user = await User.findByPk(userId, { attributes: ['localization_id'] })
+    async getStock(localizationId){
 
         return await Asset.findAll({
-            where: { status_id: 3 },
+            where: { status_id: 3, localization_id: localizationId },
             include:[
                 {
                     model: User,
                     as: 'user',
                     attributes: [],
-                    where: { localization_id: user.localization_id }
+                    where: { localization_id: localizationId }
                 },
                 { 
                     model: Model, 
@@ -222,6 +224,7 @@ module.exports = {
 
             const asset = await Asset.create({
             ...payload,
+            status_id: 3,
             it_num: itNum,
             sequence: nextSeq,
             localization_id: user.localization.id,
