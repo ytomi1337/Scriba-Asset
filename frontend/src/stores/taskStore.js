@@ -8,8 +8,8 @@ export const useTaskStore = defineStore('task', () => {
     const loading = ref(false)
 
     const params =({
-        page: 1,
-        limit: 10,
+        // page: 1,
+        // limit: 10,
         search: '',
         assigned_to: null,
         assigned_by: null,
@@ -20,6 +20,7 @@ export const useTaskStore = defineStore('task', () => {
         try{
             loading.value = true
             const res = await apiAssetClient.getLocalTasks(params.value)
+            console.log(res);
             tasks.value = res.data.data
             total.value = res.data.meta.total
         }catch(err){
@@ -27,5 +28,44 @@ export const useTaskStore = defineStore('task', () => {
         }finally{
             loading.value = false
         }
+    }
+
+    const setParams = async(newParams) => {
+        params.value = {
+            ...params.value,
+            ...newParams
+        }
+
+        await fetchTasks()
+    }
+
+    const resetParams = async () => {
+        params.value = {
+        // page: 1,
+        // limit: 10,
+        search: '',
+        assigned_to: null,
+        assigned_by: null,
+        status: null
+        }
+
+        await fetchTasks()
+    }
+
+    const refreshTasks = async () => {
+        await fetchTasks()
+    }
+
+    return {
+        tasks,
+        total,
+        loading,
+        params,
+
+
+        fetchTasks,
+        setParams,
+        resetParams,
+        refreshTasks
     }
 })

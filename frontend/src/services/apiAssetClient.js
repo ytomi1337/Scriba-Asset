@@ -48,7 +48,7 @@ export default {
   },
 
   getLocalTasks(querry) {
-    return apiAssetClient.get(`/tasks/local`, { 
+    return apiAssetClient.get(`/tasks/localization`, { 
       params: querry });
   },
 

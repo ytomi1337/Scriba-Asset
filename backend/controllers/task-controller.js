@@ -3,7 +3,7 @@ const taskService = require('../services/task-service')
 module.exports = {
     async getLocalizationTasks(req,res){
         try{
-            const tasks = await taskService.getLocalizationTasks(req.user.localization_id)
+            const tasks = await taskService.getLocalizationTasks(req.query, req.user.localization_id)
             return res.json(tasks)  
         }catch (err) {
             console.error('Get /tasks/localization: ', err);

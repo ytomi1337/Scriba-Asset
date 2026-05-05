@@ -31,16 +31,16 @@
     { title: 'Warranty', key: 'warranty_date' },
     { title: 'Action', key: 'action'},
     ]
-    const phoneColumns = [
-    { title: 'Serial Number', key: 'serial_num' },
-    { title: 'IMEI', key: 'imei' },
-    { title: 'Model', key: 'model' },
-    { title: 'Status', key: 'status' },
-    { title: 'User', key: 'user' },
-    { title: 'Nr Tel', key: 'nr_tel' },
-    { title: 'Recipt Date', key: 'recipt_date' },
-    { title: 'Action', },
-    ]
+    // const phoneColumns = [
+    // { title: 'Serial Number', key: 'serial_num' },
+    // { title: 'IMEI', key: 'imei' },
+    // { title: 'Model', key: 'model' },
+    // { title: 'Status', key: 'status' },
+    // { title: 'User', key: 'user' },
+    // { title: 'Nr Tel', key: 'nr_tel' },
+    // { title: 'Recipt Date', key: 'recipt_date' },
+    // { title: 'Action', },
+    // ]
 
     onMounted( async () =>{
         await directoryStore.fetch('categories')

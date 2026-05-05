@@ -3,6 +3,7 @@
   import { useDircetoryStore } from '@/stores/directoryStore';
   import { useAssetStore } from '@/stores/assetStore';
   import { useNotificationStore } from '@/stores/notificationStore';
+  import { useTaskStore } from '@/stores/taskStore';
   import apiAssetClient from '@/services/apiAssetClient';
 
   const emit = defineEmits(['close'])
@@ -10,6 +11,7 @@
   const directoryStore = useDircetoryStore()
   const assetStore = useAssetStore()
   const notificationStore = useNotificationStore()
+  const taskStore = useTaskStore()
 
   const asset = ref({
     it_num: '',
@@ -55,6 +57,7 @@
       await apiAssetClient.createAsset(asset.value)
 
       assetStore.refreshAssets()
+      taskStore.refreshTasks()
       notificationStore.success('Asset Added Corectly')
       emit('close')
 

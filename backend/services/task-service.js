@@ -3,12 +3,12 @@
 const { Task, TaskAsset, Asset, Category, Model, Localization, User, Vendor } = require('../models')
 
 module.exports = {
-    async getLocalizationTasks(localizationId){
+    async getLocalizationTasks(query, localizationId){
         const page = parseInt(query.page) || 1
-        const limit = parseInt(query.limit) || 10
+        const limit = parseInt(query.limit) || 25
         const offset = (page - 1) * limit
 
-        const sortKey = query.sortKey || 'id'
+        const sortKey = query.sortKey || 'created_at'
         const sortValue = query.sortValue || 'asc'
 
         //Filters
@@ -44,8 +44,11 @@ module.exports = {
 
         assetWhere.localization_id = localizationId
 
-        const tasks = await Task.findAll({
+        const { count, rows} = await Task.findAndCountAll({
             where,
+            limit,
+            offset,
+            order: [[sortKey, sortValue]],
             include: [
             {
                 model: TaskAsset,
@@ -56,7 +59,7 @@ module.exports = {
                         model: Asset, 
                         as: 'asset',
                         attributes: ['id', 'it_num', 'serial_num'],
-                        assetWhere,
+                        where: Object.keys(assetWhere).length?assetWhere:undefined,
                         include:[
                             { 
                                 model: Model, 
@@ -70,11 +73,20 @@ module.exports = {
                     },
                 ]
             },
-            {   model: User, as: 'assignedBy', attributes: ['id', 'name', 'avatar'] }
+            {   model: User, as: 'assignedBy', attributes: ['id', 'name'] },
+            {   model: User, as: 'assignedTo', attributes: ['id', 'name'] }
         ]
         })
 
-        return tasks
+        return {
+            data: rows,
+            meta: {
+                total: count,
+                page,
+                pages: Math.ceil(count / limit),
+                limit
+            }
+        }
     },
 
     async getUserTask (userId){

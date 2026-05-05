@@ -3,7 +3,8 @@
     import navBar from "@/components/base/nav-bar.vue";
 
     import assetsTable from "@/components/utils/assets-table.vue";
-    import tasks from "@/components/utils/tasks.vue";
+    import tasks from "@/components/utils/tasks-table.vue";
+    import assetDiagram from "@/components/utils/asset-diagram.vue";
 
     import { useNotificationStore } from '@/stores/notificationStore'
 
@@ -22,44 +23,31 @@
         {{ notification.text }}
     </v-snackbar>
 
- <v-main class="fill-height">
-    <v-container fluid class="fill-height">
+ <v-main>
+    <v-container fluid ">
 
-      <v-row class="fill-height" align="stretch">
-
-        <!--  LEWA KOLUMNA -->
-        <v-col cols="9" class="d-flex flex-column fill-height">
-
-
-          <v-card class="mb-4 d-flex flex-column">
+      <v-row >
+        <v-col cols="9" class="d-flex flex-column ">
+          <v-card class="mb-3">
             <assetsTable  />
           </v-card>
 
-
-          <v-card class="flex-grow-1 d-flex">
+          <v-card >
               <tasks />
           </v-card>
-
         </v-col>
 
-        <!-- PRAWA KOLUMNA -->
-        <v-col cols="3" class="d-flex flex-column fill-height">
 
-
-          <v-card class="flex-grow-1 d-flex mb-4" >
-            <div class="empty-state">
-              Documents section (coming soon)
-            </div>
+        <v-col cols="3" class="d-flex flex-column">
+          <v-card class="mb-3" >
+            <assetDiagram />
           </v-card>
 
-          <v-card class="flex-grow-1 d-flex" >
-            <div class="empty-state">
-              Documents section (coming soon)
-            </div>
+          <v-card >
+            <assetDiagram />
           </v-card>
 
         </v-col>
-
       </v-row>
 
     </v-container>
