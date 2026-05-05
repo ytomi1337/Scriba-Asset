@@ -1,6 +1,15 @@
 const taskService = require('../services/task-service')
 
 module.exports = {
+    async getLocalizationTasks(req,res){
+        try{
+            const tasks = await taskService.getLocalizationTasks(req.query, req.user.localization_id)
+            return res.json(tasks)  
+        }catch (err) {
+            console.error('Get /tasks/localization: ', err);
+            return res.status(500).json({error: 'internal_server_error'})
+        }
+    },    
     async getUserTask(req,res){
         try{
             const tasks = await taskService.getUserTask(req.user.id)

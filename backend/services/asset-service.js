@@ -1,11 +1,11 @@
-const { Op } = require('sequelize');
-const { Asset, User, SimCard, Model, Category, Status, Vendor, Phone, Localization, Task, TaskAsset } = require('../models');
+const { Op, } = require('sequelize');
+const { sequelize, Asset, User, SimCard, Model, Category, Status, Vendor, Phone, Localization, Task, TaskAsset } = require('../models');
 
 module.exports = {
-    async getAllAssets(query){
+    async getAllAssets(query, localizationId){
 
         const page = parseInt(query.page) || 1
-        const limit = parseInt(query.limit) || 25
+        const limit = parseInt(query.limit) || 10
         const offset = (page - 1) * limit
 
         const sortKey = query.sortKey || 'it_num'
@@ -47,6 +47,8 @@ module.exports = {
             [Op.ne]: 9
         }
         }
+
+        where.localization_id = localizationId;
 
         //Search
         if(query.search){
@@ -97,12 +99,13 @@ module.exports = {
             }
         }
     },
+    
     async getAssetInfo(assetId){
         const asset = await Asset.findOne({
             where: { id: assetId },
             include:[
                 {   model: Status, as: 'status', attributes: [ 'name' ]},
-                {   model: User,   as: 'user',   attributes: [ 'name', 'email' ]},
+                {   model: User,   as: 'user',   attributes: [ 'name', 'email', 'avatar' ]},
                 { 
                     model: Model, 
                     as: 'model', 
@@ -120,7 +123,9 @@ module.exports = {
                     model: TaskAsset,
                     as: 'items',
                     where: { asset_id: assetId },
-                }
+                },
+                { model: User, as: 'assignedBy', attributes: [ 'name' ]},
+                { model: User, as: 'assignedTo', attributes: [ 'name' ]}
             ]
         })
 
@@ -129,17 +134,15 @@ module.exports = {
             history: taskHistory
         }
     },
-    async getStock(userId){
-        const user = await User.findByPk(userId, { attributes: ['localization_id'] })
+    async getStock(localizationId){
 
         return await Asset.findAll({
-            where: { status_id: 3 },
+            where: { status_id: 3, localization_id: localizationId },
             include:[
                 {
                     model: User,
                     as: 'user',
-                    attributes: [],
-                    where: { localization_id: user.localization_id }
+                    // where: { localization_id: localizationId }
                 },
                 { 
                     model: Model, 
@@ -204,16 +207,46 @@ module.exports = {
             where: {localization_id: user.localization.id}
         }) 
 
-        const nextSeq = lastNum + 1
+        const nextSeq = (lastNum || 0) + 1
         const itNum = `${user.localization.prefix}-${String(nextSeq).padStart(5, '0')}`;
 
-        return Asset.create({
+        const transaction = await sequelize.transaction();
+
+        try {
+            const task = await Task.create({
+            assigned_by: userId,
+            assigned_to: user.localization.stock_user_id,
+            type: 'Created',
+            status: 'Accepted'
+            },{transaction}
+            )
+
+            const asset = await Asset.create({
             ...payload,
+            status_id: 3,
             it_num: itNum,
             sequence: nextSeq,
             localization_id: user.localization.id,
             user_id: user.localization.stock_user_id
-        })
+            },{transaction}
+            )
+
+            await TaskAsset.create({
+            task_id: task.id, 
+            asset_id: asset.id 
+            },{transaction}
+            );
+
+            await transaction.commit()
+            
+            return asset
+
+        }catch (err) {
+            console.log(err);
+            await transaction.rollback()
+            throw err
+        }
+
     },
     async assign(assignedBy, payload){
         const { user, assets } = payload

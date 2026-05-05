@@ -26,3 +26,11 @@ export function formatDateTime(dateString) {
 
   return `${day}.${month}.${year} ${hours}:${minutes}`;
 }
+
+export function statusColor(s){
+  if (!s) return 'grey'
+  if (s.toLowerCase().includes('pending')) return 'blue'
+  if (s.toLowerCase().includes('accepted')) return 'green'
+  if (s.toLowerCase().includes('rejected') || s.toLowerCase().includes('cancel')) return 'red'
+  return 'primary'
+}

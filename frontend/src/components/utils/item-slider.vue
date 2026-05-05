@@ -1,5 +1,6 @@
 <script setup>
   import { ref, defineEmits, defineProps } from 'vue'
+  import chipGroup from "@/components/utils/chip-group.vue";
 
   const emit = defineEmits(['send-asset-detail'])
   const props = defineProps({
@@ -21,6 +22,7 @@
     class="mx-auto"
     height="100%"
   >
+  <chipGroup />
     <v-slide-group
       v-model="model"
       class="p"
@@ -63,7 +65,7 @@
   </v-sheet>
 </template>
 
-<style scoped>
+<style>
     .card-active{
         transform: scale(1.06);
         transition: all 0.3s;
@@ -75,7 +77,5 @@
         linear-gradient(white, white) padding-box,
         linear-gradient(90deg,rgba(149, 193, 46, 0.767) 0%, rgba(4, 187, 241, 1) 50%, rgba(29, 67, 112, 1) 100%);
     }
-    .test{
-      font-size: 2.5rem;
-    }
+
 </style>

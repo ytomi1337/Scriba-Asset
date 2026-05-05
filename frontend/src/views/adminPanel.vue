@@ -1,40 +1,56 @@
 <script setup>
     import navDrawer from "@/components/base/nav-drawer.vue";
     import navBar from "@/components/base/nav-bar.vue";
+
     import assetsTable from "@/components/utils/assets-table.vue";
-    import actions from "@/components/utils/actions.vue";
+    import tasks from "@/components/utils/tasks-table.vue";
+    import assetDiagram from "@/components/utils/asset-diagram.vue";
+
+    import { useNotificationStore } from '@/stores/notificationStore'
+
+    const notification = useNotificationStore() 
 </script>
 
 <template>
     <navDrawer />
     <navBar />
 
-    <v-main>
-        <v-container fluid>
+    <v-snackbar
+        v-model="notification.show"
+        :timeout="notification.timeout"
+        :color="notification.color"
+      >
+        {{ notification.text }}
+    </v-snackbar>
 
-  <v-row>
-    <v-col cols="9">
-      <v-card>
-        <assetsTable />
-      </v-card>
-    </v-col>
+ <v-main>
+    <v-container fluid ">
 
-    <v-col cols="3">
-      <v-card>
-        <actions />
-      </v-card>
-    </v-col>
-  </v-row>
+      <v-row >
+        <v-col cols="9" class="d-flex flex-column ">
+          <v-card class="mb-3">
+            <assetsTable  />
+          </v-card>
 
-  <v-row >
-    <v-col cols="9">
-      <h1>documents</h1>
-    </v-col>
+          <v-card >
+              <tasks />
+          </v-card>
+        </v-col>
 
-    <v-col cols="3"></v-col>
-  </v-row>
 
-        </v-container>
-    </v-main>
+        <v-col cols="3" class="d-flex flex-column">
+          <v-card class="mb-3" >
+            <assetDiagram />
+          </v-card>
+
+          <v-card >
+            <assetDiagram />
+          </v-card>
+
+        </v-col>
+      </v-row>
+
+    </v-container>
+  </v-main>
 </template>
 

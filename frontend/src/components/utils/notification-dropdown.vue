@@ -44,8 +44,6 @@ const statusColor = function (s) {
 
 const taskDecision = async (decision) => {
     try{
-        console.log(activeTask.value.id);
-        console.log(decision);
         await api.sendTaskDecision(activeTask.value.id, decision)
     }catch(err){
         console.log(err);
@@ -161,7 +159,7 @@ const taskDecision = async (decision) => {
             Confirm
             </v-btn>
 
-            <v-btn @click="dialog = false">
+            <v-btn @click="taskDecision('reject')">
             Reject
             </v-btn>
             </template>

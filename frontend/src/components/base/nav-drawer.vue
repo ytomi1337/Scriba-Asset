@@ -48,6 +48,7 @@ const visibleNav = computed(() =>{
                 v-for="(item, i) in items"
                 :key="i"
                 :value="item"
+                disabled
                 >
 
                 <template v-slot:prepend>

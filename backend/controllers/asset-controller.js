@@ -3,7 +3,7 @@ const assetService = require('../services/asset-service');
 module.exports = {
     async getAllAssets(req, res){
         try{
-            const assets = await assetService.getAllAssets(req.query);
+            const assets = await assetService.getAllAssets(req.query, req.user.localization_id);
             return res.json(assets);
         }catch (err) {
             console.error('Get /assets: ', err);
@@ -21,7 +21,7 @@ module.exports = {
     },
     async getStock(req, res){
         try{
-            const assets = await assetService.getStock(req.user.id);
+            const assets = await assetService.getStock(req.user.localization_id);
             return res.json(assets);
         }catch (err) {
             console.error('Get /assets/stock:', err);
@@ -31,6 +31,7 @@ module.exports = {
     async getNextSequence(req, res){
         try{
             const result = await assetService.getNextSequence(req.user.id);
+            console.log(req.user);
             return res.json(result);
         }catch (err) {
             console.error('Get /assets/info/nextseq:', err);

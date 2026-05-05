@@ -47,6 +47,11 @@ export default {
     return apiAssetClient.get("/tasks");
   },
 
+  getLocalTasks(querry) {
+    return apiAssetClient.get(`/tasks/localization`, { 
+      params: querry });
+  },
+
   getLocalizations(){
     return apiAssetClient.get('/localizations')
   },
@@ -81,7 +86,7 @@ export default {
   },
 
   createUser(payload){
-    return apiAssetClient.post('/createUser', payload)
+    return apiAssetClient.post('/invite', payload)
   },
   createAsset(asset){
     return apiAssetClient.post('/assets', asset)
@@ -102,4 +107,6 @@ export default {
       }
     })
   }
+
+  
 }
