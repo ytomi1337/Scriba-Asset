@@ -17,7 +17,7 @@ module.exports = {
 
     async googleCallback(req, res) {
         console.log('✅ Google auth success');
-        res.redirect('http://localhost:5173/profile');
+        res.redirect(`${process.env.FRONTEND_URL}/profile`)
     },
 
     async logout(req, res) {

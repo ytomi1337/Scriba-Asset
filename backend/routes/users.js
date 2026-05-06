@@ -2,7 +2,9 @@
 
 const express = require('express');
 const router = express.Router()
-const ensureAuthenticated = require('../middleware/isAuthenticated')
+
+const ensureAuthenticated = require('../middleware/isAuthenticated');
+const requireRole = require('../middleware/requireRole');
 
 const userController = require('../controllers/user-controller')
 

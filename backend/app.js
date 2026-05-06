@@ -29,6 +29,8 @@ const authRouter = require('./routes/auth.js')
 
 const app = express();
 
+app.set('trust proxy', 1)
+
 const db = require('./models'); 
 
 (async () => {
