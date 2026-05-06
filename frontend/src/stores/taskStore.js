@@ -7,7 +7,7 @@ export const useTaskStore = defineStore('task', () => {
     const total = ref(0)
     const loading = ref(false)
 
-    const params =({
+    const params =ref({
         // page: 1,
         // limit: 10,
         search: '',

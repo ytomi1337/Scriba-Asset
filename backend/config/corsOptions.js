@@ -1,11 +1,17 @@
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, "*");
-    callback(null, origin);
-  },
-  credentials: true,
-  methods: "GET,POST,PATCH,PUT,DELETE,OPTIONS",
-  allowedHeaders: "Content-Type,Authorization",
-};
+const allowedOrigins = [
+  'http://localhost:5173',
+  process.env.FRONTEND_URL
+]
 
-module.exports = corsOptions;
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true
+}
+
+module.exports = corsOptions

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon --watch src --exec node src/index.js",
-    "lint": "eslint 'src/**/*.{js,vue}' || true",
+    "lint": "eslint .",
     "lint:fix": "eslint 'src/**/*.{js,vue}' --fix || true"
   },
   "dependencies": {
