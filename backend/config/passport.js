@@ -36,7 +36,6 @@ passport.use(
                 }
 
                 if(googleEmail){
-                    console.log(profile)
                     const user = await User.findOne({ where: {
                         email: googleEmail,
                         status: 'active'
