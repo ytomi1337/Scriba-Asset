@@ -2,7 +2,11 @@ const session = require('express-session')
 const pgSession = require('connect-pg-simple')(session)
 
 module.exports = (pool) => session({
-  store: new pgSession({ pool }),
+  store: new pgSession({
+    pool,
+    createTableIfMissing: true
+  }),
+  name: 'scriba.sid',
   secret: process.env.SESSION_SECRET || 'dev_secret',
   resave: false,
   saveUninitialized: false,

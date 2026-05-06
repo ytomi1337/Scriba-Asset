@@ -3,11 +3,14 @@
 const express = require('express');
 const router = express.Router()
 
+const ensureAuthenticated = require('../middleware/isAuthenticated');
+const requireRole = require('../middleware/requireRole');
+
 const simCardController = require('../controllers/simcard-controller')
 
 // router.get('/vendors', vendorController.getAll)
 
-router.post('/simcards', simCardController.create)
+router.post('/simcards', requireRole('administrator'), simCardController.create)
 
 // router.delete('/vendors/:id', vendorController.delate)
 

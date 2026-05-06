@@ -3,8 +3,9 @@
 const express = require('express');
 const router = express.Router()
 
+const ensureAuthenticated = require('../middleware/isAuthenticated');
+const requireRole = require('../middleware/requireRole');
 
-const ensureAuthenticated = require('../middleware/isAuthenticated')
 const taskController = require('../controllers/task-controller')
 const uploadTaskFile = require('../middleware/uploadTaskFile')
 
