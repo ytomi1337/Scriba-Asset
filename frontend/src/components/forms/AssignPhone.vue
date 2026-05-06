@@ -1,9 +1,9 @@
 <script setup>
     import { ref, onMounted, watch, computed } from 'vue';
     import apiAssetClient from '@/services/apiAssetClient';
-    import { useDircetoryStore } from '@/stores/directoryStore';
+    import { useDirectoryStore } from '@/stores/directoryStore';
 
-    const directoryStore = useDircetoryStore()
+    const directoryStore = useDirectoryStore()
     const headers = [
         { title: 'ID', key: 'it_num' },
         { title: 'SN', key: 'serial_num', sortable: false,},

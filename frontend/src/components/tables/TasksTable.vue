@@ -1,8 +1,8 @@
 <script setup>
 import { useTaskStore } from '@/stores/taskStore';
-import assetAction from './asset-action.vue';
+import assetAction from '../utils/AssetDetailsButton.vue';
 import apiAssetClient from '@/services/apiAssetClient';
-import { statusColor } from './functionUtils';
+import { statusColor } from '../utils/functionUtils';
 import { ref, onMounted } from 'vue';
 
 const taskStore = useTaskStore()

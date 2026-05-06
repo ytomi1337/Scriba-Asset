@@ -1,8 +1,8 @@
 <script setup>
 
-  import notificationDropdown from '../utils/notification-dropdown.vue';
+  import notificationDropdown from './NotificationDropdown.vue'
   import { useUserStore } from '@/stores/userStore';
-import Actions from '../utils/actions.vue';
+  import Actions from './ActionDropdown.vue';
 
   const userStore = useUserStore()
 

@@ -1,10 +1,10 @@
 <script setup>
 import api from "@/services/apiAssetClient";
-import navDrawer from "@/components/base/nav-drawer.vue";
-import navBar from "@/components/base/nav-bar.vue";
-import itemSlider from "@/components/utils/item-slider.vue";
-import assetDetalis from "@/components/utils/asset-detalis.vue";
-import userTasks from "@/components/utils/userTasks.vue";
+import navDrawer from "@/components/layout/NavDrawer.vue";
+import navBar from "@/components/layout/NavBar.vue";
+import itemSlider from "@/components/base/ItemSlider.vue";
+import assetDetalis from "@/components/base/AssetDetails.vue";
+import userTasks from "@/components/base/UserTasksList.vue";
 import { ref, onMounted, computed} from "vue";
 import { useUserStore } from "@/stores/userStore";
 

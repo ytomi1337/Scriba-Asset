@@ -1,10 +1,10 @@
 <script setup>
-    import navDrawer from "@/components/base/nav-drawer.vue";
-    import navBar from "@/components/base/nav-bar.vue";
+    import navDrawer from "@/components/layout/NavDrawer.vue";
+    import navBar from "@/components/layout/NavBar.vue";
 
-    import assetsTable from "@/components/utils/assets-table.vue";
-    import tasks from "@/components/utils/tasks-table.vue";
-    import assetDiagram from "@/components/utils/asset-diagram.vue";
+    import assetsTable from "@/components/tables/AssetsTable.vue";
+    import tasks from "@/components/tables/TasksTable.vue";
+    import assetDiagram from "@/components/base/AssetDiagram.vue";
 
     import { useNotificationStore } from '@/stores/notificationStore'
 

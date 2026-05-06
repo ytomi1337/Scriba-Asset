@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import apiAssetClient from "@/services/apiAssetClient";
 
-export const useDircetoryStore = defineStore('directory', {
+export const useDirectoryStore = defineStore('directory', {
     state: () => ({
         localizations: [],
         statuses: [],
