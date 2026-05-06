@@ -1,11 +1,11 @@
 <script setup>
     import { ref, onMounted, watch } from 'vue';
     import apiAssetClient from '@/services/apiAssetClient';
-    import { useDircetoryStore } from '@/stores/directoryStore';
+    import { useDirectoryStore } from '@/stores/directoryStore';
     import { useNotificationStore } from '@/stores/notificationStore';
     import { useAssetStore } from '@/stores/assetStore';
 
-    const directoryStore = useDircetoryStore()
+    const directoryStore = useDirectoryStore()
     const notificationStore = useNotificationStore()
     const assetStore = useAssetStore()
 

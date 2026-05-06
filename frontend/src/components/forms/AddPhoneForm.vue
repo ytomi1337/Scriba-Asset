@@ -1,9 +1,9 @@
 <script setup>
   import { ref, onMounted, computed } from 'vue';
-  import { useDircetoryStore } from '@/stores/directoryStore';
+  import { useDirectoryStore } from '@/stores/directoryStore';
   import apiAssetClient from '@/services/apiAssetClient';
 
-  const directoryStore = useDircetoryStore()
+  const directoryStore = useDirectoryStore()
   const form = ref({
     it_num: '',
     serial_num: '',

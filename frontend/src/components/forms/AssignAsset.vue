@@ -2,12 +2,12 @@
     import { ref, onMounted } from 'vue';
     import apiAssetClient from '@/services/apiAssetClient';
 
-    import { useDircetoryStore } from '@/stores/directoryStore';
+    import { useDirectoryStore } from '@/stores/directoryStore';
     import { useNotificationStore } from '@/stores/notificationStore';
     import { useTaskStore } from '@/stores/taskStore';
     import { useAssetStore } from '@/stores/assetStore';
 
-    const directoryStore = useDircetoryStore()
+    const directoryStore = useDirectoryStore()
     const notificationStore = useNotificationStore()
     const assetStore = useAssetStore()
     const taskStore = useTaskStore()

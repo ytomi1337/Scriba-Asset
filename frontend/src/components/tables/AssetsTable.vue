@@ -1,13 +1,13 @@
 <script setup>
-    import chipGroup from './chip-group.vue';
+    import chipGroup from '../utils/ChipGroup.vue';
 
-    import { useDircetoryStore } from '@/stores/directoryStore';
+    import { useDirectoryStore } from '@/stores/directoryStore';
     import { useAssetStore } from '@/stores/assetStore';
 
     import { ref, watch, onMounted } from 'vue';
-    import assetAction from './asset-action.vue';
+    import assetAction from '../utils/AssetDetailsButton.vue';
 
-    const directoryStore = useDircetoryStore()
+    const directoryStore = useDirectoryStore()
     const assetStore = useAssetStore()
 
     const activeChip = ref('Assets')

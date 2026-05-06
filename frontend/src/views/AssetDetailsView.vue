@@ -1,6 +1,6 @@
 <script setup>
-import navDrawer from "@/components/base/nav-drawer.vue";
-import navBar from "@/components/base/nav-bar.vue";
+import navDrawer from "@/components/layout/NavDrawer.vue";
+import navBar from "@/components/layout/NavBar.vue";
 import { statusColor } from "@/components/utils/functionUtils";
 import { ref, onMounted } from "vue";
 import apiAssetClient from "@/services/apiAssetClient";

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Profile from '../views/ProfilePanel.vue';
-import LoginPanel from '@/views/LoginPanel.vue';
-import adminPanel from '@/views/adminPanel.vue';
+import Profile from '../views/ProfileView.vue';
+import LoginPanel from '@/views/LoginView.vue';
+import adminPanel from '@/views/AdminView.vue';
 
 import { useUserStore } from '@/stores/userStore';
 import AssetDetailsView from '@/views/AssetDetailsView.vue';

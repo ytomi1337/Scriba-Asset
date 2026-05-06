@@ -1,6 +1,6 @@
 <script setup>
   import { ref, onMounted, computed } from 'vue';
-  import { useDircetoryStore } from '@/stores/directoryStore';
+  import { useDirectoryStore } from '@/stores/directoryStore';
   import { useAssetStore } from '@/stores/assetStore';
   import { useNotificationStore } from '@/stores/notificationStore';
   import { useTaskStore } from '@/stores/taskStore';
@@ -8,7 +8,7 @@
 
   const emit = defineEmits(['close'])
   
-  const directoryStore = useDircetoryStore()
+  const directoryStore = useDirectoryStore()
   const assetStore = useAssetStore()
   const notificationStore = useNotificationStore()
   const taskStore = useTaskStore()

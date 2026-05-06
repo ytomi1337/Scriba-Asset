@@ -1,6 +1,6 @@
 <script setup>
   import { ref, defineEmits, defineProps } from 'vue'
-  import chipGroup from "@/components/utils/chip-group.vue";
+  import chipGroup from "@/components/utils/ChipGroup.vue";
 
   const emit = defineEmits(['send-asset-detail'])
   const props = defineProps({
