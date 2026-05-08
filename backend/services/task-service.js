@@ -216,7 +216,7 @@ module.exports = {
         };
     },
 
-    async uploadTaskFile (taskId, file){
+    async uploadFile (taskId, file){
 
         if(!file){
             const err = new Error('No file uploaded');

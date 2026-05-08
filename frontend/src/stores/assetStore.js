@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import apiAssetClient from "@/services/apiAssetClient";
+import assetService from "@/services/api/asset-service";
 
 export const useAssetStore = defineStore('asset', () => {
     const assets = ref([])
@@ -20,7 +20,7 @@ export const useAssetStore = defineStore('asset', () => {
     const fetchAssets = async () => {
         try{
             loading.value = true
-            const res = await apiAssetClient.getAllAssets(params.value)
+            const res = await assetService.getAssets(params.value)
             assets.value = res.data.data
             total.value = res.data.meta.total
         }catch (err){

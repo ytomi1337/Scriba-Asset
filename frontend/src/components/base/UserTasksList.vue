@@ -1,6 +1,6 @@
 <script setup>
     import { ref, onMounted, watch, computed } from 'vue';
-    import apiAssetClient from '@/services/apiAssetClient';
+    import taskService from '@/services/api/task-service';
     import { formatDate } from "../utils/functionUtils";
 
     const tasks = ref([])
@@ -23,7 +23,7 @@
 
     onMounted ( async () =>{
         try{
-            const res = await apiAssetClient.getTasks()
+            const res = await taskService.getTasks()
             tasks.value = res.data.finishedTasks
         }catch(err){
             console.log('Error fetching tasks', err);
@@ -48,7 +48,7 @@
         formData.append('taskId', activeTask.value.id)
 
         try{
-            await apiAssetClient.uploadTaskFile(formData)
+            await taskService.uploadFile(formData)
             selectedFile.value = null
             dialog.value = false
         }catch (err) {

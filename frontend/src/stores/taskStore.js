@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
-import apiAssetClient from "@/services/apiAssetClient"
+import taskService from "@/services/api/task-service"
 
 export const useTaskStore = defineStore('task', () => {
     const tasks = ref([])
@@ -19,7 +19,7 @@ export const useTaskStore = defineStore('task', () => {
     const fetchTasks = async () => {
         try{
             loading.value = true
-            const res = await apiAssetClient.getLocalTasks(params.value)
+            const res = await taskService.getLocalTasks(params.value)
             console.log(res);
             tasks.value = res.data.data
             total.value = res.data.meta.total

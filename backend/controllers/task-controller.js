@@ -38,13 +38,13 @@ module.exports = {
       return res.status(500).json({ error: 'internal_server_error' });
     }
     },
-    async uploadTaskFile(req, res){
+    async uploadFile(req, res){
         const { taskId } = req.body
         const file = req.file
         console.log('im here');
 
         try{
-            const result = await taskService.uploadTaskFile(taskId, file)
+            const result = await taskService.uploadFile(taskId, file)
             return res.json(result);
         }catch (err) {
             console.error('Post /tasks/upload', err);

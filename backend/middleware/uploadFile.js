@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
   },
 })
 
-const uploadTaskFile = multer({
+const uploadFile = multer({
   storage,
   fileFilter: (req, file, cb) => {
     if (file.mimetype !== 'application/pdf') {
@@ -24,4 +24,4 @@ const uploadTaskFile = multer({
   },
 })
 
-module.exports = uploadTaskFile
+module.exports = uploadFile

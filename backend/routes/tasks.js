@@ -7,7 +7,7 @@ const ensureAuthenticated = require('../middleware/isAuthenticated');
 const requireRole = require('../middleware/requireRole');
 
 const taskController = require('../controllers/task-controller')
-const uploadTaskFile = require('../middleware/uploadTaskFile')
+const uploadFile = require('../middleware/uploadFile')
 
 
 router.get('/tasks',ensureAuthenticated, taskController.getUserTask)
@@ -15,7 +15,7 @@ router.get('/tasks/localization',ensureAuthenticated, taskController.getLocaliza
 
 
 router.post('/tasks', ensureAuthenticated, taskController.create)
-router.post('/tasks/upload', ensureAuthenticated, uploadTaskFile.single('file'), taskController.uploadTaskFile)
+router.post('/tasks/upload', ensureAuthenticated, uploadFile.single('file'), taskController.uploadFile)
 router.patch('/task/:id/:decision', ensureAuthenticated, taskController.decide)
 
 module.exports = router;

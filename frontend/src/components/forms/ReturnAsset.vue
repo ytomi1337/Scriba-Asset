@@ -1,6 +1,6 @@
 <script setup>
     import { ref, onMounted, watch } from 'vue';
-    import apiAssetClient from '@/services/apiAssetClient';
+    import assetService from '@/services/api/asset-service';
     import { useDirectoryStore } from '@/stores/directoryStore';
     import { useNotificationStore } from '@/stores/notificationStore';
     import { useAssetStore } from '@/stores/assetStore';
@@ -35,7 +35,7 @@
         try{
             loading.value = true
 
-            const res = await apiAssetClient.getUserAssets(selectedUser.value)
+            const res = await assetService.getUserAssets(selectedUser.value)
             assets.value = res.data
         }catch(err){
             console.log(err);

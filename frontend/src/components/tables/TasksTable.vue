@@ -1,7 +1,7 @@
 <script setup>
 import { useTaskStore } from '@/stores/taskStore';
 import assetAction from '../utils/AssetDetailsButton.vue';
-import apiAssetClient from '@/services/apiAssetClient';
+import taskService from '@/services/api/task-service';
 import { statusColor } from '../utils/functionUtils';
 import { ref, onMounted } from 'vue';
 
@@ -59,7 +59,7 @@ const handleFileSelected = async (event) => {
     formData.append('taskId', currentTask.value.id)
 
     try {
-        await apiAssetClient.uploadTaskFile(formData)
+        await taskService.uploadFile(formData)
 
         await taskStore.fetchTasks()
 

@@ -4,7 +4,7 @@
   import { useAssetStore } from '@/stores/assetStore';
   import { useNotificationStore } from '@/stores/notificationStore';
   import { useTaskStore } from '@/stores/taskStore';
-  import apiAssetClient from '@/services/apiAssetClient';
+  import assetService from '@/services/api/asset-service';
 
   const emit = defineEmits(['close'])
   
@@ -29,7 +29,7 @@
     await directoryStore.fetch('statuses')
 
     try {
-      const res = await apiAssetClient.getLastSequence()
+      const res = await assetService.getNextSequence()
       const lastNum = res.data.lastLocalNum + 1
       asset.value.it_num = `${res.data.prefix}-${String(lastNum).padStart(5,'0')}`
     }catch(err){
@@ -54,7 +54,7 @@
 
   const submitAsset = async () => {
     try{
-      await apiAssetClient.createAsset(asset.value)
+      await assetService.createAsset(asset.value)
 
       assetStore.refreshAssets()
       taskStore.refreshTasks()

@@ -2,7 +2,7 @@ const { Op, } = require('sequelize');
 const { sequelize, Asset, User, SimCard, Model, Category, Status, Vendor, Phone, Localization, Task, TaskAsset } = require('../models');
 
 module.exports = {
-    async getAllAssets(query, localizationId){
+    async getAssets(query, localizationId){
 
         const page = parseInt(query.page) || 1
         const limit = parseInt(query.limit) || 10
@@ -100,7 +100,7 @@ module.exports = {
         }
     },
     
-    async getAssetInfo(assetId){
+    async getAsset(assetId){
         const asset = await Asset.findOne({
             where: { id: assetId },
             include:[

@@ -1,5 +1,5 @@
 <script setup>
-import api from "@/services/apiAssetClient";
+import assetService from "@/services/api/asset-service";
 import navDrawer from "@/components/layout/NavDrawer.vue";
 import navBar from "@/components/layout/NavBar.vue";
 import itemSlider from "@/components/base/ItemSlider.vue";
@@ -19,7 +19,7 @@ const isEmptyAssets = computed(() => assets.value.length === 0);
 onMounted( async () => {
   loading.value = true
   try {
-    const res = await api.getUserAssets(userStore.user.id);
+    const res = await assetService.getUserAssets(userStore.user.id);
     assets.value = res.data
   } catch (err) {
     console.error("Error during fetching user assets:", err);

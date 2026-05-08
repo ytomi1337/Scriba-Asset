@@ -3,7 +3,7 @@ import navDrawer from "@/components/layout/NavDrawer.vue";
 import navBar from "@/components/layout/NavBar.vue";
 import { statusColor } from "@/components/utils/functionUtils";
 import { ref, onMounted } from "vue";
-import apiAssetClient from "@/services/apiAssetClient";
+import assetService from "@/services/api/asset-service";
 
 const props = defineProps({
   id: String
@@ -14,7 +14,7 @@ const history = ref([])
 
 onMounted( async () =>{
     try{
-        const res = await apiAssetClient.getAssetDetails(props.id)
+        const res = await assetService.getAsset(props.id)
         asset.value = res.data.asset
         history.value = res.data.history
         console.log(res.data);

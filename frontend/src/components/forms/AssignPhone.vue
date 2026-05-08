@@ -1,6 +1,6 @@
 <script setup>
     import { ref, onMounted, watch, computed } from 'vue';
-    import apiAssetClient from '@/services/apiAssetClient';
+    import assetService from '@/services/api/asset-service';
     import { useDirectoryStore } from '@/stores/directoryStore';
 
     const directoryStore = useDirectoryStore()
@@ -27,7 +27,7 @@
         await directoryStore.fetch('categories')
 
         try{
-            const res = await apiAssetClient.getStock();
+            const res = await assetService.getStock();
             assets.value = res.data
 
         }catch (err) {
@@ -43,7 +43,7 @@
             }
 
             console.log(payload);
-            await apiAssetClient.assignAsset(payload)
+            await assetService.assignAsset(payload)
             console.log('Dodano poprawnie');
         }catch(err){
             console.log(err);

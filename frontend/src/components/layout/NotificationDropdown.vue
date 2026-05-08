@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { formatDate } from "../utils/functionUtils";
-import api from "@/services/apiAssetClient";
+import taskService from '@/services/api/task-service';
 
 
 const tasks = ref([])
@@ -44,7 +44,7 @@ const statusColor = function (s) {
 
 const taskDecision = async (decision) => {
     try{
-        await api.sendTaskDecision(activeTask.value.id, decision)
+        await api.updateTaskDecision(activeTask.value.id, decision)
     }catch(err){
         console.log(err);
     }

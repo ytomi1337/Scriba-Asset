@@ -1,7 +1,7 @@
 <script setup>
   import { ref, onMounted, computed } from 'vue';
   import { useDirectoryStore } from '@/stores/directoryStore';
-  import apiAssetClient from '@/services/apiAssetClient';
+  import assetService from '@/services/api/asset-service';
 
   const directoryStore = useDirectoryStore()
   const form = ref({
@@ -16,7 +16,7 @@
     await directoryStore.fetch('assetModels')
 
     try {
-      const res = await apiAssetClient.getLastSequence()
+      const res = await assetService.getNextSequence()
       const lastNum = res.data.lastLocalNum + 1
       form.value.it_num = `${res.data.prefix}-${String(lastNum).padStart(5,'0')}`
     }catch(err){

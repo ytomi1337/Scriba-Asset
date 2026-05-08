@@ -15,22 +15,22 @@ const apiAssetClient = axios.create({
 
 
 export default {
-  getProfile() {
-    return apiAssetClient.get("/auth/profile");
-  },
+  // getProfile() {
+  //   return apiAssetClient.get("/auth/profile");
+  // },
 
-  getUserAssets(user){
-    return apiAssetClient.get(`/assets/user/${user}`)
-  },
+  // getUserAssets(user){
+  //   return apiAssetClient.get(`/assets/user/${user}`)
+  // },
 
-  getAllAssets(querry){
+  // getAllAssets(querry){
     
-    return apiAssetClient.get(`/assets/`,{ 
-      params: querry })
-  },
-  getAssetDetails(assetId){
-    return apiAssetClient.get(`/assets/${assetId}`)
-  },
+  //   return apiAssetClient.get(`/assets/`,{ 
+  //     params: querry })
+  // },
+  // getAssetDetails(assetId){
+  //   return apiAssetClient.get(`/assets/${assetId}`)
+  // },
 
   getAllPhones(querry){
     
@@ -38,21 +38,21 @@ export default {
       params: querry })
   },
 
-  getStock(){
-    return apiAssetClient.get(`/assets/stock/`)
-  },
-  getLastSequence(){
-    return apiAssetClient.get(`/assets/info/nextseq`)
-  },
+  // getStock(){
+  //   return apiAssetClient.get(`/assets/stock/`)
+  // },
+  // getLastSequence(){
+  //   return apiAssetClient.get(`/assets/info/nextseq`)
+  // },
 
-  getTasks() {
-    return apiAssetClient.get("/tasks");
-  },
+  // getTasks() {
+  //   return apiAssetClient.get("/tasks");
+  // },
 
-  getLocalTasks(querry) {
-    return apiAssetClient.get(`/tasks/localization`, { 
-      params: querry });
-  },
+  // getLocalTasks(querry) {
+  //   return apiAssetClient.get(`/tasks/localization`, { 
+  //     params: querry });
+  // },
 
   getLocalizations(){
     return apiAssetClient.get('/localizations')
@@ -69,46 +69,46 @@ export default {
   getModels(){
     return apiAssetClient.get('/models')
   },
-  getUsers(){
-    return apiAssetClient.get('/users')
-  },
-  getUsersFromLocalization(){
-    return apiAssetClient.get('/users/usersFromLocalization')
-  },
+  // getUsers(){
+  //   return apiAssetClient.get('/users')
+  // },
+  // getUsersFromLocalization(){
+  //   return apiAssetClient.get('/users/usersFromLocalization')
+  // },
 
-  logout() {
-    return apiAssetClient.get("/auth/logout");
-  },
-  sendTaskDecision(id, decision) {
-    return apiAssetClient.patch(`/task/${id}/${decision}`);
-  },
+  // logout() {
+  //   return apiAssetClient.get("/auth/logout");
+  // },
+  // sendTaskDecision(id, decision) {
+  //   return apiAssetClient.patch(`/task/${id}/${decision}`);
+  // },
 
   checkAuth() {
     return apiAssetClient.get("/auth/profile");
   },
 
-  createUser(payload){
-    return apiAssetClient.post('/invite', payload)
-  },
-  createAsset(asset){
-    return apiAssetClient.post('/assets', asset)
-  },
+  // createUser(payload){
+  //   return apiAssetClient.post('/invite', payload)
+  // },
+  // createAsset(asset){
+  //   return apiAssetClient.post('/assets', asset)
+  // },
   createPhone(payload){
     return apiAssetClient.post('/phones', payload)
   },
-  assignAsset(payload){
-    return apiAssetClient.post('/assets/assign', payload)
-  },
-  returnAsset(payload){
-    return apiAssetClient.post('/assets/return', payload)
-  },
-  uploadTaskFile(formData) {
-    return apiAssetClient.post('/tasks/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-  }
+  // assignAsset(payload){
+  //   return apiAssetClient.post('/assets/assign', payload)
+  // },
+  // returnAsset(payload){
+  //   return apiAssetClient.post('/assets/return', payload)
+  // },
+  // uploadFile(formData) {
+  //   return apiAssetClient.post('/tasks/upload', formData, {
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data'
+  //     }
+  //   })
+  // }
 
   
 }

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import apiAssetClient from '@/services/apiAssetClient';
+import userService from '@/services/api/user-service';
 import { useDirectoryStore } from '@/stores/directoryStore';
 import { useNotificationStore } from '@/stores/notificationStore';
 import { useAssetStore } from '@/stores/assetStore';
@@ -50,7 +50,7 @@ const submitForm = async() => {
       user: placeHolder.value.user,
       assets: placeHolder.value.selectedAssets.map(a => a.id)
     }
-    await apiAssetClient.createUser(payload)
+    await userService.createUser(payload)
 
     taskStore.refreshTasks()
     notificationStore.success(`New User Created Succesfly`)

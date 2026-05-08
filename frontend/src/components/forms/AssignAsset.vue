@@ -1,6 +1,6 @@
 <script setup>
     import { ref, onMounted } from 'vue';
-    import apiAssetClient from '@/services/apiAssetClient';
+    import assetService from '@/services/api/asset-service';
 
     import { useDirectoryStore } from '@/stores/directoryStore';
     import { useNotificationStore } from '@/stores/notificationStore';
@@ -29,7 +29,7 @@
         directoryStore.fetch('users');
 
         try{
-            const res = await apiAssetClient.getStock();
+            const res = await assetService.getStock();
             assets.value = res.data
 
         }catch (err) {
@@ -44,7 +44,7 @@
                 assets: selectedAssets.value.map(a => a.id)
             }
 
-            await apiAssetClient.assignAsset(payload)
+            await assetService.assignAsset(payload)
             
             assetStore.refreshAssets()
 

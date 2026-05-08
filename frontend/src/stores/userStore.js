@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import apiAssetClient from "@/services/apiAssetClient";
+import authService from "@/services/api/auth-service";
 
 export const useUserStore = defineStore('user',{
     state: () => ({
@@ -9,7 +9,7 @@ export const useUserStore = defineStore('user',{
     actions: {
         async fetchUser () {
             try{
-                const res = await apiAssetClient.getProfile()
+                const res = await authService.getProfile()
                 this.user = res.data.user
             }catch (err){
                 console.error("Error during user fetching", err)
@@ -19,7 +19,7 @@ export const useUserStore = defineStore('user',{
 
         logout(){
             this.user = null
-            return apiAssetClient.logout()
+            return authService.logout()
         }
     },
 

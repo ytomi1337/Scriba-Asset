@@ -1,18 +1,18 @@
 const assetService = require('../services/asset-service');
 
 module.exports = {
-    async getAllAssets(req, res){
+    async getAssets(req, res){
         try{
-            const assets = await assetService.getAllAssets(req.query, req.user.localization_id);
+            const assets = await assetService.getAssets(req.query, req.user.localization_id);
             return res.json(assets);
         }catch (err) {
             console.error('Get /assets: ', err);
             return res.status(500).json({error: 'internal_server_error'})
         }
     },
-    async getAssetInfo(req, res){
+    async getAsset(req, res){
         try{
-            const asset = await assetService.getAssetInfo(req.params.assetId);
+            const asset = await assetService.getAsset(req.params.assetId);
             return res.json(asset);
         }catch (err) {
             console.error('Get /asset/:id ', err);

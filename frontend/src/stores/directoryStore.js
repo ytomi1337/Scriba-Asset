@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import apiAssetClient from "@/services/apiAssetClient";
+import dictionaryService from "@/services/api/dictionary-service";
+import userService from "@/services/api/user-service";
 
 export const useDirectoryStore = defineStore('directory', {
     state: () => ({
@@ -27,22 +28,22 @@ export const useDirectoryStore = defineStore('directory', {
 
             switch (type){
                 case 'localizations':
-                    res = await apiAssetClient.getLocalizations()
+                    res = await dictionaryService.getLocalizations()
                     break
                 case 'statuses':
-                    res = await apiAssetClient.getStatuses()
+                    res = await dictionaryService.getStatuses()
                     break
                 case 'categories':
-                    res = await apiAssetClient.getCategories()
+                    res = await dictionaryService.getCategories()
                     break
                 case 'vendors':
-                    res = await apiAssetClient.getVendors()
+                    res = await dictionaryService.getVendors()
                     break
                 case 'assetModels':
-                    res = await apiAssetClient.getModels()
+                    res = await dictionaryService.getModels()
                     break
                 case 'users':
-                    res = await apiAssetClient.getUsersFromLocalization()
+                    res = await userService.getUsersFromLocalization()
                     break
                 default:
                     throw new Error(`Unknow dictionary type: ${type}`)
