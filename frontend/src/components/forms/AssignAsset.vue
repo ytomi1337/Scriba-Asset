@@ -2,12 +2,12 @@
     import { ref, onMounted } from 'vue';
     import assetService from '@/services/api/asset-service';
 
-    import { useDirectoryStore } from '@/stores/directoryStore';
+    import { useDictionaryStore } from '@/stores/dictionaryStore';
     import { useNotificationStore } from '@/stores/notificationStore';
     import { useTaskStore } from '@/stores/taskStore';
     import { useAssetStore } from '@/stores/assetStore';
 
-    const directoryStore = useDirectoryStore()
+    const dictionaryStore = useDictionaryStore()
     const notificationStore = useNotificationStore()
     const assetStore = useAssetStore()
     const taskStore = useTaskStore()
@@ -26,7 +26,7 @@
     const selectedAssets = ref([])
 
     onMounted( async () => {
-        directoryStore.fetch('users');
+        dictionaryStore.fetch('users');
 
         try{
             const res = await assetService.getStock();
@@ -76,7 +76,7 @@
             <v-row>
                 <v-col cols="12">
                     <v-autocomplete
-                    :items="directoryStore.users"
+                    :items="dictionaryStore.users"
                     item-title="name"
                     item-value="id"
                     label="Select User"

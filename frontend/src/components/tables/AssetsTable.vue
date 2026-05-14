@@ -1,13 +1,13 @@
 <script setup>
     import chipGroup from '../utils/ChipGroup.vue';
 
-    import { useDirectoryStore } from '@/stores/directoryStore';
+    import { useDictionaryStore } from '@/stores/dictionaryStore';
     import { useAssetStore } from '@/stores/assetStore';
 
     import { ref, watch, onMounted } from 'vue';
     import assetAction from '../utils/AssetDetailsButton.vue';
 
-    const directoryStore = useDirectoryStore()
+    const dictionaryStore = useDictionaryStore()
     const assetStore = useAssetStore()
 
     const activeChip = ref('Assets')
@@ -43,8 +43,8 @@
     // ]
 
     onMounted( async () =>{
-        await directoryStore.fetch('categories')
-        await directoryStore.fetch('users')
+        await dictionaryStore.fetch('categories')
+        await dictionaryStore.fetch('users')
         await assetStore.fetchAssets()
         await assetStore.setParams()
     })
@@ -78,7 +78,7 @@
 
                 <v-select
                     v-model="filters.category"
-                    :items="directoryStore.categories"
+                    :items="dictionaryStore.categories"
                     item-title="name"
                     item-value="id"
                     label="Category"
@@ -87,7 +87,7 @@
                 </v-select>
                 <v-select
                     v-model="filters.user"
-                    :items="directoryStore.users"
+                    :items="dictionaryStore.users"
                     item-title="name"
                     item-value="id"
                     label="User"
@@ -111,7 +111,7 @@
         </v-text-field>
         <v-select
             v-model="filters.user"
-            :items="directoryStore.users"
+            :items="dictionaryStore.users"
             item-title="name"
             item-value="id"
             label="User"

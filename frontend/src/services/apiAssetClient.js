@@ -54,21 +54,21 @@ export default {
   //     params: querry });
   // },
 
-  getLocalizations(){
-    return apiAssetClient.get('/localizations')
-  },
-  getStatuses(){
-    return apiAssetClient.get('/statuses')
-  },
-  getCategories(){
-    return apiAssetClient.get('/categories')
-  },
-  getVendors(){
-    return apiAssetClient.get('/vendors')
-  },
-  getModels(){
-    return apiAssetClient.get('/models')
-  },
+  // getLocalizations(){
+  //   return apiAssetClient.get('/localizations')
+  // },
+  // getStatuses(){
+  //   return apiAssetClient.get('/statuses')
+  // },
+  // getCategories(){
+  //   return apiAssetClient.get('/categories')
+  // },
+  // getVendors(){
+  //   return apiAssetClient.get('/vendors')
+  // },
+  // getModels(){
+  //   return apiAssetClient.get('/models')
+  // },
   // getUsers(){
   //   return apiAssetClient.get('/users')
   // },
@@ -83,9 +83,9 @@ export default {
   //   return apiAssetClient.patch(`/task/${id}/${decision}`);
   // },
 
-  checkAuth() {
-    return apiAssetClient.get("/auth/profile");
-  },
+  // checkAuth() {
+  //   return apiAssetClient.get("/auth/profile");
+  // },
 
   // createUser(payload){
   //   return apiAssetClient.post('/invite', payload)

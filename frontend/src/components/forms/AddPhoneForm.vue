@@ -1,9 +1,9 @@
 <script setup>
   import { ref, onMounted, computed } from 'vue';
-  import { useDirectoryStore } from '@/stores/directoryStore';
+  import { useDictionaryStore } from '@/stores/dictionaryStore';
   import assetService from '@/services/api/asset-service';
 
-  const directoryStore = useDirectoryStore()
+  const dictionaryStore = useDictionaryStore()
   const form = ref({
     it_num: '',
     serial_num: '',
@@ -13,7 +13,7 @@
   })
 
   onMounted( async () => {
-    await directoryStore.fetch('assetModels')
+    await dictionaryStore.fetch('assetModels')
 
     try {
       const res = await assetService.getNextSequence()
@@ -26,7 +26,7 @@
   })
 
   const selectedModel = computed(() => {
-    return directoryStore.assetModels.find(
+    return dictionaryStore.assetModels.find(
       m => m.id === form.value.model_id
     )
   })
@@ -62,7 +62,7 @@
       ></v-text-field>
       
       <v-autocomplete
-      :items="directoryStore.assetModels"
+      :items="dictionaryStore.assetModels"
       item-title="name"
       item-value="id"
       label="Phone Model"

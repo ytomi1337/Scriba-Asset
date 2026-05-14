@@ -1,11 +1,11 @@
 <script setup>
     import { ref, onMounted, watch } from 'vue';
     import assetService from '@/services/api/asset-service';
-    import { useDirectoryStore } from '@/stores/directoryStore';
+    import { useDictionaryStore } from '@/stores/dictionaryStore';
     import { useNotificationStore } from '@/stores/notificationStore';
     import { useAssetStore } from '@/stores/assetStore';
 
-    const directoryStore = useDirectoryStore()
+    const dictionaryStore = useDictionaryStore()
     const notificationStore = useNotificationStore()
     const assetStore = useAssetStore()
 
@@ -24,7 +24,7 @@
     const loading = ref(false)
 
     onMounted( async () => {
-        directoryStore.fetch('users');
+        dictionaryStore.fetch('users');
     })
 
     watch(selectedUser, async() => {
@@ -81,7 +81,7 @@
             <v-row>
                 <v-col cols="12">
                     <v-autocomplete
-                    :items="directoryStore.users"
+                    :items="dictionaryStore.users"
                     item-title="name"
                     item-value="id"
                     label="Select User"
@@ -154,7 +154,7 @@
     </v-list>
 
     <v-autocomplete
-      :items="directoryStore.users"
+      :items="dictionaryStore.users"
       item-title="name"
       item-value="id"
       label="Select User"

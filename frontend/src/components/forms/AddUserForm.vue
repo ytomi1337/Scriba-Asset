@@ -1,12 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import userService from '@/services/api/user-service';
-import { useDirectoryStore } from '@/stores/directoryStore';
+import { useDictionaryStore } from '@/stores/dictionaryStore';
 import { useNotificationStore } from '@/stores/notificationStore';
 import { useAssetStore } from '@/stores/assetStore';
 import { useTaskStore } from '@/stores/taskStore';
 
-const directoryStore = useDirectoryStore()
+const dictionaryStore = useDictionaryStore()
 const notificationStore = useNotificationStore()
 const assetStore = useAssetStore()
 const taskStore = useTaskStore()
@@ -34,7 +34,7 @@ const placeHolder = ref({
 })
 
 onMounted( async () => {
-  directoryStore.fetch('localizations');
+  dictionaryStore.fetch('localizations');
   try{
     const res = await apiAssetClient.getStock();
     assets.value = res.data
@@ -104,7 +104,7 @@ const submitForm = async() => {
         <v-col cols="12">
           <v-select
             label="Localization"
-            :items="directoryStore.localizations"
+            :items="dictionaryStore.localizations"
             v-model="placeHolder.user.localization_id"
             item-title="name"
             item-value="id"

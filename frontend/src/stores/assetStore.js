@@ -1,8 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import assetService from "@/services/api/asset-service";
+import { useTaskStore } from "./taskStore";
 
 export const useAssetStore = defineStore('asset', () => {
+    const taskStore = useTaskStore()
+    
     const assets = ref([])
     const total = ref(0)
     const loading = ref(false)
@@ -17,6 +20,7 @@ export const useAssetStore = defineStore('asset', () => {
         nr_tel: null,
     })
 
+    //API LOGIC
     const fetchAssets = async () => {
         try{
             loading.value = true
@@ -26,6 +30,21 @@ export const useAssetStore = defineStore('asset', () => {
         }catch (err){
             console.log('Error fetching assets', err);
         }finally{
+            loading.value = false
+        }
+    }
+    const createAsset = async (data) => {
+        loading.value = true
+        try {
+
+            await assetService.createAsset(data)
+
+            await fetchAssets()
+            taskStore.refreshTasks()
+        }catch (err) {
+            console.error('Error creating asset', err)
+            throw err
+        } finally {
             loading.value = false
         }
     }
@@ -65,8 +84,9 @@ export const useAssetStore = defineStore('asset', () => {
 
 
         fetchAssets,
+        createAsset,
         setParams,
         resetParams,
-        refreshAssets
+        refreshAssets,
     }
 })

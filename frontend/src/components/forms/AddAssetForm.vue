@@ -1,18 +1,17 @@
 <script setup>
   import { ref, onMounted, computed } from 'vue';
-  import { useDirectoryStore } from '@/stores/directoryStore';
+  import { useDictionaryStore } from '@/stores/dictionaryStore';
   import { useAssetStore } from '@/stores/assetStore';
   import { useNotificationStore } from '@/stores/notificationStore';
-  import { useTaskStore } from '@/stores/taskStore';
   import assetService from '@/services/api/asset-service';
 
   const emit = defineEmits(['close'])
   
-  const directoryStore = useDirectoryStore()
+  const dictionaryStore = useDictionaryStore()
   const assetStore = useAssetStore()
   const notificationStore = useNotificationStore()
-  const taskStore = useTaskStore()
 
+  const showConfirm = ref(false)
   const asset = ref({
     it_num: '',
     serial_num: '',
@@ -21,12 +20,10 @@
     warranty_date: null
   })
 
-  const showConfirm = ref(false)
-
   onMounted( async () => {
-    await directoryStore.fetch('assetModels')
-    await directoryStore.fetch('categories')
-    await directoryStore.fetch('statuses')
+    await dictionaryStore.fetch('assetModels')
+    await dictionaryStore.fetch('categories')
+    await dictionaryStore.fetch('statuses')
 
     try {
       const res = await assetService.getNextSequence()
@@ -54,22 +51,20 @@
 
   const submitAsset = async () => {
     try{
-      await assetService.createAsset(asset.value)
+      await assetStore.createAsset(asset.value)
 
-      assetStore.refreshAssets()
-      taskStore.refreshTasks()
       notificationStore.success('Asset Added Corectly')
       emit('close')
 
-    }catch(err){
-      console.log('Error', err);
+    }catch (err) {
+      notificationStore.error('Error creating asset')
     }
   }
 
   const filteredModels = computed(() => {
     if (!asset.value.category_id) return []
 
-    return directoryStore.assetModels.filter(
+    return dictionaryStore.assetModels.filter(
       m => m.category_id === asset.value.category_id
     )
   })
@@ -102,7 +97,7 @@
 
          <v-col cols="12">
           <v-autocomplete
-            :items="directoryStore.categories"
+            :items="dictionaryStore.categories"
             item-title="name"
             item-value="id"
             label="Category"

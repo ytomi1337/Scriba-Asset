@@ -1,9 +1,9 @@
 <script setup>
     import { ref, onMounted, watch, computed } from 'vue';
     import assetService from '@/services/api/asset-service';
-    import { useDirectoryStore } from '@/stores/directoryStore';
+    import { useDictionaryStore } from '@/stores/dictionaryStore';
 
-    const directoryStore = useDirectoryStore()
+    const dictionaryStore = useDictionaryStore()
     const headers = [
         { title: 'ID', key: 'it_num' },
         { title: 'SN', key: 'serial_num', sortable: false,},
@@ -23,8 +23,8 @@
     const selectedCategory = ref(null)
 
     onMounted( async () => {
-        await directoryStore.fetch('users');
-        await directoryStore.fetch('categories')
+        await dictionaryStore.fetch('users');
+        await dictionaryStore.fetch('categories')
 
         try{
             const res = await assetService.getStock();
@@ -58,7 +58,7 @@
             devices after their first successful login. The placeholder will change to a regular user.</v-list-item-subtitle>
     </v-list>
         <v-autocomplete
-      :items="directoryStore.categories"
+      :items="dictionaryStore.categories"
       item-title="name"
       item-value="id"
       label="Asset Category:"
@@ -69,7 +69,7 @@
       </v-autocomplete>
 
     <v-autocomplete
-      :items="directoryStore.users"
+      :items="dictionaryStore.users"
       item-title="name"
       item-value="id"
       label="Select User"

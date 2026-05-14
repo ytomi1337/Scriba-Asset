@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import dictionaryService from "@/services/api/dictionary-service";
 import userService from "@/services/api/user-service";
 
-export const useDirectoryStore = defineStore('directory', {
+export const useDictionaryStore = defineStore('directory', {
     state: () => ({
         localizations: [],
         statuses: [],
