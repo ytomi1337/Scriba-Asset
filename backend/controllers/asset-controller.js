@@ -47,6 +47,15 @@ module.exports = {
             return res.status(500).json({error: 'internal_server_error'})
         }
     },
+    async getCategoryStats(req, res){
+        try{
+            const stats = await assetService.getCategoryStats(req.user.localization_id);
+            return res.json(stats);
+        }catch (err) {
+            console.error('GET /assets/stats/categories:', err);
+            return res.status(500).json({error: 'internal_server_error'})
+        }
+    },
     async create(req, res){
         try{
             const asset = await assetService.create(req.user.id, req.body);

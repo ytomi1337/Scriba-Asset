@@ -1,12 +1,14 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import assetService from "@/services/api/asset-service";
+import statsService from "@/services/api/stats-service";
 import { useTaskStore } from "./taskStore";
 
 export const useAssetStore = defineStore('asset', () => {
     const taskStore = useTaskStore()
-    
+
     const assets = ref([])
+    const categoryStats = ref([])
     const total = ref(0)
     const loading = ref(false)
 
@@ -33,6 +35,19 @@ export const useAssetStore = defineStore('asset', () => {
             loading.value = false
         }
     }
+
+    const fetchCategoryStats = async () => {
+        try{
+            loading.value = true
+
+            const res = await statsService.getCategoriesStats()
+            categoryStats.value = res.data
+        }catch (err){
+            console.log('Error fetching category Stats', err);
+        }finally{
+            loading.value = false
+        }
+    }
     const createAsset = async (data) => {
         loading.value = true
         try {
@@ -40,6 +55,7 @@ export const useAssetStore = defineStore('asset', () => {
             await assetService.createAsset(data)
 
             await fetchAssets()
+            await fetchCategoryStats()
             taskStore.refreshTasks()
         }catch (err) {
             console.error('Error creating asset', err)
@@ -75,15 +91,20 @@ export const useAssetStore = defineStore('asset', () => {
         await fetchAssets()
     }
 
+    
+
 
     return {
         assets,
+        categoryStats,
+
         total,
         loading,
         params,
 
 
         fetchAssets,
+        fetchCategoryStats,
         createAsset,
         setParams,
         resetParams,

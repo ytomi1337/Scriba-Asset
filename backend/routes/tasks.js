@@ -16,7 +16,7 @@ router.get('/tasks/localization',ensureAuthenticated, taskController.getLocaliza
 
 router.post('/tasks', ensureAuthenticated, taskController.create)
 router.post('/tasks/upload', ensureAuthenticated, uploadFile.single('file'), taskController.uploadFile)
-router.patch('/task/:id/:decision', ensureAuthenticated, taskController.decide)
+router.patch('/tasks/:id/:decision', ensureAuthenticated, taskController.decide)
 
 module.exports = router;
 

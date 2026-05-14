@@ -20,7 +20,6 @@ export const useTaskStore = defineStore('task', () => {
         try{
             loading.value = true
             const res = await taskService.getLocalTasks(params.value)
-            console.log(res);
             tasks.value = res.data.data
             total.value = res.data.meta.total
         }catch(err){

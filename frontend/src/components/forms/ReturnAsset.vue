@@ -54,7 +54,7 @@
                 user: selectedUser.value,
                 assets: selectedAssets.value.map(a => a.id)
             }
-            await apiAssetClient.returnAsset(payload)
+            await assetService.returnAsset(payload)
 
             assetStore.refreshAssets()
             notificationStore.success(`Asset Assigned correctly`)

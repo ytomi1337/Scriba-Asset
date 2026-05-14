@@ -23,7 +23,7 @@ const taskTitle = computed(() => {
 
 onMounted( async () => {
     try {
-    const res = await api.getTasks();
+    const res = await taskService.getTasks();
     tasks.value = res.data.pendingTasks
   } catch (err) {
     console.error("❌ Błąd zaczytania Zadan:", err);
@@ -44,7 +44,7 @@ const statusColor = function (s) {
 
 const taskDecision = async (decision) => {
     try{
-        await api.updateTaskDecision(activeTask.value.id, decision)
+        await taskService.updateTaskDecision(activeTask.value.id, decision)
     }catch(err){
         console.log(err);
     }

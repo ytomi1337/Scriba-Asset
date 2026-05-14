@@ -11,6 +11,7 @@ const assetController = require('../controllers/asset-controller');
 router.get('/assets', ensureAuthenticated, requireRole('administrator'), assetController.getAssets)
 router.get('/assets/info/nextseq', ensureAuthenticated, requireRole('administrator'), assetController.getNextSequence)
 router.get ('/assets/stock/', ensureAuthenticated, requireRole('administrator'), assetController.getStock)
+router.get ('/assets/stats/categories', ensureAuthenticated, requireRole('administrator'), assetController.getCategoryStats)
 router.get ('/assets/user/:userId', ensureAuthenticated, assetController.getUserAssets)
 router.get('/assets/:assetId', requireRole('administrator'), assetController.getAsset)
 

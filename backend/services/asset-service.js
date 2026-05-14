@@ -1,4 +1,4 @@
-const { Op, } = require('sequelize');
+const { Op, fn, col } = require('sequelize');
 const { sequelize, Asset, User, SimCard, Model, Category, Status, Vendor, Phone, Localization, Task, TaskAsset } = require('../models');
 
 module.exports = {
@@ -194,6 +194,36 @@ module.exports = {
                 
             ]
         })
+    },
+    async getCategoryStats(localizationId){
+        const stats = await Asset.findAll({
+        attributes: [
+            [col('model.category.name'), 'category'],
+            [fn('COUNT', col('Asset.id')), 'count']
+        ],
+        include: [
+            {
+            model: Model,
+            as: 'model',
+            attributes: [],
+            include: [
+                {
+                model: Category,
+                as: 'category',
+                attributes: []
+                }
+            ]
+            }
+        ],
+        where: {
+            localization_id: localizationId
+        },
+        group: ['model.category.name'],
+        order: [[fn('COUNT', col('Asset.id')), 'DESC']],
+        raw: true
+        })
+
+        return stats
     },
     async create(userId, payload){
         const user = await User.findOne({

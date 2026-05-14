@@ -1,24 +1,47 @@
 <script setup>
-  const items = [
-    { key: 1, title: 'TypeScript', value: 52.3, color: '#13475c' },
-    { key: 2, title: 'Elm', value: 11.6, color: '#006c71' },
-    { key: 3, title: 'CoffeeScript', value: 6.2, color: '#008e59' },
-    { key: 4, title: 'Civet', value: 3.0, color: '#ffa600' },
-    { key: 5, title: 'N/A', value: 26.9, color: '#6662' },
-  ]
+
+  import { computed, onMounted } from 'vue';
+  import { useAssetStore } from '@/stores/assetStore';
+
+  const assetStore = useAssetStore()
+
+  onMounted( async () => {
+    await assetStore.fetchCategoryStats()
+  })
+
+  const items = computed(() => {
+    return assetStore.categoryStats.map((item, index) => ({
+      key: index,
+      title: item.category,
+      value: Number(item.count),
+      color: getColor(index)
+    }))
+  })
+  console.log(items);
+  const colors = ['#94c12e', '#04bbf1', '#1d4370', '#ffa600', '#666']
+
+  function getColor(index) {
+    return colors[index % colors.length]
+  }
+
 </script>
 
 <template>
-  <div class="d-flex justify-center align-center">
+ <div class="d-flex justify-center align-center">
     <v-pie
+      v-if="items.length"
       :items="items"
-      :legend="{ textFormat: '[title] ([value]%)' }"
-      :tooltip="{ subtitleFormat: '[value]%' }"
+      :legend="{ textFormat: '[title] ([value])' }"
+      :tooltip="{ subtitleFormat: '[value]' }"
       gap="4"
       hover-scale="0"
-      inner-cut="85"
+      inner-cut="70"
       animation
       hide-slice
-    ></v-pie>
+    />
+
+    <div v-else>
+      Brak danych
+    </div>
   </div>
 </template>
